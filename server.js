@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
-app.use('/auth', authRouter)
+app.use('/login', authRouter)
 app.get('/', (req, res) => {
-  res.render('auth/register.ejs')
+  res.redirect('/auth/login')
 })
 
 app.listen(PORT, () => {

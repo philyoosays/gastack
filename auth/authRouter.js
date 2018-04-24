@@ -1,21 +1,22 @@
-const authRouter = require('express').Router();
-const AuthService = require('./authService');
-const ViewController = require('../UserViewController');
-const UserController = require('../UserController');
+const express = require('express');
+const authService = require('./authService');
+const view = require('../controllers/viewController');
+const control = require('../controllers/controller');
 
-authRouter.route('/login')
-  .get(ViewController.showLoginForm)
-  .post(AuthService.login, ViewController.handleCreateUser);
+const app = express();
 
-authRouter.route('/register')
+app.route('/register')
+  .get(view.showRegisterForm, view.show404)
+  .post()
+
+app.route('/')
+  .get(view.showLoginForm, view.show404)
+  // .post(AuthService.login, view.handleCreateUser);
 
 
-authRouter.get('/logout', AuthService.logout, ViewController.handleLogout);
+// app.use((err, req, res, next) => {
+//   console.error(err);
+//   res.json({ error: err });
+// });
 
-/* Error handler */
-authRouter.use((err, req, res, next) => {
-  console.error(err);
-  res.json({ error: err });
-});
-
-module.exports = authRouter;
+module.exports = app;

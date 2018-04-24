@@ -3,18 +3,18 @@ CREATE DATABASE gastackoverflow;
 
 \c gastackoverflow
 
-DROP TABLE resources IF EXISTS;
-DROP TABLE favorites IF EXISTS;
-DROP TABLE comments IF EXISTS;
-DROP TABLE posttags IF EXISTS;
-DROP TABLE posts IF EXISTS;
-DROP TABLE users IF EXISTS;
-DROP TABLE programs IF EXISTS;
+DROP TABLE IF EXISTS resources;
+DROP TABLE IF EXISTS favorites;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS posttags;
+DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS programs;
 -- WHAT DOES CASCADE DO?
 
 CREATE TABLE programs (
 id SERIAL PRIMARY KEY,
-program TEXT NOT NULL,
+program TEXT NOT NULL
 );
 
 CREATE TABLE users (
@@ -24,8 +24,8 @@ lname TEXT DEFAULT '',
 email VARCHAR(40) UNIQUE NOT NULL,
 username VARCHAR(25) UNIQUE NOT NULL,
 password_digest TEXT NOT NULL,
-avatar TEXT,
 programid INTEGER REFERENCES programs(id),
+avatar TEXT,
 blurb VARCHAR(255),
 website VARCHAR(255),
 account_type TEXT,
@@ -52,7 +52,7 @@ CREATE TABLE comments (
 id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 postid INTEGER REFERENCES posts(id),
-comment VARCHAR(255) NOT NULL,
+comment VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE favorites (
@@ -67,3 +67,21 @@ userid INTEGER REFERENCES users(id),
 label VARCHAR(255) NOT NULL,
 link VARCHAR(255) NOT NULL
 );
+
+INSERT INTO programs
+(program)
+VALUES
+('Android Development'),
+('Digital Marketing'),
+('Data Analytics'),
+('Data Science'),
+('Front-End Web Development'),
+('iOS Development'),
+('Javascript Development'),
+('Product Management'),
+('Software Engineering'),
+('User Experience Design'),
+('Visual Design'),
+('Web Development');
+-- abcdefghijklmnopqrstuvwxyz
+

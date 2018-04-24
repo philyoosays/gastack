@@ -1,12 +1,17 @@
 <% include ../partials/boilerplate %>
 
-<div class='movie-container'>
-  <form method='POST' action='/auth/register'>
-    <input name='username' type='text' placeholder='username' required />
-    <input name='email' type='email' placeholder='email' required />
-    <input name='password' type='password' placeholder='password' required />
+<div class='container'>
+  <form action='/login/register' method='post'>
     <input name='firstname' type='text' placeholder='first name' required />
+    <br />
     <input name='lastname' type='text' placeholder='last name' required />
+    <br />
+    <input name='email' type='email' placeholder='email' required />
+    <br />
+    <input name='username' type='text' placeholder='username' required />
+    <br />
+    <input name='password' type='password' placeholder='password' required />
+    <br />
     <input type='submit' value='Register!' />
   </form>
 </div>
