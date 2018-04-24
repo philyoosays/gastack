@@ -3,7 +3,13 @@ CREATE DATABASE gastackoverflow;
 
 \c gastackoverflow
 
-DROP TABLE IF EXISTS ????;
+DROP TABLE resources IF EXISTS;
+DROP TABLE favorites IF EXISTS;
+DROP TABLE comments IF EXISTS;
+DROP TABLE posttags IF EXISTS;
+DROP TABLE posts IF EXISTS;
+DROP TABLE users IF EXISTS;
+DROP TABLE programs IF EXISTS;
 -- WHAT DOES CASCADE DO?
 
 CREATE TABLE programs (
@@ -53,4 +59,11 @@ CREATE TABLE favorites (
 id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 postid INTEGER REFERENCES posts(id)
+);
+
+CREATE TABLE resources (
+id SERIAL PRIMARY KEY,
+userid INTEGER REFERENCES users(id),
+label VARCHAR(255) NOT NULL,
+link VARCHAR(255) NOT NULL
 );
