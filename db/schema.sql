@@ -27,7 +27,9 @@ password_digest TEXT NOT NULL,
 programid INTEGER REFERENCES programs(id),
 avatar TEXT,
 blurb VARCHAR(255),
+location VARCHAR(255),
 website VARCHAR(255),
+github VARCHAR(255),
 account_type TEXT,
 active BOOLEAN DEFAULT true,
 date_created TIMESTAMP NOT NULL DEFAULT NOW()
@@ -39,7 +41,9 @@ userid INTEGER REFERENCES users(id),
 post VARCHAR(255) UNIQUE NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 date_edited TIMESTAMP DEFAULT NOW(),
-post_score INTEGER DEFAULT 0
+post_score INTEGER DEFAULT 0,
+views INTEGER DEFAULT 0,
+last_active DATE DEFAULT NOW(),
 );
 
 CREATE TABLE posttags (

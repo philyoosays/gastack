@@ -1,19 +1,52 @@
 <% include ../partials/boilerplate %>
 
-<div class='container'>
-  <form action='/login/register' method='post'>
-    <input name='firstname' type='text' placeholder='first name' required />
-    <br />
-    <input name='lastname' type='text' placeholder='last name' required />
-    <br />
-    <input name='email' type='email' placeholder='email' required />
-    <br />
-    <input name='username' type='text' placeholder='username' required />
-    <br />
-    <input name='password' type='password' placeholder='password' required />
-    <br />
-    <input type='submit' value='Register!' />
-  </form>
-</div>
+<form action='/login/register' method='post'>
+  <div class='logincontainer'>
+      <div class="formlabels">
+        <label for="fname">First Name</label>
+        <br />
+        <label for="lname">Last Name</label>
+        <br />
+        <label for="email">E-Mail</label>
+        <br />
+        <br />
+        <label for="username">Username</label>
+        <br />
+        <br />
+        <label for="password">Password</label>
+        <br />
+        <label for="passwordcheck">Type Password Again</label>
+        <br />
+        <br />
+        <label for="programid">GA Program </label>
+      </div>
+      <div class="inputfields">
+        <input type="text" id="fname" name="fname" placeholder="first name" required />
+        <br />
+        <input type="text" id="lname" name="lname" placeholder="last name" required />
+        <br />
+        <input type="email" id="email" name="email" placeholder="email" required />
+        <br />
+        <br />
+        <input type="text" id="username" name="username" placeholder="username" required />
+        <br />
+        <br />
+        <input type="password" id="password" name="password" placeholder="password" required />
+        <br />
+        <input type="password" id="passwordcheck" name="passwordCheck" placeholder="Enter password again" required />
+        <br />
+        <br />
+        <select id ="programid" name="programid">
+        <% programs.forEach(d => { %>
+          <option value="<%= d.id %>"><%= d.program %></option>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+  <br />
+  <div class="centerthis">
+    <input type="submit" value="Register" />
+  </div>
+</form>
 
 <% include ../partials/foot %>

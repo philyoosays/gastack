@@ -7,6 +7,8 @@ module.exports = {
     res.render('auth/login.ejs');
   },
   showRegisterForm(req, res ,next) {
-    res.render('auth/register.ejs')
+    res.render('auth/register.ejs', {
+      programs: res.locals.programs
+    })
   },
 }

@@ -17,14 +17,23 @@ module.exports = {
         $/email/,
         $/username/,
         $/password_digest/,
-        $/programid/,
+        $/programid/
       )
-      RETURNING id
+      RETURNING *
       `, data);
   },
-  findUser(data) {
-    return db.one(`
 
+  findOneUser(data) {
+    return db.any(`
+      SELECT *
+      FROM users
+      WHERE username = $1
+      `, data);
+  },
+
+  findAllPrograms() {
+    return db.many(`
+      SELECT * FROM programs
       `);
   }
 }

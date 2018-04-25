@@ -14,6 +14,8 @@ const config = {
   database: app.get('database')
 };
 
-const db = pgp(process.env.DATABASE_URL || config);
+// const db = pgp(process.env.DATABASE_URL || config);
+const db = pgp(config);
+
 
 module.exports = db;

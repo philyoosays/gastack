@@ -6,12 +6,26 @@ const control = require('../controllers/controller');
 const app = express();
 
 app.route('/register')
-  .get(view.showRegisterForm, view.show404)
-  .post()
+  .get(
+    control.getAllPrograms,
+    view.showRegisterForm,
+    view.show404
+    )
+  .post(
+    control.getOneUser,
+    control.checkPasswordTypo,
+    control.doesUserExist,
+    control.generatePassword,
+    control.registerUser,
+    view.show404
+    )
 
 app.route('/')
-  .get(view.showLoginForm, view.show404)
-  // .post(AuthService.login, view.handleCreateUser);
+  .get(
+    view.showLoginForm,
+    view.show404
+    )
+  .post(authService.login);
 
 
 // app.use((err, req, res, next) => {
