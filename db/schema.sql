@@ -25,6 +25,7 @@ email VARCHAR(40) UNIQUE NOT NULL,
 username VARCHAR(25) UNIQUE NOT NULL,
 password_digest TEXT NOT NULL,
 programid INTEGER REFERENCES programs(id),
+language TEXT DEFAULT 'english',
 avatar TEXT,
 blurb VARCHAR(255),
 location VARCHAR(255),
@@ -38,25 +39,34 @@ date_created TIMESTAMP NOT NULL DEFAULT NOW()
 CREATE TABLE posts (
 id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
-post VARCHAR(255) UNIQUE NOT NULL,
+post_title TEXT NOT NULL,
+post TEXT UNIQUE NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 date_edited TIMESTAMP DEFAULT NOW(),
 post_score INTEGER DEFAULT 0,
 views INTEGER DEFAULT 0,
 last_active DATE DEFAULT NOW(),
+postvector tsvector NOT NULL
 );
 
-CREATE TABLE posttags (
+CREATE TABLE tags (
 id SERIAL PRIMARY KEY,
-postid INTEGER REFERENCES posts(id),
 tags TEXT NOT NULL
+);
+
+CREATE TABLE post_tags (
+postid INTEGER REFERENCES posts(id),
+tagid INTEGER REFERENCES tags(id)
 );
 
 CREATE TABLE comments (
 id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 postid INTEGER REFERENCES posts(id),
-comment VARCHAR(255) NOT NULL
+comment TEXT NOT NULL,
+date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+comment_score INTEGER DEFAULT 0,
+commentvector tsvector NOT NULL
 );
 
 CREATE TABLE favorites (
@@ -70,6 +80,18 @@ id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 label VARCHAR(255) NOT NULL,
 link VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE stopwords (
+stopword VARCHAR(50) UNIQUE
+);
+
+CREATE TABLE searchhistory (
+id SERIAL PRIMARY KEY,
+userid INTEGER REFERENCES users(id),
+language TEXT NOT NULL,
+search TEXT NOT NULL,
+resultpost INTEGER REFERENCES posts(id)
 );
 
 INSERT INTO programs
@@ -88,4 +110,23 @@ VALUES
 ('Visual Design'),
 ('Web Development');
 -- abcdefghijklmnopqrstuvwxyz
+
+INSERT INTO stopwords
+(stopword)
+VALUES
+('the'),
+('how'),
+('do'),
+('i'),
+('when'),
+('use'),
+('what'),
+('can'),
+('him'),
+('her');
+
+
+
+
+
 

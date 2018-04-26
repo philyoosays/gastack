@@ -1,9 +1,38 @@
 input[type="submit"] {
-  background: darkgreen;
+  background: rgb(255, 0, 42);
   color: white;
-  padding: 15px 30px;
+  padding: 8px 30px;
   border-radius: 10px;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+}
+
+#mainsearch {
+  width: 70%;
+  height: 35px;
+  font-family: 'Playfair Display', serif;
   font-size: 20px;
+  position: relative;
+  left: 15%;
+/*  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 3px solid black*/
+}
+
+.kenny {
+  margin: 50px auto 10px ;
+}
+
+.searchform {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.button {
+  position: relative;
+  left: 15%;
 }
 
 .logincontainer {

@@ -12,11 +12,19 @@ app.route('/register')
     view.show404
     )
   .post(
+    control.storeBody,
     control.getOneUser,
-    control.checkPasswordTypo,
-    control.doesUserExist,
-    control.generatePassword,
-    control.registerUser,
+    authService.checkPasswordTypo,
+    authService.doesUserExist,
+    authService.generatePassword,
+    authService.registerUser,
+    authService.handleLogin,
+    view.show404
+    )
+
+app.route('/logout')
+  .get(
+    authService.logout,
     view.show404
     )
 
@@ -25,7 +33,11 @@ app.route('/')
     view.showLoginForm,
     view.show404
     )
-  .post(authService.login);
+  .post(
+    authService.login,
+    authService.handleLogin,
+    view.show404
+    );
 
 
 // app.use((err, req, res, next) => {
