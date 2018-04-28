@@ -17,19 +17,6 @@ module.exports = {
     }
   },
 
-  async generatePassword(req, res, next) {
-  const { password } = req.body;
-  await bcrypt.hash(password, 11)
-    .then( (hash) => {
-      res.locals.user = req.body;
-      res.locals.user.password_digest = hash;
-      next();
-    })
-    .catch( (err) => {
-      next(err);
-    })
-  },
-
   checkPasswordTypo(req, res, next) {
     if(req.body.password === req.body.passwordCheck) {
       next();
@@ -46,10 +33,27 @@ module.exports = {
     }
   },
 
+  async generatePassword(req, res, next) {
+  const { password } = req.body;
+  await bcrypt.hash(password, 11)
+    .then( (hash) => {
+      res.locals.user = req.body;
+      res.locals.user.password_digest = hash;
+      next();
+    })
+    .catch( (err) => {
+      next(err);
+    })
+  },
+
   registerUser(req, res, next) {
     model.addUser(res.locals.user)
       .then( (data) => {
-        res.json(data);
+        req.session.user = data;
+        next();
+      })
+      .catch((err) => {
+        next(err);
       })
   },
 
@@ -66,6 +70,8 @@ module.exports = {
    (req, res, next) => {
       if(req.session.user) {
         next();
+      } else {
+        res.redirect('/login')
       }
     },
     (err, req, res, next) => {

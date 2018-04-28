@@ -12,8 +12,24 @@ input[type="submit"] {
   font-weight: 100;
 }
 
+input[type="submit"]:hover {
+  background: rgb(195, 0, 42);
+  color: white;
+  border: 1px solid rgb(255, 0, 42);
+  padding: 8px 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+}
+
 label {
   line-height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 
 p {
@@ -24,9 +40,9 @@ h2, h3 {
   font-family: 'Playfair Display', serif;
 }
 
-h3 {
+#searchresultnumber {
   position: relative;
-  right: -85%;
+  right: -75%;
 }
 
 #mainsearch {
@@ -61,15 +77,24 @@ h3 {
   width: 100%;
   display: block;
   margin: 0 auto;
-  border: 2px solid black;
+/*  border: 2px solid black;*/
 }
 
-.searchtag {
-  background: rgb(255, 0, 42);
-  color: white;
-  font-size: 11px;
-  border-radius: 10px;
+.tags {
+  display: flex;
+}
+
+#searchtag {
+/*  background: rgb(255, 0, 42);
+  color: white;*/
+  font-size: 12px;
+  border-radius: 6px;
   padding: 5px 15px;
+  flex: 1;
+}
+
+#editor {
+  height: 100px;
 }
 
 .logincontainer {

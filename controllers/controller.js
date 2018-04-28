@@ -6,6 +6,7 @@ const vector = require('../models/vectorModels')
 const func = require('../functions/helperFunctions');
 
 const app = express();
+
 module.exports = {
   storeBody(req, res, next) {
     res.locals.body = req.body;
@@ -36,13 +37,11 @@ module.exports = {
   },
 
   mainSearch(req, res, next) {
+    res.locals.searchstring = req.query.mainsearch;
     res.locals.search = func.prepSearch(req.query.mainsearch);
-    console.log(req.session)
-    // vector.fullSearch(req.session.user[0].language, res.locals.search)
-    vector.fullSearch('english', res.locals.search)
+    vector.fullSearch(req.session.user[0].language, res.locals.search)
       .then((data) => {
         res.locals.searchdata = data;
-        console.log(data)
         next();
       })
       .catch((err) => {
@@ -58,6 +57,40 @@ module.exports = {
       next()
     }
   },
+
+  getAllTags(req, res, next) {
+    res.locals.searchstring = req.params.tag;
+    model.findAllTags(func.concatWildcard(req.params.tag))
+      .then((data) => {
+        res.locals.searchdata = data;
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      })
+  },
+
+  getAllAuthor(req, res, next) {
+
+  },
+
+  searchFailOverLookStart(req, res, next) {
+    if(res.locals.searchdata.length !== 0) {
+      next();
+    } else {
+      console.log('here')
+      vector.fullSearch(req.session.user[0].language, func.prepLookStart(res.locals.search))
+        .then((data) => {
+          console.log(data)
+          res.locals.searchdata = data;
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        })
+    }
+  },
+
 }
 
 

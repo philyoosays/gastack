@@ -35,5 +35,34 @@ module.exports = {
     return db.many(`
       SELECT * FROM programs
       `);
+  },
+
+  findAllTags(tag) {
+    return db.many(`
+      SELECT * FROM posts
+      WHERE tags ILIKE $1
+      ORDER BY date_created
+      `, tag);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

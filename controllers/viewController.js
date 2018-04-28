@@ -26,8 +26,13 @@ module.exports = {
 
   showMain(req, res, next) {
     res.render('main/mainView.ejs', {
-      searchdata: res.locals.searchdata
+      searchdata: res.locals.searchdata,
+      searchstring: res.locals.searchstring
     })
+  },
+
+  showNewPost(req, res, next) {
+    res.render('post/postNew.ejs')
   }
 
 }

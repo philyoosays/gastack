@@ -4,5 +4,15 @@ module.exports = {
     result = result.split("'").join("''");
     result = result.split(' ').join(' | ');
     return result;
+  },
+
+  concatWildcard(tag) {
+    let wildcard = '%' + tag + '%';
+    return wildcard;
+  },
+
+  prepLookStart(string) {
+    let result = string.split(' | ').join(':* | ') + ':*';
+    return result;
   }
 }
