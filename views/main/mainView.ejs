@@ -1,14 +1,42 @@
 <% include ../partials/boilerplate %>
 
-<form action="/search" method="get">
-  <div class="searchform">
+<form action="/main/search" method="get">
+  <div class="container">
     <div class="kenny">
       <input type="text" id="mainsearch" name="mainsearch" placeholder="What are you looking for today?">
     </div>
     <div class="button">
-      <input type="submit" value="Let's Find It">
+      <input type="submit" value="SEARCH">
     </div>
   </div>
 </form>
+
+<div class="container">
+  <div class="">
+    <% if(searchdata.length === 0) { %>
+      <div id="searchresultnumber"><h3>0 results</h3></div>
+
+    <% } else if(Object.keys(searchdata[0]).length === 0) { %>
+    <% } else { %>
+      <% if(searchdata.length === 1) { %>
+        <h3><%= searchdata.length %> result</h3>
+        <hr />
+      <% } else { %>
+        <h3><%= searchdata.length %> results</h3>
+        <hr />
+      <% } %>
+      <% searchdata.forEach(d => { %>
+        <h2><%= d.post_title %></h2>
+        <p><%= d.post.slice(0,50) %></p>
+        <p>Posted <%= d.date_created.toString().slice(0,10) %> by <%= d.username %></p>
+        <div>
+          <% d.tags.split(' ').forEach(tag => { %>
+              <span class=searchtag><%= tag %></span>
+          <% }) %>
+        </div>
+      <% }) %>
+    <% } %>
+</div>
+</div>
 
 <% include ../partials/foot %>

@@ -1,4 +1,8 @@
 module.exports = {
+  tester(req, res, next) {
+    res.send('all good')
+  },
+
   show404(req, res, next) {
     console.log('show404 was triggered');
     res.send(404);
@@ -22,9 +26,7 @@ module.exports = {
 
   showMain(req, res, next) {
     res.render('main/mainView.ejs', {
-      recent: res.locals.recent,
-      watch: res.locals.watch,
-
+      searchdata: res.locals.searchdata
     })
   }
 

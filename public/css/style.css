@@ -1,3 +1,7 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 input[type="submit"] {
   background: rgb(255, 0, 42);
   color: white;
@@ -5,34 +9,67 @@ input[type="submit"] {
   border-radius: 10px;
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+}
+
+label {
+  line-height: 100%;
+}
+
+p {
+  font-weight: 100;
+}
+
+h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+h3 {
+  position: relative;
+  right: -85%;
 }
 
 #mainsearch {
-  width: 70%;
+  width: 99.7%;
   height: 35px;
   font-family: 'Playfair Display', serif;
   font-size: 20px;
-  position: relative;
-  left: 15%;
-/*  border-top: none;
+  border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 3px solid black*/
+  border-bottom: 3px solid black;
+}
+
+#mainsearch:focus {
+    outline-width: 0;
 }
 
 .kenny {
   margin: 50px auto 10px ;
-}
-
-.searchform {
-  width: 100%;
-  display: block;
-  margin: 0 auto;
+  width: 70%;
+/*  border: 2px solid red;*/
 }
 
 .button {
+  width: 70%;
+/*  border: 2px solid blue;*/
   position: relative;
   left: 15%;
+}
+
+.container {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  border: 2px solid black;
+}
+
+.searchtag {
+  background: rgb(255, 0, 42);
+  color: white;
+  font-size: 11px;
+  border-radius: 10px;
+  padding: 5px 15px;
 }
 
 .logincontainer {
@@ -58,6 +95,3 @@ input[type="submit"] {
   justify-content: center;
 }
 
-label {
-  line-height: 100%;
-}

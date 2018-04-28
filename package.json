@@ -6,6 +6,7 @@
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
+    "connect-pg-simple": "^4.2.1",
     "dotenv": "^5.0.1",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
@@ -14,6 +15,7 @@
     "morgan": "^1.9.0",
     "npm": "^5.8.0",
     "path": "^0.12.7",
+    "pg": "^7.4.1",
     "pg-promise": "^8.3.3"
   },
   "devDependencies": {

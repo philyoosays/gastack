@@ -5,10 +5,21 @@ const control = require('../controllers/controller');
 
 const app = express.Router();
 
+app.route('/search')
+  .get(
+    // authService.loginRequired,
+    control.mainSearch,
+    control.dataInitialize,
+    view.showMain,
+    view.show404
+    )
+
 app.route('/')
   .get(
-    authService.loginRequired,
-    view.showMain
+    // authService.loginRequired,
+    control.dataInitialize,
+    view.showMain,
+    view.show404
     )
 
 module.exports = app;

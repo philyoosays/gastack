@@ -64,11 +64,8 @@ module.exports = {
 
   loginRequired: [
    (req, res, next) => {
-      if(req.session) {
+      if(req.session.user) {
         next();
-      }
-      else {
-        next('error')
       }
     },
     (err, req, res, next) => {
