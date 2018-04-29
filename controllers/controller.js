@@ -20,6 +20,7 @@ module.exports = {
         next();
       })
       .catch( (err) => {
+        console.log('ERRRRRRRORRRRRRRRRR getallprograms')
         next(err);
       })
   },
@@ -32,25 +33,33 @@ module.exports = {
         next();
       })
       .catch( (err) => {
+        console.log('ERRRRRRRORRRRRRRRRR getoneuser')
         next(err);
       })
   },
 
   mainSearch(req, res, next) {
-    res.locals.searchstring = req.query.mainsearch;
-    res.locals.search = func.prepSearch(req.query.mainsearch);
-    vector.fullSearch(req.session.user[0].language, res.locals.search)
-      .then((data) => {
-        res.locals.searchdata = data;
-        next();
-      })
-      .catch((err) => {
-        next(err);
-      })
+    if(req.query.mainsearch === '') {
+      next()
+    } else {
+      res.locals.searchstring = req.query.mainsearch;
+      res.locals.search = func.prepSearch(req.query.mainsearch);
+      vector.fullSearch(req.session.user[0].language, res.locals.search)
+        .then((data) => {
+          res.locals.searchdata = data;
+          console.log(req.session.user[0])
+          next();
+        })
+        .catch((err) => {
+          console.log('ERRRRRRRORRRRRRRRRR mainsearch')
+          next(err);
+        })
+    }
   },
 
   dataInitialize(req, res, next) {
-    if(res.locals.searchdata) {
+    res.locals.searchid = {};
+    if(Object.keys(res.locals).indexOf('searchdata') !== -1) {
       next()
     } else {
       res.locals.searchdata = [{}];
@@ -66,23 +75,58 @@ module.exports = {
         next();
       })
       .catch((err) => {
+        console.log('ERRRRRRRORRRRRRRRRR getalltags')
         next(err);
       })
   },
 
-  getAllAuthor(req, res, next) {
-
+  getOnePost(req, res, next) {
+    console.log('here')
+    model.getOnePost(req.params.postid)
+      .then((data) => {
+        res.locals.post = data;
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
   },
 
+  // getAllAuthor(req, res, next) {
+
+  // },
+
   searchFailOverLookStart(req, res, next) {
-    if(res.locals.searchdata.length !== 0) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else if(res.locals.searchdata.length !== 0) {
       next();
     } else {
-      console.log('here')
       vector.fullSearch(req.session.user[0].language, func.prepLookStart(res.locals.search))
         .then((data) => {
-          console.log(data)
           res.locals.searchdata = data;
+          next();
+        })
+        .catch((err) => {
+          console.log('ERRRRRRRORRRRRRRRRR searchfailoverstart')
+          next(err);
+        })
+    }
+  },
+
+  saveSearch(req, res, next) {
+    if(req.query.mainsearch === ''){
+      next();
+    } else {
+      let searchParams = {
+      userid: req.session.user[0].id,
+      language: req.session.user[0].language,
+      search: req.query.mainsearch,
+      resultpost: 0
+      }
+      model.saveSearch(searchParams)
+        .then((data) => {
+          res.locals.searchid = data;
           next();
         })
         .catch((err) => {
@@ -90,6 +134,25 @@ module.exports = {
         })
     }
   },
+
+  updateSavedSearch(req, res, next) {
+    let theData = {
+      searchid: parseInt(req.query.s),
+      postid: parseInt(req.params.postid)
+    }
+    model.updateSearch(theData)
+      .then((data) => {
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      })
+  },
+
+  makeNewPost(req, res, next) {
+    console.log(req.body)
+    res.send('all good')
+  }
 
 }
 

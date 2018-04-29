@@ -5,10 +5,15 @@ const control = require('../controllers/controller');
 
 const app = express.Router();
 
-app.route('/edit')
-  .get(view.showNewPost)
+app.route('/post/new')
+  .get(
+    view.showNewPost
+    )
+  .post(
+    control.makeNewPost
+    )
 
-app.route('/search/:tag')
+app.route('/search/tag/:tag')
   .get(
     authService.loginRequired,
     control.getAllTags,
@@ -16,11 +21,23 @@ app.route('/search/:tag')
     view.show404
     )
 
+app.route('/post/:postid')
+  .get(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.updateSavedSearch,
+    control.getOnePost,
+    view.showOnePost,
+    view.show404
+    )
+
 app.route('/search')
   .get(
     authService.loginRequired,
+    control.dataInitialize,
     control.mainSearch,
     control.searchFailOverLookStart,
+    control.saveSearch,
     view.showMain,
     view.show404
     )

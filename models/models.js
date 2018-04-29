@@ -43,7 +43,35 @@ module.exports = {
       WHERE tags ILIKE $1
       ORDER BY date_created
       `, tag);
-  }
+  },
+
+  saveSearch(data) {
+    return db.one(`
+      INSERT INTO searchhistory
+      (userid, language, search, resultpost)
+      VALUES
+      ($/userid/, $/language/, $/search/, $/resultpost/)
+      RETURNING id
+      `, data)
+  },
+
+  updateSearch(data) {
+    return db.none(`
+      UPDATE searchhistory
+      SET resultpost = $/postid/
+      WHERE id = $/searchid/
+      `, data);
+  },
+
+  getOnePost(id) {
+    return db.one(`
+      SELECT posts.*, users.username FROM posts
+      JOIN users ON posts.userid = users.id
+      WHERE posts.id = $1
+      `, id);
+  },
+
+
 }
 
 

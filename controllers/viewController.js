@@ -1,11 +1,12 @@
 module.exports = {
   tester(req, res, next) {
+    console.log(res.locals.searchdata)
     res.send('all good')
   },
 
-  show404(req, res, next) {
+  show404(error, req, res, next) {
     console.log('show404 was triggered');
-    res.send(404);
+    console.log('this is the status code',req.statusCode)
   },
 
   showLoginForm(req, res, next) {
@@ -27,7 +28,14 @@ module.exports = {
   showMain(req, res, next) {
     res.render('main/mainView.ejs', {
       searchdata: res.locals.searchdata,
-      searchstring: res.locals.searchstring
+      searchstring: res.locals.searchstring,
+      searchid: res.locals.searchid
+    })
+  },
+
+  showOnePost(req, res, next) {
+    res.render('post/postView.ejs', {
+      post: res.locals.post
     })
   },
 

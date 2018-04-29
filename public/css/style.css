@@ -10,17 +10,18 @@ input[type="submit"] {
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   font-weight: 100;
+  z-index: 3;
+  transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  -ms-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  -webkit-transition: all .3s ease-out;
 }
 
 input[type="submit"]:hover {
   background: rgb(195, 0, 42);
   color: white;
   border: 1px solid rgb(255, 0, 42);
-  padding: 8px 30px;
-  border-radius: 10px;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 100;
 }
 
 label {
@@ -36,8 +37,50 @@ p {
   font-weight: 100;
 }
 
+h2 {
+  margin-bottom: 0;
+}
+
 h2, h3 {
   font-family: 'Playfair Display', serif;
+}
+
+#searchresults {
+  display: block;
+  border: 2px solid orange;
+  height: 20px;
+  width: 80%;
+}
+
+#navbar {
+  border: 2px solid black;
+  background: black;
+  height: 100px;
+  width: 100%;
+  position: fixed;
+  top: -70px;
+  left: 0;
+  /*overflow: hidden;*/
+  z-index: 1;
+  text-align: right;
+  transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  -ms-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  -webkit-transition: all .3s ease-out;
+}
+
+#navbar:hover {
+  position: absolute;
+  display: block;
+  top: 0px;
+}
+
+#navbar > p {
+  display: inline-block;
+  color: red;
+  /*vertical-align: super;*/
+  /*position: absolute;*/
 }
 
 #searchresultnumber {
@@ -63,7 +106,7 @@ h2, h3 {
 .kenny {
   margin: 50px auto 10px ;
   width: 70%;
-/*  border: 2px solid red;*/
+  /*border: 2px solid red;*/
 }
 
 .button {
@@ -95,6 +138,10 @@ h2, h3 {
 
 #editor {
   height: 100px;
+}
+
+.searchres {
+
 }
 
 .logincontainer {

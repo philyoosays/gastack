@@ -95,7 +95,8 @@ id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 language TEXT NOT NULL,
 search TEXT NOT NULL,
-resultpost INTEGER REFERENCES posts(id)
+resultpost INTEGER,
+searchdate TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE "session" (
