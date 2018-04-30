@@ -71,6 +71,45 @@ module.exports = {
       `, id);
   },
 
+  makeOnePost(data) {
+    return db.one(`
+      INSERT INTO posts
+      (userid, post_title, post, posthtml, tags)
+      VALUES (
+        $/userid/,
+        $/post_title/,
+        $/post/,
+        $/posthtml/,
+        $/tags/
+      ) RETURNING id
+      `, data);
+  },
+
+  makeOneComment(data) {
+    return db.none(`
+      INSERT INTO comments
+      (userid, postid, comment, commenthtml)
+      VALUES (
+        $/userid/,
+        $/postid/,
+        $/comment/,
+        $/commenthtml/
+      )
+      `, data);
+  },
+
+  findAllComments(postid) {
+    return db.any(`
+      SELECT comments.*, users.username
+      FROM comments
+      JOIN users
+        ON comments.userid = users.id
+      WHERE postid = $1
+      ORDER BY
+        comment_score DESC,
+        date_created DESC
+      `, postid);
+  },
 
 }
 

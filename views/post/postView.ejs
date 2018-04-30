@@ -19,15 +19,55 @@
 
 <div class="kenny">
   <h2><%= post.post_title %></h2>
-  <p><%= post.post.slice(0,50) %></p>
-  <p>Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/users/<%= post.userid %>"><%= post.username %></a></p>
+  <div class="showposthtml"><%- post.posthtml %></div>
+  <p class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/users/<%= post.userid %>"><%= post.username %></a></p>
   <div class="tags">
-    <% post.tags.split(' ').forEach(tag => { %>
-      <form action="/main/search/tag/<%= tag %>" method="get">
-        <input type="submit" id="searchtag" value="<%= tag %>">
-      </form>
-    <% }) %>
+      <% post.tags.split(' ').forEach(tag => { %>
+        <form action="/main/search/tag/<%= tag %>" method="get">
+          <input type="submit" id="searchtag" value="<%= tag %>">
+        </form>
+      <% }) %>
   </div>
 </div>
-
 <hr />
+<div class="kenny">
+  <div class="clearfix commentheader">
+    <h3>Comments</h3>
+    <div id="newcommentbutton">
+      <form action="/main/comment/<%= post.id %>/new" method="get">
+        <input type="submit" id="newcomment" value="New Comment">
+      </form>
+    </div>
+  </div>
+  <hr />
+  <% comments.forEach(d => { %>
+    <section>
+      <div class="votebuttons">
+        <div
+              class="uparrow"
+              id="u<%= d.id %>"
+              name="up<%= d.id %>"
+              onClick="upVote(<%= d.id %>)"
+        ></div>
+        <input type="hidden" name="up<%= d.id %>">
+        <h3 class="votecount" id="score<%= d.id %>" name="score"><%= d.comment_score %></h3>
+        <div class="downarrow"
+              id="d<%= d.id %>"
+              name="down<%= d.id %>"
+              onClick="downVote(<%= d.id %>)"
+        ></div>
+        <input type="hidden" name="down<%= d.id %>">
+      </div>
+      <div class="commentbox">
+        <div class="showposthtml"><%- d.commenthtml %></div>
+        <br/>
+        <p class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/users/<%= d.userid %>"><%= d.username %></a></p>
+      </div>
+    </section>
+  <hr class="commentdivider"/>
+  <% }) %>
+</div>
+
+<script src="../../../scripts/voteScript.js"></script>
+
+<% include ../partials/foot %>

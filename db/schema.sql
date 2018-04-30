@@ -6,7 +6,7 @@ CREATE DATABASE gastackoverflow;
 DROP TABLE IF EXISTS resources;
 DROP TABLE IF EXISTS favorites;
 DROP TABLE IF EXISTS comments;
-DROP TABLE IF EXISTS posttags;
+DROP TABLE IF EXISTS post_tags;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS programs;
@@ -18,6 +18,12 @@ id SERIAL PRIMARY KEY,
 program TEXT NOT NULL
 );
 
+CREATE TABLE cohorts (
+id SERIAL PRIMARY KEY,
+programid INTEGER REFERENCES programs(id),
+cohort TEXT NOT NULL
+);
+
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 fname TEXT DEFAULT '',
@@ -26,6 +32,7 @@ email VARCHAR(40) UNIQUE NOT NULL,
 username VARCHAR(25) UNIQUE NOT NULL,
 password_digest TEXT NOT NULL,
 programid INTEGER REFERENCES programs(id),
+cohortid INTEGER REFERENCES cohorts(id),
 language TEXT DEFAULT 'english',
 avatar TEXT,
 blurb VARCHAR(255),
@@ -42,13 +49,21 @@ id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 post_title TEXT NOT NULL,
 post TEXT UNIQUE NOT NULL,
+posthtml VARCHAR NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 date_edited TIMESTAMP DEFAULT NOW(),
 post_score INTEGER DEFAULT 0,
+upvotes INTEGER DEFAULT 0,
+downvotes INTEGER DEFAULT 0,
 errorcode BOOLEAN DEFAULT false,
-views INTEGER DEFAULT 0,
 tags TEXT,
 last_active DATE DEFAULT NOW()
+);
+
+CREATE TABLE postviews (
+id SERIAL PRIMARY KEY,
+postid INTEGER REFERENCES posts(id),
+userid INTEGER REFERENCES users(id)
 );
 
 -- DO I NEED THE SPARATE TAGS
@@ -68,8 +83,17 @@ id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 postid INTEGER REFERENCES posts(id),
 comment TEXT NOT NULL,
+commenthtml VARCHAR NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 comment_score INTEGER DEFAULT 0
+);
+
+CREATE TABLE commentvotes (
+commentid INTEGER REFERENCES comments(id),
+userid INTEGER REFERENCES users(id),
+vote INTEGER DEFAULT 0,
+date_created TIMESTAMP DEFAULT NOW(),
+PRIMARY KEY (commentid, userid)
 );
 
 CREATE TABLE favorites (
@@ -122,6 +146,14 @@ VALUES
 ('User Experience Design'),
 ('Visual Design'),
 ('Web Development');
+
+INSERT INTO cohorts
+(programid, cohort)
+VALUES
+(12, 'Ewoks'),
+(12, 'Rover Opportunity'),
+(12, 'Rover Spirit');
+
 -- abcdefghijklmnopqrstuvwxyz
 
 -- INSERT INTO translation

@@ -10,7 +10,7 @@ input[type="submit"] {
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   font-weight: 100;
-  z-index: 3;
+  z-index: 5;
   transition: all .3s ease-out;
   -o-transition: all .3s ease-out;
   -ms-transition: all .3s ease-out;
@@ -45,6 +45,12 @@ h2, h3 {
   font-family: 'Playfair Display', serif;
 }
 
+blockquote {
+  margin: 0;
+  padding: 14px 30px;
+  border-left: 20px solid lightgrey;
+}
+
 #searchresults {
   display: block;
   border: 2px solid orange;
@@ -52,16 +58,35 @@ h2, h3 {
   width: 80%;
 }
 
+input[type="submit"].newpostbutton {
+  float: left;
+  display: inline-block;
+  position: relative;
+  top: 35px;
+  border: 2px solid red
+  margin: 0 0 0 10px;
+}
+
+.navitems {
+  float: right;
+/*  border: 3px solid red;*/
+  display: flex;
+  color: white;
+  position: relative;
+  top: 40px;
+}
+
 #navbar {
+  display: block;
   border: 2px solid black;
   background: black;
-  height: 100px;
+  height: 120px;
   width: 100%;
   position: fixed;
-  top: -70px;
+  top: -90px;
   left: 0;
   /*overflow: hidden;*/
-  z-index: 1;
+  z-index: 2;
   text-align: right;
   transition: all .3s ease-out;
   -o-transition: all .3s ease-out;
@@ -71,16 +96,31 @@ h2, h3 {
 }
 
 #navbar:hover {
-  position: absolute;
   display: block;
   top: 0px;
 }
 
-#navbar > p {
-  display: inline-block;
-  color: red;
+.navitems > p {
+  margin: 0 5px;
+  background: red;
+  border-radius: 4px;
+  padding: 7px 14px;
   /*vertical-align: super;*/
   /*position: absolute;*/
+}
+
+.navitems > p:hover {
+  background: red;
+
+}
+
+.woodpaneling {
+  /*background: http://sciencerocks.info/wp-content/uploads/2016/09/decoration-wood-floor-texture-seamless-wooden-floor-texture-set-douglas-fir-straight-pattern-seamless-0.jpg;*/
+  background: orange;
+  z-index: 1;
+  height: 100px;
+  position: relative;
+  top: 0;
 }
 
 #searchresultnumber {
@@ -93,6 +133,7 @@ h2, h3 {
   height: 35px;
   font-family: 'Playfair Display', serif;
   font-size: 20px;
+  margin-top: 20px;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -109,11 +150,31 @@ h2, h3 {
   /*border: 2px solid red;*/
 }
 
+.kenny2 {
+  margin: 5px auto 10px ;
+  width: 60%;
+  /*border: 2px solid red;*/
+}
+
+.header {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 0;
+}
+
+.showpostdate {
+  margin-top: 0;
+}
+
 .button {
   width: 70%;
 /*  border: 2px solid blue;*/
   position: relative;
   left: 15%;
+}
+
+.buttoncentered {
+  width: 70%;
+  margin: 0 auto;
 }
 
 .container {
@@ -136,12 +197,110 @@ h2, h3 {
   flex: 1;
 }
 
-#editor {
-  height: 100px;
+section {
+  display: flex;
+  justify-content: flex-start;
 }
 
-.searchres {
+.votebuttons {
+  width: 100px;
+  height: 100px;
+  /*border: 2px solid orange;*/
+}
 
+.commentbox {
+  /*border: 2px solid teal;*/
+}
+
+section > .votebuttons > .uparrow {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid rgb(120, 120, 120);
+  margin: 0 auto;
+}
+
+.downarrow {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid rgb(120, 120, 120);
+  margin: 0 auto;
+}
+
+.uparrowselected {
+  border-bottom: 15px solid rgb(180, 20, 20);
+  transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  -ms-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  -webkit-transition: all .3s ease-out;
+}
+
+.downarrowselected {
+  border-top: 15px solid rgb(180, 20, 20);
+  transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  -ms-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  -webkit-transition: all .3s ease-out;
+}
+
+.votecount {
+  color: rgb(120, 120, 120);
+  text-align: center;
+  margin: 10px auto;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+}
+
+#editor {
+  height: 200px;
+}
+
+.ql-syntax {
+  background: #23241f;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: #f8f8f2;
+}
+
+/*.clearfix:after {
+  visibility: hidden;
+  display: block;
+  content: "";
+  clear: both;
+  height: 0;
+}*/
+
+.commentheader {
+  width: 100%;
+}
+
+.commentheader > h3 {
+  display: inline-block;
+  margin: 0;
+  /*position: absolute;
+  left: 0;*/
+}
+
+#newcommentbutton {
+  /*display: inline-block;*/
+  float: right;
+}
+
+#newcomment {
+  padding: 4px 20px;
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.commentdivider {
+  height: 3px;
+/*  background: black;*/
+  margin: 20px 0;
 }
 
 .logincontainer {

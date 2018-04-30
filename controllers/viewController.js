@@ -35,12 +35,20 @@ module.exports = {
 
   showOnePost(req, res, next) {
     res.render('post/postView.ejs', {
-      post: res.locals.post
+      post: res.locals.post,
+      comments: res.locals.comments
     })
   },
 
-  showNewPost(req, res, next) {
-    res.render('post/postNew.ejs')
+  showTextEditor(req, res, next) {
+    res.render('post/textEditor.ejs', {
+      mode: res.locals.mode,
+      postid: res.locals.postid
+    })
+  },
+
+  handleNewPost(req, res, next) {
+    res.redirect('/main/post/' + res.locals.postid)
   }
 
 }

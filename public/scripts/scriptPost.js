@@ -47,22 +47,28 @@ document.addEventListener("DOMContentLoaded", function() {
   for (let element of elements) {
     hljs.highlightBlock(element);
   }
+  document.querySelectorAll('button').forEach(d => {
+    d.setAttribute('data-toggle','tooltip');
+  })
 });
 let quill = new Quill(container, options);
-console.log(quill)
+  document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
+
+
+
+// document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
+
 
 function storeFormData() {
-  let about = document.getElementById('submit-form');
-  let data = document.querySelector('ql-editor')
-  let form = document.querySelector('form');
+  let dataHTML = document.querySelector('.ql-editor').innerHTML;
+  let dataText = document.querySelector('.ql-editor').innerText;
+  let htmlJar = document.getElementById('submitformhtml');
+  let textJar = document.getElementById('submitformtext');
 
-debugger;
-  console.log(JSON.stringify(form))
-  about.value = data.outerHTML;
-  console.log(about.value)
+  dataText = dataText.replace(/(?:\r\n|\r|\n)/g, ' ');
 
-
-  // about.value = JSON.stringify(quill.getContents());
+  htmlJar.setAttribute('value', dataHTML);
+  textJar.setAttribute('value', dataText);
 }
 
 

@@ -8,10 +8,12 @@ const func = require('../functions/helperFunctions');
 const app = express();
 
 module.exports = {
-  storeBody(req, res, next) {
-    res.locals.body = req.body;
-    next();
-  },
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // GET ALL THE THINGS ///////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
 
   getAllPrograms(req, res ,next) {
     model.findAllPrograms()
@@ -23,48 +25,6 @@ module.exports = {
         console.log('ERRRRRRRORRRRRRRRRR getallprograms')
         next(err);
       })
-  },
-
-  getOneUser(req, res, next) {
-    const { username } = res.locals.body;
-    model.findOneUser(username)
-      .then( (data) => {
-        res.locals.user = data;
-        next();
-      })
-      .catch( (err) => {
-        console.log('ERRRRRRRORRRRRRRRRR getoneuser')
-        next(err);
-      })
-  },
-
-  mainSearch(req, res, next) {
-    if(req.query.mainsearch === '') {
-      next()
-    } else {
-      res.locals.searchstring = req.query.mainsearch;
-      res.locals.search = func.prepSearch(req.query.mainsearch);
-      vector.fullSearch(req.session.user[0].language, res.locals.search)
-        .then((data) => {
-          res.locals.searchdata = data;
-          console.log(req.session.user[0])
-          next();
-        })
-        .catch((err) => {
-          console.log('ERRRRRRRORRRRRRRRRR mainsearch')
-          next(err);
-        })
-    }
-  },
-
-  dataInitialize(req, res, next) {
-    res.locals.searchid = {};
-    if(Object.keys(res.locals).indexOf('searchdata') !== -1) {
-      next()
-    } else {
-      res.locals.searchdata = [{}];
-      next()
-    }
   },
 
   getAllTags(req, res, next) {
@@ -80,39 +40,52 @@ module.exports = {
       })
   },
 
+  getAllComments(req, res, next) {
+    model.findAllComments(parseInt(req.params.postid))
+      .then((data) => {
+        res.locals.comments = data;
+        next();
+      })
+      .catch((err => {
+        next(err);
+      }))
+  },
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // GET ONE //////////////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+
+  getOneUser(req, res, next) {
+    const { username } = res.locals.body;
+    model.findOneUser(username)
+      .then( (data) => {
+        res.locals.user = data;
+        next();
+      })
+      .catch( (err) => {
+        console.log('ERRRRRRRORRRRRRRRRR getoneuser')
+        next(err);
+      })
+  },
+
   getOnePost(req, res, next) {
-    console.log('here')
-    model.getOnePost(req.params.postid)
+    model.getOnePost(parseInt(req.params.postid))
       .then((data) => {
         res.locals.post = data;
-        next()
+        next();
       })
       .catch((err) => {
-        next(err)
+        next(err);
       })
   },
 
-  // getAllAuthor(req, res, next) {
-
-  // },
-
-  searchFailOverLookStart(req, res, next) {
-    if(req.query.mainsearch === '') {
-      next()
-    } else if(res.locals.searchdata.length !== 0) {
-      next();
-    } else {
-      vector.fullSearch(req.session.user[0].language, func.prepLookStart(res.locals.search))
-        .then((data) => {
-          res.locals.searchdata = data;
-          next();
-        })
-        .catch((err) => {
-          console.log('ERRRRRRRORRRRRRRRRR searchfailoverstart')
-          next(err);
-        })
-    }
-  },
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // SAVE SOMETHING ///////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
 
   saveSearch(req, res, next) {
     if(req.query.mainsearch === ''){
@@ -136,11 +109,58 @@ module.exports = {
   },
 
   updateSavedSearch(req, res, next) {
-    let theData = {
-      searchid: parseInt(req.query.s),
-      postid: parseInt(req.params.postid)
+    if(!req.query.s) {
+      next();
+    } else {
+      let theData = {
+        searchid: parseInt(req.query.s),
+        postid: parseInt(req.params.postid)
+      }
+      model.updateSearch(theData)
+        .then((data) => {
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        })
     }
-    model.updateSearch(theData)
+  },
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // MAKE SOMETHING ///////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+
+  makeNewPost(req, res, next) {
+    let theData = {
+      userid: parseInt(req.session.user[0].id),
+      post_title: req.body.title.trim(),
+      post: req.body.submitformtext.trim(),
+      posthtml: func.trimBR(req.body.submitformhtml).trim(),
+      tags: ''.trim(),
+    }
+    model.makeOnePost(theData)
+      .then((data) => {
+        res.locals.postid = data.id;
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      })
+  },
+
+  makeNewComment(req, res, next) {
+    console.log('here', req.body)
+    let theData = {
+      userid: parseInt(req.session.user[0].id),
+      postid: parseInt(req.params.postid),
+      comment: req.body.submitformtext,
+      commenthtml: func.brEnd(req.body.submitformhtml),
+    }
+    console.log(theData)
+    res.locals.postid = req.params.postid
+    model.makeOneComment(theData)
       .then((data) => {
         next();
       })
@@ -149,10 +169,100 @@ module.exports = {
       })
   },
 
-  makeNewPost(req, res, next) {
-    console.log(req.body)
-    res.send('all good')
-  }
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // DO SOMETHING /////////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+
+  mainSearch(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else {
+      res.locals.searchstring = req.query.mainsearch;
+      res.locals.search = func.prepSearch(req.query.mainsearch);
+      vector.fullSearch(req.session.user[0].language, res.locals.search)
+        .then((data) => {
+          res.locals.searchdata = data;
+          console.log(req.session.user[0])
+          next();
+        })
+        .catch((err) => {
+          console.log('ERRRRRRRORRRRRRRRRR mainsearch')
+          next(err);
+        })
+    }
+  },
+
+  searchFailOverLookStart(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else if(res.locals.searchdata.length !== 0) {
+      next();
+    } else {
+      vector.fullSearch(req.session.user[0].language, func.prepLookStart(res.locals.search))
+        .then((data) => {
+          res.locals.searchdata = data;
+          next();
+        })
+        .catch((err) => {
+          console.log('ERRRRRRRORRRRRRRRRR searchfailoverstart')
+          next(err);
+        })
+    }
+  },
+
+  handleVote(req, res, next) {
+    console.log(req.query)
+    next()
+  },
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // UTILITY //////////////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+
+  storeBody(req, res, next) {
+    res.locals.body = req.body;
+    next();
+  },
+
+  dataInitialize(req, res, next) {
+    res.locals.searchid = {};
+    if(Object.keys(res.locals).indexOf('searchdata') !== -1) {
+      next()
+    } else {
+      res.locals.searchdata = [{}];
+      next()
+    }
+  },
+
+  getPostId(req, res, next) {
+    res.locals.postid = req.params.postid
+    next();
+  },
+
+  printData(req, res, next) {
+    console.log('This is req.body ', req.body);
+    next();
+  },
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // LABELS ///////////////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+
+  modeNewPost(req, res, next) {
+    res.locals.mode = 'newpost';
+    next();
+  },
+
+  modeNewComment(req, res, next) {
+    res.locals.mode = 'newcomment';
+    next();
+  },
 
 }
 
