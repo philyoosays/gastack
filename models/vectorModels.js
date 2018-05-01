@@ -3,7 +3,12 @@ const db = require('../config/connection');
 module.exports = {
   fullSearch(language, string) {
     return db.any(`
-      SELECT posts.*, users.username FROM(
+      SELECT
+        posts.*,
+        users.username,
+        programs.programshort,
+        cohort.cohort
+      FROM(
         SELECT postid, MAX(ts_rank) FROM (
 
           SELECT * FROM(
@@ -44,6 +49,8 @@ module.exports = {
       ) AS final_output_id
       JOIN posts ON final_output_id.postid = posts.id
       JOIN users ON posts.userid = users.id
+      JOIN programs ON users.programid = programs.id
+      JOIN cohort ON users.cohortid = cohort.id
       ORDER BY final_output_id.max DESC
     `, [language, string]);
   },

@@ -1,4 +1,8 @@
 
+// window.onload = function() {
+//   console.log(post)
+// }
+
 
 const toolbarOptions = {
   container:[

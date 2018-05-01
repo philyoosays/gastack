@@ -1,13 +1,19 @@
 window.onload = function () {
 }
 
-function refreshPage () {
+function refreshPage (num) {
   // if ( window.location.href.indexOf('page_y') !== -1 ) {
   //     var match = window.location.href.split('?')[1].split("&")[0].split("=");
   //     document.getElementsByTagName("body")[0].scrollTop = match[1];
   // }
   // var page_y = document.getElementsByTagName("body")[0].scrollTop;
-  window.location.href = window.location.href.split('?')[0] + '?page_y=' + 1;
+  window.location.href =
+    window.location.href.split('v=1').join('')
+    .split('?')[0] + '?v=' + num + (
+      window.location.href.split('?').length > 1
+      ? '&' + window.location.href.split('?')[1]
+      : ''
+    )
 }
 
 function upVote(commentID) {
@@ -29,13 +35,12 @@ function addVote(commentID) {
   let score = parseInt(theScoreElem.innerText);
   score++;
   theScoreElem.innerText = score;
-  // if(window.location.href.indexOf('?') !== -1){
-  //   window.location.href = window.location.href + '&v=1';
-  // } else {
-  //   window.location.href = window.location.href + '?v=1'
-  // }
-  // document.location.reload(true)
-  refreshPage()
+  if(window.location.href.indexOf('?') !== -1){
+    refreshPage(1);
+  } else {
+    refreshPage(1);
+  }
+  document.location.reload(true)
 }
 
 function downVote(commentID) {
@@ -48,17 +53,37 @@ function downVote(commentID) {
       let score = parseInt(theScoreElem.innerText);
       score--;
       theScoreElem.innerText = score;
-      window.location.href = window.location.href + '&v=-1'
-      document.location.reload(true)
+      refreshPage(-1);
     } else {
       theArrow.classList.add('downarrowselected');
       let score = parseInt(theScoreElem.innerText);
       score--;
       theScoreElem.innerText = score;
-      window.location.href = window.location.href + '&v=-1'
-      document.location.reload(true)
+      refreshPage(-1);
     }
   }
+}
+
+postData('http://example.com/answer', {answer: 42})
+  .then(data => console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+
+function postData(url, data) {
+  // Default options are marked with *
+  return fetch(url, {
+    body: JSON.stringify(data), // must match 'Content-Type' header
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, same-origin, *omit
+    headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+    },
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, cors, *same-origin
+    redirect: 'follow', // manual, *follow, error
+    referrer: 'no-referrer', // *client, no-referrer
+  })
+  .then(response => response.json()) // parses response to JSON
 }
 
 

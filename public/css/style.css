@@ -205,11 +205,26 @@ section {
 .votebuttons {
   width: 100px;
   height: 100px;
+  margin-right: 5px;
   /*border: 2px solid orange;*/
 }
 
 .commentbox {
   /*border: 2px solid teal;*/
+}
+
+.posttitlebox {
+  display: block;
+}
+
+.posttitlebox > h2 {
+  display: inline-block;
+}
+
+#editpost {
+  padding: 3px 10px;
+  display: inline-block;
+  font-size: 15px;
 }
 
 section > .votebuttons > .uparrow {
@@ -265,6 +280,17 @@ section > .votebuttons > .uparrow {
   padding: 5px 10px;
   border-radius: 3px;
   color: #f8f8f2;
+}
+
+.showpostdate {
+  font-weight: 100;
+}
+
+.userprogram {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 100;
+  font-style: italic;
 }
 
 /*.clearfix:after {
@@ -325,4 +351,25 @@ section > .votebuttons > .uparrow {
   display: flex;
   justify-content: center;
 }
+
+@media(max-width: 500px) {
+  .navitems > p {
+    margin: 0 5px;
+    background: red;
+    border-radius: 4px;
+    padding: 7px 14px;
+    font-size: 11px;
+    /*vertical-align: super;*/
+    /*position: absolute;*/
+  }
+}
+
+
+
+
+
+
+
+
+
 

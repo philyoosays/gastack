@@ -15,7 +15,8 @@ DROP TABLE IF EXISTS sessions;
 
 CREATE TABLE programs (
 id SERIAL PRIMARY KEY,
-program TEXT NOT NULL
+program TEXT NOT NULL,
+programshort TEXT NOT NULL
 );
 
 CREATE TABLE cohorts (
@@ -145,7 +146,8 @@ VALUES
 ('Software Engineering'),
 ('User Experience Design'),
 ('Visual Design'),
-('Web Development');
+('Web Development Immersive'),
+('Web Development Part-time');
 
 INSERT INTO cohorts
 (programid, cohort)

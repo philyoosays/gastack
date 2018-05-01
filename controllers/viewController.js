@@ -36,14 +36,16 @@ module.exports = {
   showOnePost(req, res, next) {
     res.render('post/postView.ejs', {
       post: res.locals.post,
-      comments: res.locals.comments
+      comments: res.locals.comments,
+      authorid: res.locals.authorid
     })
   },
 
   showTextEditor(req, res, next) {
     res.render('post/textEditor.ejs', {
       mode: res.locals.mode,
-      postid: res.locals.postid
+      postid: res.locals.postid,
+      post: res.locals.post
     })
   },
 

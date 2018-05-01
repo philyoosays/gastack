@@ -133,12 +133,13 @@ module.exports = {
   /////////////////////////////////////////
 
   makeNewPost(req, res, next) {
+    let html = func.trimHTML(req.body.submitformhtml);
     let theData = {
       userid: parseInt(req.session.user[0].id),
-      post_title: req.body.title.trim(),
-      post: req.body.submitformtext.trim(),
-      posthtml: func.trimBR(req.body.submitformhtml).trim(),
-      tags: ''.trim(),
+      post_title: req.body.title,
+      post: req.body.submitformtext,
+      posthtml: html,
+      tags: '',
     }
     model.makeOnePost(theData)
       .then((data) => {
@@ -151,14 +152,14 @@ module.exports = {
   },
 
   makeNewComment(req, res, next) {
-    console.log('here', req.body)
+    console.log(req.body.submitformhtml)
+    let html = func.trimHTML(req.body.submitformhtml);
     let theData = {
       userid: parseInt(req.session.user[0].id),
       postid: parseInt(req.params.postid),
       comment: req.body.submitformtext,
-      commenthtml: func.brEnd(req.body.submitformhtml),
+      commenthtml: html,
     }
-    console.log(theData)
     res.locals.postid = req.params.postid
     model.makeOneComment(theData)
       .then((data) => {
@@ -230,10 +231,12 @@ module.exports = {
 
   dataInitialize(req, res, next) {
     res.locals.searchid = {};
+    res.locals.post = {};
     if(Object.keys(res.locals).indexOf('searchdata') !== -1) {
       next()
     } else {
       res.locals.searchdata = [{}];
+
       next()
     }
   },
@@ -244,7 +247,7 @@ module.exports = {
   },
 
   printData(req, res, next) {
-    console.log('This is req.body ', req.body);
+    console.log('This is req.query ', parseInt(req.query.v));
     next();
   },
 
@@ -261,6 +264,16 @@ module.exports = {
 
   modeNewComment(req, res, next) {
     res.locals.mode = 'newcomment';
+    next();
+  },
+
+  modeEditPost(req, res, next) {
+    res.locals.mode = 'editpost';
+    next();
+  },
+
+  userTag(req, res, next) {
+    res.locals.authorid = req.session.user[0].id
     next();
   },
 

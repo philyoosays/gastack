@@ -16,6 +16,8 @@ app.route('/post/new')
     view.show404
     )
 
+// app.route('/comment/:commentid/edit')
+
 app.route('/comment/:postid/new')
   .get(
     control.printData,
@@ -39,10 +41,21 @@ app.route('/search/tag/:tag')
     view.show404
     )
 
+app.route('/post/:postid/edit')
+  .get(
+    control.modeEditPost,
+    control.dataInitialize,
+    control.getPostId,
+    control.getOnePost,
+    view.showTextEditor,
+    view.show404
+    )
+
 app.route('/post/:postid')
   .get(
     authService.loginRequired,
     control.printData,
+    control.userTag,
     control.handleVote,
     control.dataInitialize,
     control.updateSavedSearch,

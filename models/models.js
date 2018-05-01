@@ -65,8 +65,15 @@ module.exports = {
 
   getOnePost(id) {
     return db.one(`
-      SELECT posts.*, users.username FROM posts
-      JOIN users ON posts.userid = users.id
+      SELECT
+        posts.*,
+        users.username,
+        programs.programshort,
+        cohort.cohort
+      FROM posts JOIN users
+        ON posts.userid = users.id
+      JOIN programs ON users.programid = programs.id
+      JOIN cohort ON users.cohortid = cohort.id
       WHERE posts.id = $1
       `, id);
   },
@@ -100,10 +107,16 @@ module.exports = {
 
   findAllComments(postid) {
     return db.any(`
-      SELECT comments.*, users.username
+      SELECT
+        comments.*,
+        users.username,
+        cohort.cohort,
+        programs.programshort
       FROM comments
       JOIN users
         ON comments.userid = users.id
+      JOIN programs ON users.programid = programs.id
+      JOIN cohort ON cohort.id = users.cohortid
       WHERE postid = $1
       ORDER BY
         comment_score DESC,
