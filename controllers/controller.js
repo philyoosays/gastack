@@ -16,8 +16,10 @@ module.exports = {
   /////////////////////////////////////////
 
   getAllPrograms(req, res ,next) {
+    console.log('this is all programs')
     model.findAllPrograms()
       .then( (data) => {
+        console.log('this is ', data)
         res.locals.programs = data;
         next();
       })

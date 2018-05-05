@@ -16,7 +16,7 @@ const mainRouter = require('./routes/mainRouter');
 const apiRouter = require('./routes/apiRouter')
 
 const app = express();
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 4000;
 
 
 app.set('superSecret', process.env.SECRET);
@@ -30,8 +30,8 @@ app.use(methodOverride('_method'));
 
 app.use(session({
     store: new pgSession({
-      conString : process.env.DATABASE_URL
-      // conString : 'postgresql://' + config.host + ':' + config.port + '/' + config.database
+      // conString : process.env.DATABASE_URL
+      conString : 'postgresql://' + config.host + ':' + config.port + '/' + config.database
     }),
     secret: app.get('superSecret'),
     resave: false,
