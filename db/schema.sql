@@ -141,21 +141,13 @@ WITH (OIDS=FALSE);
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 INSERT INTO programs
-(program)
+(program, programshort)
 VALUES
-('Android Development'),
-('Digital Marketing'),
-('Data Analytics'),
-('Data Science'),
-('Front-End Web Development'),
-('iOS Development'),
-('Javascript Development'),
-('Product Management'),
-('Software Engineering'),
-('User Experience Design'),
-('Visual Design'),
-('Web Development Immersive'),
-('Web Development Part-time');
+('Data Science', 'DS'),
+('Front-End Web Development', 'Front-End WebDev'),
+('Javascript Development', 'JS Dev'),
+('Web Development Immersive', 'WDI'),
+('Web Development Part-time', 'WD-PT');
 
 INSERT INTO cohorts
 (programid, cohort)
