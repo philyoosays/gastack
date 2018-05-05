@@ -2,12 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+app.set('database', process.env.DATABASE)
+
 const config = {
-  host: 'ip-172-26-3-124',
+  host: 'localhost',
   port: 5432,
   database: 'gastackoverflow',
-  username: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD
+  // username: process.env.DATABASE_USER,
+  // password: process.env.DATABASE_PASSWORD
 };
+
+const db = pgp(process.env.DATABASE_URL || config);
 
 module.exports = config;
