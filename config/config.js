@@ -8,9 +8,9 @@ const pgp = require('pg-promise')({
 });
 
 const config = {
-  host: 'localhost',
+  host: process.env.DATABASE_URL,
   port: 5432,
-  database: 'gastackoverflow',
+  database: process.env.DATABASE,
   // username: process.env.DATABASE_USER,
   // password: process.env.DATABASE_PASSWORD
 };
