@@ -21,7 +21,7 @@ app.route('/register')
   .post(
     control.storeBody,
     control.getOneUser,
-    authService.isApprovedPerson,
+    // authService.isApprovedPerson,
     authService.checkPasswordTypo, //fix the else statement
     authService.doesUserExist, //fix the else statement
     authService.generatePassword,
