@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const model = require('../models/models');
+const func = require('../functions/helperFunctions');
 
 module.exports = {
    async login(req, res, next) {
@@ -33,6 +34,20 @@ module.exports = {
     }
   },
 
+  isApprovedPerson(req, res, next) {
+    model.findApprovedPerson(res.locals.body.email)
+    .then( (data) => {
+      if(data.length === 0) {
+        res.send('Is not an approved person')
+      } else {
+        next();
+      }
+    })
+    .catch( (err) => {
+      next(err);
+    })
+  },
+
   async generatePassword(req, res, next) {
   const { password } = req.body;
   await bcrypt.hash(password, 11)
@@ -58,12 +73,17 @@ module.exports = {
   },
 
   handleLogin(req, res, next) {
-    res.redirect('/main')
+    if(req.session.user) {
+      res.redirect('/main')
+    } else {
+      res.redirect('/login')
+    }
   },
 
   logout(req, res, next) {
-    req.session.user = [];
-    res.redirect('/')
+    req.session.destroy((err) => {
+      res.redirect('/')
+    })
   },
 
   loginRequired: [

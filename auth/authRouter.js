@@ -5,6 +5,13 @@ const control = require('../controllers/controller');
 
 const app = express();
 
+app.route('/register/cohorts')
+  .post(
+    control.getAllCohorts,
+    view.handleCohortSend,
+    view.show404
+    )
+
 app.route('/register')
   .get(
     control.getAllPrograms,
@@ -14,6 +21,7 @@ app.route('/register')
   .post(
     control.storeBody,
     control.getOneUser,
+    authService.isApprovedPerson,
     authService.checkPasswordTypo, //fix the else statement
     authService.doesUserExist, //fix the else statement
     authService.generatePassword,

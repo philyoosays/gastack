@@ -13,9 +13,10 @@ const pgSession = require('connect-pg-simple')(session);
 const authRouter = require('./auth/authRouter');
 const profileRouter = require('./routes/profileRouter');
 const mainRouter = require('./routes/mainRouter');
+const apiRouter = require('./routes/apiRouter')
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 
 app.set('superSecret', process.env.SECRET);
@@ -44,6 +45,7 @@ app.use(session({
 app.use('/profile', profileRouter)
 app.use('/main', mainRouter)
 app.use('/login', authRouter)
+// app.use('/api', apiRouter)
 
 app.get('/', (req, res) => {
   res.redirect('/login')

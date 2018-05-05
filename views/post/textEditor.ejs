@@ -6,34 +6,83 @@
   <form action="/main/comment/<%= postid %>/new" method="post">
 <% } else if (mode === 'editpost') { %>
   <form action="/main/post/<%= postid %>/edit?_method=put" method="post">
+<% } else if(mode === 'editcomment') { %>
+  <form action="/main/comment/<%= postid %>/edit?_method=put" method="post">
 <% } %>
   <div class="buttoncentered">
     <% if(mode === 'newpost') { %>
-      <h1 class="header">New Post</h1>
-    <% else if(mode === 'editpost') { %>
-      <h1 class="header">Edit Post</h1>
-    <% } else if(mode === 'newpost' || mode === 'editpost') { %>
+      <h1 class="header">New Question</h1>
       <hr />
       <label for="new-post-title">Title</label>
-      <br/>
       <input type="text" id="new-post-title" name="title" placeholder="Pick a good title for your post..." required>
       <br/>
+    <% } else if(mode === 'editpost') { %>
+      <h1 class="header">Edit Question</h1>
+      <hr />
+      <label for="new-post-title">Title</label>
+      <input
+        type="text"
+        id="new-post-title"
+        name="title"
+        placeholder="Pick a good title for your post..."
+        value="<%= post.post_title %>"
+        required>
+      <br/>
     <% } else if(mode === 'newcomment') { %>
-      <h1 class="header">New Comment</h1>
+      <h1 class="header">New Answer</h1>
+      <hr />
+    <% } else if(mode === 'editcomment') { %>
+      <h1 class="header">Edit Answer</h1>
       <hr />
     <% } %>
+
+
+
     <div id="editor">
     </div>
-    <% window.onload = function() { %>
-      <% if(Object.keys(post).length > 1) { %>
-        <% var editor = document.querySelector('.ql-editor') %>
-        <% editor.innerHTML = post.posthtml %>
-      <% } %>
+    <% if(mode === 'newpost' || mode === 'editpost') { %>
+      <input
+          type="text"
+          id="inserttags"
+          list="thetags"
+          name="tags"
+          placeholder="input tags here"
+          oninput="matchTags()"
+          required>
+        <datalist id="thetags">
+        </datalist>
+        <br>
+        <div id="tagcontainer">
+          <% if(mode === 'editpost') { %>
+            <% post.tags.split(' ').forEach(d => { %>
+              <span class="posttags" onclick="removeTag(this)"><%= d %></span>
+            <% }) %>
+          <% } %>
+        </div>
     <% } %>
-    <input id="submitformhtml" name="submitformhtml" type="text" style="display: none">
+    <% if(mode === 'editpost') { %>
+      <input
+        id="submitformhtml"
+        name="submitformhtml"
+        type="text"
+        style="display: none"
+        value="<%= post.posthtml %>"
+      >
+    <% } else if(mode === 'editcomment') { %>
+      <input
+        id="submitformhtml"
+        name="submitformhtml"
+        type="text"
+        style="display: none"
+        value="<%= post.commenthtml %>"
+      >
+    <% } else { %>
+      <input id="submitformhtml" name="submitformhtml" type="text" style="display: none">
+    <% } %>
     <input id="submitformtext" name="submitformtext" type="text" style="display: none">
-    <div class="buttoncentered">
+    <div class="buttoncentered-button">
       <input type="submit" value="Post" onClick="storeFormData()">
+      <button onClick="runCancel()">Cancel</button>
     </div>
   </div>
 </form>

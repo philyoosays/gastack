@@ -1,72 +1,60 @@
 window.onload = function () {
 }
 
-function refreshPage (num) {
-  // if ( window.location.href.indexOf('page_y') !== -1 ) {
-  //     var match = window.location.href.split('?')[1].split("&")[0].split("=");
-  //     document.getElementsByTagName("body")[0].scrollTop = match[1];
-  // }
-  // var page_y = document.getElementsByTagName("body")[0].scrollTop;
-  window.location.href =
-    window.location.href.split('v=1').join('')
-    .split('?')[0] + '?v=' + num + (
-      window.location.href.split('?').length > 1
-      ? '&' + window.location.href.split('?')[1]
-      : ''
-    )
-}
-
-function upVote(commentID) {
+function upVote(commentID, postID) {
+  console.log(commentID)
   const theArrow = document.getElementById('u' + commentID);
   const theOtherArrow = document.getElementById('d' + commentID);
+  const theCount = document.getElementById('score' + commentID);
   if(!theArrow.classList.contains('uparrowselected')) {
     if(theOtherArrow.classList.contains('downarrowselected')) {
       theOtherArrow.classList.remove('downarrowselected');
-      addVote(commentID);
+      postData('/main/vote', {commentID, postID, vote: 0})
+        .then((data) => {
+          theCount.innerText = data.sum;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } else {
       theArrow.classList.add('uparrowselected');
-      addVote(commentID);
+      postData('/main/vote', {commentID, postID, vote: 1})
+        .then((data) => {
+          theCount.innerText = data.sum;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
 
-function addVote(commentID) {
-  const theScoreElem = document.getElementById('score' + commentID);
-  let score = parseInt(theScoreElem.innerText);
-  score++;
-  theScoreElem.innerText = score;
-  if(window.location.href.indexOf('?') !== -1){
-    refreshPage(1);
-  } else {
-    refreshPage(1);
-  }
-  document.location.reload(true)
-}
-
-function downVote(commentID) {
+function downVote(commentID, postID) {
   const theArrow = document.getElementById('d' + commentID);
   const theOtherArrow = document.getElementById('u' + commentID);
-  const theScoreElem = document.getElementById('score' + commentID);
+  const theCount = document.getElementById('score' + commentID);
   if(!theArrow.classList.contains('downarrowselected')) {
     if(theOtherArrow.classList.contains('uparrowselected')) {
       theOtherArrow.classList.remove('uparrowselected');
-      let score = parseInt(theScoreElem.innerText);
-      score--;
-      theScoreElem.innerText = score;
-      refreshPage(-1);
+      postData('/main/vote', {commentID, postID, vote: 0})
+        .then((data) => {
+          theCount.innerText = data.sum;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } else {
       theArrow.classList.add('downarrowselected');
-      let score = parseInt(theScoreElem.innerText);
-      score--;
-      theScoreElem.innerText = score;
-      refreshPage(-1);
+      postData('/main/vote', {commentID, postID, vote: -1})
+        .then((data) => {
+          theCount.innerText = data.sum;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
-
-postData('http://example.com/answer', {answer: 42})
-  .then(data => console.log(data)) // JSON from `response.json()` call
-  .catch(error => console.error(error))
 
 function postData(url, data) {
   // Default options are marked with *
@@ -84,6 +72,30 @@ function postData(url, data) {
     referrer: 'no-referrer', // *client, no-referrer
   })
   .then(response => response.json()) // parses response to JSON
+}
+
+function grabData() {
+  let dataBucket = document.getElementById('databucket');
+  let title = document.querySelector('.posttitlebox > h2').textContent;
+  let submitformtext = document.querySelector('.showposthtml').innerText;
+  let submitformhtml = document.querySelector('.showposthtml').innerHTML;
+  let allTags = document.querySelectorAll('#searchtag');
+  let tags = ''
+  if(allTags.length > 0) {
+    allTags.forEach(d => {
+      tags += d.defaultValue + ' ';
+    })
+    tags = tags.trim();
+  }
+  let array = [{title}, {submitformtext}, {submitformhtml}, {tags}, {isdeleted: true}];
+  console.log(array)
+  array.forEach(d => {
+    let element = document.createElement('input');
+    element.setAttribute('type', 'hidden');
+    element.setAttribute('name', Object.keys(d)[0]);
+    element.setAttribute('value', Object.values(d)[0]);
+    dataBucket.appendChild(element);
+  })
 }
 
 

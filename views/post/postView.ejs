@@ -1,5 +1,5 @@
 <% include ../partials/boilerplate %>
-<% include ../partials/nav %>
+<% include ../partials/navtabbed %>
 
 <form action="/main/search" method="get">
   <div class="container">
@@ -25,6 +25,13 @@
         <input type="submit" id="editpost" value="Edit">
       </form>
     <% } %>
+    <% if(usertype === 'admin') { %>
+      <form action="/main/post/<%= post.id %>/delete?_method=put" method="post">
+        <div id="databucket">
+        </div>
+        <input type="submit" id="deletepost" value="Delete" onmouseover="grabData()">
+      </form>
+    <% } %>
   </div>
   <div class="showposthtml"><%- post.posthtml %></div>
   <div>
@@ -32,20 +39,22 @@
     <span class="userprogram"> - <%= post.programshort %> - <%= post.cohort %></span>
   </div>
   <div class="tags">
-      <% post.tags.split(' ').forEach(tag => { %>
-        <form action="/main/search/tag/<%= tag %>" method="get">
-          <input type="submit" id="searchtag" value="<%= tag %>">
-        </form>
-      <% }) %>
+      <% if(post.tags !== '') { %>
+        <% post.tags.split(' ').forEach(tag => { %>
+          <form action="/main/search/tag/<%= tag %>" method="get">
+            <input type="submit" id="searchtag" value="<%= tag %>">
+          </form>
+        <% }) %>
+      <% } %>
   </div>
 </div>
 <hr />
 <div class="kenny">
   <div class="clearfix commentheader">
-    <h3>Comments</h3>
+    <h3>Answers</h3>
     <div id="newcommentbutton">
       <form action="/main/comment/<%= post.id %>/new" method="get">
-        <input type="submit" id="newcomment" value="New Comment">
+        <input type="submit" id="newcomment" value="New Answer">
       </form>
     </div>
   </div>
@@ -53,20 +62,35 @@
   <% comments.forEach(d => { %>
     <section>
       <div class="votebuttons">
-        <div
-              class="uparrow"
-              id="u<%= d.id %>"
-              name="up<%= d.id %>"
-              onClick="upVote(<%= d.id %>)"
-        ></div>
-        <input type="hidden" name="up<%= d.id %>">
-        <h3 class="votecount" id="score<%= d.id %>" name="score"><%= d.comment_score %></h3>
-        <div class="downarrow"
-              id="d<%= d.id %>"
-              name="down<%= d.id %>"
-              onClick="downVote(<%= d.id %>)"
-        ></div>
-        <input type="hidden" name="down<%= d.id %>">
+        <% if(d.vote === 1) { %>
+          <div
+                class="uparrow uparrowselected"
+                id="u<%= d.id %>"
+                data="<%= d.id %>"
+                onClick="upVote(<%= d.id %>, <%= d.postid %>)"
+          ></div>
+        <% } else { %>
+          <div
+                class="uparrow"
+                id="u<%= d.id %>"
+                data="<%= d.id %>"
+                onClick="upVote(<%= d.id %>, <%= d.postid %>)"
+          ></div>
+        <% } %>
+        <h3 class="votecount" id="score<%= d.id %>" name="score"><% if(d.votesum !== null){ %><%= d.votesum %> <% } else { %> <%= 0 %> <% } %></h3>
+        <% if(d.vote === -1) { %>
+          <div class="downarrow downarrowselected"
+                id="d<%= d.id %>"
+                data="<%= d.id %>"
+                onClick="downVote(<%= d.id %>, <%= d.postid %>)"
+          ></div>
+        <% } else { %>
+          <div class="downarrow"
+                id="d<%= d.id %>"
+                data="<%= d.id %>"
+                onClick="downVote(<%= d.id %>, <%= d.postid %>)"
+          ></div>
+        <% } %>
       </div>
       <div class="commentbox">
         <div class="showposthtml"><%- d.commenthtml %></div>

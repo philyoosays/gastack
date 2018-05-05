@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS programs;
 DROP TABLE IF EXISTS sessions;
--- WHAT DOES CASCADE DO?
 
 CREATE TABLE programs (
 id SERIAL PRIMARY KEY,
@@ -19,10 +18,16 @@ program TEXT NOT NULL,
 programshort TEXT NOT NULL
 );
 
-CREATE TABLE cohorts (
+CREATE TABLE cohort (
 id SERIAL PRIMARY KEY,
 programid INTEGER REFERENCES programs(id),
 cohort TEXT NOT NULL
+);
+
+CREATE TABLE allowedusers (
+id SERIAL PRIMARY KEY,
+email VARCHAR(40) UNIQUE NOT NULL,
+addedby INTEGER REFERENCES user(id)
 );
 
 CREATE TABLE users (
@@ -54,11 +59,10 @@ posthtml VARCHAR NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 date_edited TIMESTAMP DEFAULT NOW(),
 post_score INTEGER DEFAULT 0,
-upvotes INTEGER DEFAULT 0,
-downvotes INTEGER DEFAULT 0,
 errorcode BOOLEAN DEFAULT false,
 tags TEXT,
-last_active DATE DEFAULT NOW()
+last_active DATE DEFAULT NOW(),
+isdeleted BOOLEAN DEFAULT false
 );
 
 CREATE TABLE postviews (
@@ -67,7 +71,7 @@ postid INTEGER REFERENCES posts(id),
 userid INTEGER REFERENCES users(id)
 );
 
--- DO I NEED THE SPARATE TAGS
+-- DO I NEED THE SEPARATE TAGS
 
 CREATE TABLE tags (
 id SERIAL PRIMARY KEY,
@@ -86,15 +90,18 @@ postid INTEGER REFERENCES posts(id),
 comment TEXT NOT NULL,
 commenthtml VARCHAR NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
-comment_score INTEGER DEFAULT 0
+date_edited TIMESTAMP DEFAULT NOW(),
+comment_score INTEGER DEFAULT 0,
+isdeleted BOOLEAN DEFAULT false
 );
 
 CREATE TABLE commentvotes (
+id SERIAL PRIMARY KEY,
 commentid INTEGER REFERENCES comments(id),
 userid INTEGER REFERENCES users(id),
+postid INTEGER REFERENCES posts(id),
 vote INTEGER DEFAULT 0,
-date_created TIMESTAMP DEFAULT NOW(),
-PRIMARY KEY (commentid, userid)
+date_created TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE favorites (
@@ -107,7 +114,8 @@ CREATE TABLE resources (
 id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 label VARCHAR(255) NOT NULL,
-link VARCHAR(255) NOT NULL
+link VARCHAR(255) NOT NULL,
+date_created TIMESTAMP DEFAULT NOW()
 );
 
 -- CREATE TABLE translation (
@@ -155,6 +163,7 @@ VALUES
 (12, 'Ewoks'),
 (12, 'Rover Opportunity'),
 (12, 'Rover Spirit');
+(12, 'Tesseract')
 
 -- abcdefghijklmnopqrstuvwxyz
 
@@ -183,7 +192,25 @@ VALUES
 (1, 2, 'You need to do this but not before your return statement'),
 (1, 3, 'You didn''t inculde a return statement');
 
-
+INSERT INTO tags (tags)
+VALUES
+('middleware'),
+('javascript'),
+('node'),
+('react'),
+('ruby'),
+('DOM'),
+('JQuery'),
+('D3'),
+('express'),
+('authorization'),
+('authentication'),
+('CSS'),
+('psql'),
+('function'),
+('reference'),
+('ejs'),
+('git');
 
 
 

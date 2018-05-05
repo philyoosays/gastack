@@ -1,6 +1,6 @@
 module.exports = {
   tester(req, res, next) {
-    console.log(res.locals.searchdata)
+    console.log(req.body)
     res.send('all good')
   },
 
@@ -29,7 +29,9 @@ module.exports = {
     res.render('main/mainView.ejs', {
       searchdata: res.locals.searchdata,
       searchstring: res.locals.searchstring,
-      searchid: res.locals.searchid
+      searchid: res.locals.searchid,
+      mode: res.locals.mode,
+      resources: res.locals.resources
     })
   },
 
@@ -37,7 +39,8 @@ module.exports = {
     res.render('post/postView.ejs', {
       post: res.locals.post,
       comments: res.locals.comments,
-      authorid: res.locals.authorid
+      authorid: res.locals.authorid,
+      usertype: res.locals.usertype,
     })
   },
 
@@ -49,8 +52,43 @@ module.exports = {
     })
   },
 
+  showUserDetailsEdit(req, res, next) {
+    res.render('main/profileedit.ejs', {
+      userdetails: res.locals.userdetails
+    })
+  },
+
+  handleVoteSend(req, res, next) {
+    res.json(res.locals.votesum)
+  },
+
   handleNewPost(req, res, next) {
     res.redirect('/main/post/' + res.locals.postid)
+  },
+
+  handleCohortSend(req, res, next) {
+    res.json(res.locals.allcohorts)
+  },
+
+  handleTagSend(req, res, next) {
+    res.json(res.locals.alltags)
+  },
+
+  sendBackToMain(req, res, next) {
+    res.redirect('/main')
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

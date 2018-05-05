@@ -1,0 +1,65 @@
+<% include ../partials/boilerplate %>
+<% include ../partials/navtabbed %>
+
+<div class="logincontainer" id="regcontainer">
+      <table id="registration-table">
+      <tr>
+        <td>
+          <p>First Name</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" id="fname" name="fname" placeholder="first name" value="<%= userdetails.fname %>" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Last Name</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" name="lname" placeholder="last name" value="<%= userdetails.lname %>" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>E-Mail</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="email" name="email" placeholder="email" value="<%= userdetails.email %>" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p id="blurb">Blurb</p>
+        </td>
+        <td class="req-textarea">
+          <textarea name="blurb" maxlength="200" placeholder="200 characters max"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Location</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" name="location" placeholder="location" value="<%= userdetails.location %>" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Website</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" name="location" placeholder="website" value="<%= userdetails.website %>" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Github</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" name="github" placeholder="github" value="<%= userdetails.github %>" />
+        </td>
+      </tr>
+    </table>
+</div>
+
+<% include ../partials/foot %>

@@ -116,11 +116,28 @@ module.exports = {
   // },
 
 // This needs to be targetted to JUST the PRE tags
-  addBRToCode(html) {
-    let result = html.split('  ').join('<br>');
-    result = result.split(';').join(';<br>')
+  // addBRToCode(html) {
+  //   let result = html.split('  ').join('<br>');
+  //   result = result.split(';').join(';<br>')
+  //   return result;
+  // },
+
+  killNullInVotes(data) {
+    data.map((d, i) => {
+      if(d.vote === null) {
+        d.vote = 0;
+      }
+      if(d.votesum === null) {
+        d.votesum = 0;
+      }
+    })
+    let result = data.sort((a, b) => {
+      return b.votesum - a.votesum
+    })
     return result;
   },
+
+
 }
 
 

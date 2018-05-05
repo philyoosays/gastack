@@ -2,7 +2,73 @@
 
 <form action='/login/register' method='post'>
   <div class='logincontainer'>
-      <div class="formlabels">
+    <table id="registration-table">
+      <tr>
+        <td>
+          <p>First Name</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" id="fname" name="fname" placeholder="first name" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Last Name</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="text" id="lname" name="lname" placeholder="last name" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>E-Mail</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="email" id="email" name="email" placeholder="email" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Password</p>
+        </td>
+        <td class="reg-inputs">
+          <input type="password" id="password" name="password" placeholder="password" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td class="reg-inputs">
+          <input type="password" id="passwordcheck" name="passwordCheck" placeholder="Enter password again" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>GA Program</p>
+        </td>
+        <td class="reg-inputs">
+          <select id ="programid" name="programid" onChange="getCohorts()" required>
+            <option disabled selected value></option>
+            <% programs.forEach(d => { %>
+              <option value="<%= d.id %>"><%= d.program %></option>
+            <% }) %>
+          </select>
+          <div class="underline"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Cohort</p>
+        </td>
+        <td class="reg-inputs">
+          <select id="cohortid" name="cohortid">
+            <option disabled selected value></option>
+          </select>
+          <div class="underline"></div>
+        </td>
+      </tr>
+    </table>
+<!--       <div class="formlabels">
         <label for="fname">First Name</label>
         <br />
         <label for="lname">Last Name</label>
@@ -19,6 +85,9 @@
         <br />
         <br />
         <label for="programid">GA Program </label>
+        <br />
+        <br />
+        <label for="cohortid">Cohort</label>
       </div>
       <div class="inputfields">
         <input type="text" id="fname" name="fname" placeholder="first name" required />
@@ -36,17 +105,50 @@
         <input type="password" id="passwordcheck" name="passwordCheck" placeholder="Enter password again" required />
         <br />
         <br />
-        <select id ="programid" name="programid">
-        <% programs.forEach(d => { %>
-          <option value="<%= d.id %>"><%= d.program %></option>
-        <% }) %>
-      </select>
-    </div>
-  </div>
+        <select id ="programid" name="programid" onChange="getCohorts()" required>
+          <option disabled selected value></option>
+          <% programs.forEach(d => { %>
+            <option value="<%= d.id %>"><%= d.program %></option>
+          <% }) %>
+        </select>
+        <select id="cohortid" name="cohortid">
+          <option disabled selected value></option>
+        </select>
+      </div> -->
   <br />
   <div class="centerthis">
     <input type="submit" value="Register" />
   </div>
+  </div>
 </form>
+
+<script>
+  function getCohorts() {
+    let theProgram = parseInt(document.querySelector('#programid').value)
+    fetch('/login/register/cohorts', {
+      body: JSON.stringify({ programid: theProgram }),
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'user-agent': 'Mozilla/4.0 MDN Example',
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      referrer: 'no-referrer',
+    })
+    .then(response => response.json())
+    .then((data) => {
+      let theCohortMenu = document.getElementById('cohortid');
+      data.forEach(d => {
+        let menuItem = document.createElement('option');
+        menuItem.setAttribute('value', d.id)
+        menuItem.innerText = d.cohort;
+        theCohortMenu.appendChild(menuItem);
+      })
+    })
+  }
+</script>
 
 <% include ../partials/foot %>

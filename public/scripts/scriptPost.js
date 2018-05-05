@@ -1,8 +1,27 @@
 
-// window.onload = function() {
-//   console.log(post)
-// }
+window.onload = function() {
+  const editor = document.querySelector('.ql-editor');
+  const postData = document.getElementById('submitformhtml');
+  editor.innerHTML = postData.value;
+  getTags();
+  document.body.onkeypress = (e) => {
+    if(e.keyCode === 13) {
+      e.preventDefault()
+    }
+  }
+  document.getElementById('inserttags').onkeyup = (e) => {
+    switch(e.keyCode) {
+      case 13:
+      case 32:
+        finishTag();
+        break;
+      default:
+        break;
+    }
+  }
+}
 
+let globalStore = {};
 
 const toolbarOptions = {
   container:[
@@ -73,7 +92,78 @@ function storeFormData() {
 
   htmlJar.setAttribute('value', dataHTML);
   textJar.setAttribute('value', dataText);
+
+  let tagSpans = document.querySelectorAll('.posttags');
+  let tagStorage = '';
+  tagSpans.forEach(d => {
+    tagStorage += d.textContent + ' ';
+  })
+  document.getElementById('inserttags').value = tagStorage.trim();
 }
+
+
+
+function runCancel() {
+  if(confirm("Are you sure you want to navigate away from this page?"))
+  {
+    history.go(-1);
+  }
+  return false;
+}
+
+function getTags() {
+  fetch('/main/post/new/tags')
+    .then(response => response.json())
+    .then(data => {
+      globalStore.tags = data;
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+function matchTags() {
+  const tagInputField = document.getElementById('inserttags');
+  let theOptionList = document.getElementById('thetags');
+  let tagLength = tagInputField.value.length;
+  let theDataList = document.querySelectorAll('datalist > option')
+  let localStore = []
+  theDataList.forEach(d => {
+    localStore.push(d.value)
+  })
+  // compare the value and populate the array
+  globalStore.tags.forEach( (tag, i) => {
+    let incomingTag = tag.tags.toLowerCase().slice(0,tagLength)
+    if(incomingTag === tagInputField.value.toLowerCase()) {
+      if(localStore.indexOf(tag.tags) === -1) {
+        let element = document.createElement('option')
+        element.setAttribute('value', tag.tags)
+        element.innerText = tag.tags;
+        theOptionList.appendChild(element)
+      }
+    }
+    if(tag.tags.toLowerCase() === tagInputField.value.toLowerCase()) {
+      finishTag();
+    }
+  })
+}
+
+function finishTag() {
+  let inputField = document.getElementById('inserttags');
+  let tagContainer = document.getElementById('tagcontainer');
+  let tag = inputField.value;
+  inputField.value = ''
+  let newElement = document.createElement('span');
+  newElement.setAttribute('class', 'posttags');
+  newElement.innerText = tag;
+  tagContainer.appendChild(newElement);
+}
+
+function removeTag(e) {
+  let tagContainer = document.getElementById('tagcontainer');
+  tagContainer.removeChild(e)
+}
+
 
 
 // quill.keyboard.addBinding({
