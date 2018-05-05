@@ -402,6 +402,7 @@ module.exports = {
   },
 
   dataInitialize(req, res, next) {
+    console.log(req.session.user)
     res.locals.searchid = {};
     res.locals.post = {};
     res.locals.mode = '';
