@@ -55,8 +55,8 @@ module.exports = {
 
   getAllComments(req, res, next) {
     let theData = {
+      userid: func.killArray(req.session.user).id,
       postid: parseInt(req.params.postid),
-      userid: req.session.user[0].id
     }
     model.findAllComments(theData)
       .then((data) => {
@@ -134,7 +134,7 @@ module.exports = {
 
   getOneVote(req, res, next) {
     let theData = {
-      userid: req.session.user[0].id,
+      userid: func.killArray(req.session.user).id,
       commentid: parseInt(req.body.commentID)
     }
     model.findOneVote(theData)
@@ -164,7 +164,7 @@ module.exports = {
   },
 
   getUserDetails(req, res, next) {
-    let user = req.session.user[0];
+    let user = func.killArray(req.session.user);
     res.locals.userdetails = {
       fname:      user.fname,
       lname:      user.lname,
@@ -202,9 +202,9 @@ module.exports = {
     if(req.query.mainsearch === ''){
       next();
     } else {
-      let searchParams = {
-        userid: req.session.user[0].id,
-        language: req.session.user[0].language,
+      var searchParams = {
+        userid: func.killArray(req.session.user).id,
+        language: func.killArray(req.session.user).language,
         search: req.query.mainsearch,
         resultpost: 0
       }
@@ -279,7 +279,6 @@ module.exports = {
 
   saveEditVote(req, res, next) {
     let theData = {
-      userid: req.session.user[0].id,
       commentid: parseInt(req.body.commentID),
       postid: parseInt(req.body.postID),
       vote: parseInt(req.body.vote),
@@ -312,7 +311,7 @@ module.exports = {
   makeNewPost(req, res, next) {
     let html = func.trimHTML(req.body.submitformhtml);
     let theData = {
-      userid: parseInt(req.session.user[0].id),
+      userid: func.killArray(req.session.user).id,
       post_title: req.body.title,
       post: req.body.submitformtext,
       posthtml: html,
@@ -332,7 +331,7 @@ module.exports = {
     console.log(req.body.submitformhtml)
     let html = func.trimHTML(req.body.submitformhtml);
     let theData = {
-      userid: parseInt(req.session.user[0].id),
+      userid: func.killArray(req.session.user).id,
       postid: parseInt(req.params.postid),
       comment: req.body.submitformtext,
       commenthtml: html,
@@ -359,7 +358,7 @@ module.exports = {
     } else {
       res.locals.searchstring = req.query.mainsearch;
       res.locals.search = func.prepSearch(req.query.mainsearch);
-      vector.fullSearch(req.session.user[0].language, res.locals.search)
+      vector.fullSearch(func.killArray(req.session.user).language, res.locals.search)
         .then((data) => {
           res.locals.searchdata = data;
           console.log(req.session.user)
@@ -378,7 +377,7 @@ module.exports = {
     } else if(res.locals.searchdata.length !== 0) {
       next();
     } else {
-      vector.fullSearch(req.session.user[0].language, func.prepLookStart(res.locals.search))
+      vector.fullSearch(func.killArray(req.session.user).language, func.prepLookStart(res.locals.search))
         .then((data) => {
           res.locals.searchdata = data;
           next();
@@ -459,12 +458,12 @@ module.exports = {
   },
 
   userTag(req, res, next) {
-    res.locals.authorid = req.session.user[0].id
+    res.locals.authorid = func.killArray(req.session.user).id
     next();
   },
 
   userType(req, res, next) {
-    res.locals.usertype = req.session.user[0].account_type;
+    res.locals.usertype = func.killArray(req.session.user).account_type;
     next();
   }
 

@@ -137,7 +137,13 @@ module.exports = {
     return result;
   },
 
-
+  killArray(sessionuser) {
+    if(Array.isArray(sessionuser)) {
+      return sessionuser[0];
+    } else {
+      return sessionuser;
+    }
+  }
 }
 
 

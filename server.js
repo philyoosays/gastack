@@ -49,7 +49,7 @@ app.use('/login', authRouter)
 // app.use('/api', apiRouter)
 
 app.get('/', (req, res) => {
-  res.send('hello')
+  res.redirect('/login')
 })
 
 app.listen(PORT, () => {
