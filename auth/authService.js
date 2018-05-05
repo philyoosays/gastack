@@ -70,7 +70,7 @@ module.exports = {
       .catch((err) => {
         next(err);
       })
-  },
+  }
 
   handleLogin(req, res, next) {
     if(req.session.user) {
