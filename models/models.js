@@ -9,7 +9,8 @@ module.exports = {
         email,
         username,
         password_digest,
-        programid
+        programid,
+        cohortid
       )
       VALUES (
         $/fname/,
@@ -17,7 +18,8 @@ module.exports = {
         $/email/,
         $/username/,
         $/password_digest/,
-        $/programid/
+        $/programid/,
+        $/cohortid/
       )
       RETURNING *
       `, data);
