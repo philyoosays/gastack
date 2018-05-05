@@ -4,6 +4,9 @@ const app = express();
 
 app.set('database', process.env.DATABASE)
 
+const pgp = require('pg-promise')({
+});
+
 const config = {
   host: 'localhost',
   port: 5432,

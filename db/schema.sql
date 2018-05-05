@@ -1,16 +1,22 @@
-DROP DATABASE gastackoverflow;
-CREATE DATABASE gastackoverflow;
+-- DROP DATABASE gastackoverflow;
+-- CREATE DATABASE gastackoverflow;
 
-\c gastackoverflow
+-- \c gastackoverflow
 
-DROP TABLE IF EXISTS resources;
-DROP TABLE IF EXISTS favorites;
-DROP TABLE IF EXISTS comments;
-DROP TABLE IF EXISTS post_tags;
-DROP TABLE IF EXISTS posts;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS programs;
-DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS resources CASCADE;
+DROP TABLE IF EXISTS favorites CASCADE;
+DROP TABLE IF EXISTS comments CASCADE;
+DROP TABLE IF EXISTS post_tags CASCADE;
+DROP TABLE IF EXISTS posts CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS programs CASCADE;
+DROP TABLE IF EXISTS session CASCADE;
+DROP TABLE IF EXISTS cohort CASCADE;
+DROP TABLE IF EXISTS allowedusers CASCADE;
+DROP TABLE IF EXISTS tags CASCADE;
+DROP TABLE IF EXISTS commentvotes CASCADE;
+DROP TABLE IF EXISTS searchhistory CASCADE;
+DROP TABLE IF EXISTS postviews CASCADE;
 
 CREATE TABLE programs (
 id SERIAL PRIMARY KEY,
@@ -24,12 +30,6 @@ programid INTEGER REFERENCES programs(id),
 cohort TEXT NOT NULL
 );
 
-CREATE TABLE allowedusers (
-id SERIAL PRIMARY KEY,
-email VARCHAR(40) UNIQUE NOT NULL,
-addedby INTEGER REFERENCES user(id)
-);
-
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 fname TEXT DEFAULT '',
@@ -38,7 +38,7 @@ email VARCHAR(40) UNIQUE NOT NULL,
 username VARCHAR(25) UNIQUE NOT NULL,
 password_digest TEXT NOT NULL,
 programid INTEGER REFERENCES programs(id),
-cohortid INTEGER REFERENCES cohorts(id),
+cohortid INTEGER REFERENCES cohort(id),
 language TEXT DEFAULT 'english',
 avatar TEXT,
 blurb VARCHAR(255),
@@ -48,6 +48,12 @@ github VARCHAR(255),
 account_type TEXT,
 active BOOLEAN DEFAULT true,
 date_created TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE allowedusers (
+id SERIAL PRIMARY KEY,
+email VARCHAR(40) UNIQUE NOT NULL,
+addedby INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE posts (
@@ -149,13 +155,13 @@ VALUES
 ('Web Development Immersive', 'WDI'),
 ('Web Development Part-time', 'WD-PT');
 
-INSERT INTO cohorts
+INSERT INTO cohort
 (programid, cohort)
 VALUES
-(12, 'Ewoks'),
-(12, 'Rover Opportunity'),
-(12, 'Rover Spirit');
-(12, 'Tesseract')
+(4, 'Ewoks'),
+(4, 'Rover Opportunity'),
+(4, 'Rover Spirit'),
+(4, 'Tesseract');
 
 -- abcdefghijklmnopqrstuvwxyz
 
@@ -166,23 +172,23 @@ VALUES
 -- ('node.js', 'node'),
 -- ('react.js', 'react'),
 
-INSERT INTO posts (userid, post_title, post, tags)
-VALUES
-( 1, 'how do I concatenate', 'trying to figure out this query situation', 'psql sql middleware node'),
-( 1, 'how do I write a function', 'this function keeps crashing when I try to reference it', 'javascript function reference'),
-( 1, 'typeerror keeps happening', 'i keep getting this error and it''s a typeerror', 'error typeerror'),
-( 1, 'touble with css', 'I can''t get my div to move over', 'css'),
-( 1, 'React error', 'this import doesnt seem to want to work', 'React import'),
-( 1, 'node wont run', 'I get an error when I try to do this in node', 'middleware node'),
-( 1, 'psql question', 'my select is pulling the wrong data', 'psql sql query'),
-( 1, 'what am i doing wrong', 'trying to figure out this javascript situation', 'psql sql middleware node');
+-- INSERT INTO posts (userid, post_title, post, tags)
+-- VALUES
+-- ( 1, 'how do I concatenate', 'trying to figure out this query situation', 'psql sql middleware node'),
+-- ( 1, 'how do I write a function', 'this function keeps crashing when I try to reference it', 'javascript function reference'),
+-- ( 1, 'typeerror keeps happening', 'i keep getting this error and it''s a typeerror', 'error typeerror'),
+-- ( 1, 'touble with css', 'I can''t get my div to move over', 'css'),
+-- ( 1, 'React error', 'this import doesnt seem to want to work', 'React import'),
+-- ( 1, 'node wont run', 'I get an error when I try to do this in node', 'middleware node'),
+-- ( 1, 'psql question', 'my select is pulling the wrong data', 'psql sql query'),
+-- ( 1, 'what am i doing wrong', 'trying to figure out this javascript situation', 'psql sql middleware node');
 
-INSERT INTO comments (userid, postid, comment)
-VALUES
-(1, 1, 'You forgot to add a comma'),
-(1, 1, 'Did you try this?'),
-(1, 2, 'You need to do this but not before your return statement'),
-(1, 3, 'You didn''t inculde a return statement');
+-- INSERT INTO comments (userid, postid, comment)
+-- VALUES
+-- (1, 1, 'You forgot to add a comma'),
+-- (1, 1, 'Did you try this?'),
+-- (1, 2, 'You need to do this but not before your return statement'),
+-- (1, 3, 'You didn''t inculde a return statement');
 
 INSERT INTO tags (tags)
 VALUES

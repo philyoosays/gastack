@@ -1,7 +1,7 @@
 {
-  "name": "stackoverflow",
+  "name": "ga-stackoverflow",
   "version": "1.0.0",
-  "description": "## Initial Thoughts on Functionality",
+  "description": "halfway between stackoverflow and ga students",
   "main": "server.js",
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -28,7 +28,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "debug": "nodemon --inspect server.js"
+    "debug": "nodemon --inspect server.js",
+    "heroku-postbuild": "npm install --product"
   },
   "repository": {
     "type": "git",

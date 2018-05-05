@@ -6,7 +6,6 @@ const config = require('./config')
 app.set('database', process.env.DATABASE_URL)
 
 const pgp = require('pg-promise')({
-  query: q => console.log(q.query),
 });
 
 // const db = pgp(process.env.DATABASE_URL || config);
