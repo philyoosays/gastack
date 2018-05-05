@@ -16,7 +16,6 @@ module.exports = {
   /////////////////////////////////////////
 
   getAllPrograms(req, res ,next) {
-    console.log('this is all programs')
     model.findAllPrograms()
       .then( (data) => {
         console.log('this is ', data)
@@ -24,6 +23,7 @@ module.exports = {
         next();
       })
       .catch( (err) => {
+        console.log('im here')
         next(err);
       })
   },
@@ -54,7 +54,7 @@ module.exports = {
   getAllComments(req, res, next) {
     let theData = {
       postid: parseInt(req.params.postid),
-      userid: req.session.user[0].id
+      userid: req.session.user.id
     }
     model.findAllComments(theData)
       .then((data) => {
@@ -201,10 +201,10 @@ module.exports = {
       next();
     } else {
       let searchParams = {
-      userid: req.session.user[0].id,
-      language: req.session.user[0].language,
-      search: req.query.mainsearch,
-      resultpost: 0
+        userid: req.session.user.id,
+        language: req.session.user.language,
+        search: req.query.mainsearch,
+        resultpost: 0
       }
       model.saveSearch(searchParams)
         .then((data) => {
@@ -357,10 +357,10 @@ module.exports = {
     } else {
       res.locals.searchstring = req.query.mainsearch;
       res.locals.search = func.prepSearch(req.query.mainsearch);
-      vector.fullSearch(req.session.user[0].language, res.locals.search)
+      vector.fullSearch(req.session.user.language, res.locals.search)
         .then((data) => {
           res.locals.searchdata = data;
-          console.log(req.session.user[0])
+          console.log(req.session.user)
           next();
         })
         .catch((err) => {
@@ -376,7 +376,7 @@ module.exports = {
     } else if(res.locals.searchdata.length !== 0) {
       next();
     } else {
-      vector.fullSearch(req.session.user[0].language, func.prepLookStart(res.locals.search))
+      vector.fullSearch(req.session.user.language, func.prepLookStart(res.locals.search))
         .then((data) => {
           res.locals.searchdata = data;
           next();
@@ -456,12 +456,12 @@ module.exports = {
   },
 
   userTag(req, res, next) {
-    res.locals.authorid = req.session.user[0].id
+    res.locals.authorid = req.session.user.id
     next();
   },
 
   userType(req, res, next) {
-    res.locals.usertype = req.session.user[0].account_type;
+    res.locals.usertype = req.session.user.account_type;
     next();
   }
 

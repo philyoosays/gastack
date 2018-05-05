@@ -148,6 +148,12 @@ app.route('/search')
     view.show404
     )
 
+app.route('/api')
+  .get((req, res) => {
+    res.send('allgood')
+  })
+
+
 app.route('/')
   .get(
     authService.loginRequired,
