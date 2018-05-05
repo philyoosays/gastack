@@ -16,7 +16,7 @@ const mainRouter = require('./routes/mainRouter');
 const apiRouter = require('./routes/apiRouter')
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 80;
 
 
 app.set('superSecret', process.env.SECRET);
