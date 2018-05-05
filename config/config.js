@@ -15,6 +15,4 @@ const config = {
   // password: process.env.DATABASE_PASSWORD
 };
 
-const db = pgp(process.env.DATABASE_URL || config);
-
 module.exports = config;
