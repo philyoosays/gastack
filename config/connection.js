@@ -3,8 +3,6 @@ const express = require('express');
 const app = express();
 const config = require('./config')
 
-app.set('database', process.env.DATABASE_URL)
-
 const pgp = require('pg-promise')({
 });
 

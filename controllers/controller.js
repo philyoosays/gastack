@@ -95,8 +95,8 @@ module.exports = {
   /////////////////////////////////////////
 
   getOneUser(req, res, next) {
-    const { username } = res.locals.body;
-    model.findOneUser(username)
+    console.log(res.locals.body)
+    model.findOneUser(req.body.username)
       .then( (data) => {
         res.locals.user = data;
         next();

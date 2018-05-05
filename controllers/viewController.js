@@ -10,10 +10,12 @@ module.exports = {
   },
 
   showLoginForm(req, res, next) {
+    console.log('this is showreg', res.locals.programs)
     res.render('auth/login.ejs');
   },
 
   showRegisterForm(req, res ,next) {
+    console.log('this is showreg', res.locals.programs)
     res.render('auth/register.ejs', {
       programs: res.locals.programs
     })
