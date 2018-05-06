@@ -225,7 +225,8 @@ label {
 .loginfields {
   position: relative;
   width: 300px;
-  left: 62%;
+  left: 17%;
+
   /*margin: 0 auto;*/
   /*border: 2px solid red;*/
 }
@@ -500,8 +501,6 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
   padding-bottom: 8px;
 }
 
-
-
 .underline {
   width: 96%;
   border: 1px solid black;
@@ -558,16 +557,23 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
 
 @media(max-width: 550px) {
   #navbartabbed {
-    display: block;
-    border: 2px solid black;
-    background: black;
-    height: 320px;
     top: -290px;
+    border: 2px solid black;
+    height: 320px;
+    display: block;
+    padding: 7px 14px;
+    font-size: 11px;
+    background: black;
   }
 
   #navbartabbed:hover {
     display: block;
     top: 1000px;
+  }
+
+  .loginfields {
+    margin: 0 auto;
+    left: 17%;
   }
 }
 
@@ -576,8 +582,6 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
     margin: 0 5px;
     background: red;
     border-radius: 4px;
-    padding: 7px 14px;
-    font-size: 11px;
     /*vertical-align: super;*/
     /*position: absolute;*/
   }
@@ -594,15 +598,11 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
     margin-left: 7vw;
   }
 
-  .logininput {
-    position: relative;
-    left: -28vw;
+  .loginfields {
+    margin: 0 auto;
+    left: 17%;
   }
 
-  .field {
-    position: relative;
-    left: -28vw;
-  }
 }
 
 
