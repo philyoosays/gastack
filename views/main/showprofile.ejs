@@ -34,7 +34,7 @@
           <div class="showposthtml"><%- d.posthtml %></div>
         </a>
         <br/>
-        <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/users/<%= d.userid %>"><%= d.username %></a></span>
+        <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>"><%= d.username %></a></span>
         <span class="userprogram"> - <%= d.programshort %> - <%= d.cohort %></span>
         <div class="tags">
           <% if(d.tags !== '') { %>
