@@ -394,6 +394,17 @@ p {
   padding: 70px 0;
 }
 
+.regbutton {
+  width: 150px;
+  margin: 0 auto;
+}
+
+.regbutton input {
+  background: white;
+  color: red;
+  border: 1px solid red;
+}
+
 .room-on-top {
   margin: 80px;
 }
