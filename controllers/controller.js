@@ -208,6 +208,23 @@ module.exports = {
       })
   },
 
+  checkUserView(req, res, next) {
+    let theData = {
+      userid: func.killArray(req.session.user).id,
+      postid: req.params.postid
+    }
+    console.log('checkuserview input', theData)
+    model.findUserView(theData)
+      .then(data => {
+        res.locals.userview = data;
+        console.log('userviewsfromdb', res.locals.userview)
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // SAVE/EDIT SOMETHING //////////////////
@@ -332,6 +349,26 @@ module.exports = {
       })
   },
 
+  storeView(req, res, next) {
+    if(res.locals.userview.length !== 0) {
+      console.log('views exists')
+      next();
+    } else {
+      console.log('no view')
+      let theData = {
+        postid: parseInt(req.params.postid),
+        userid: func.killArray(req.session.user).id,
+      }
+      model.saveView(theData)
+        .then(data => {
+          next();
+        })
+        .catch(err => {
+          next(err);
+        })
+    }
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // MAKE SOMETHING ///////////////////////
@@ -376,6 +413,22 @@ module.exports = {
       })
   },
 
+  makeNewResource(req, res, next) {
+    let html = func.trimHTML(req.body.submitformhtml);
+    let theData = {
+      userid: func.killArray(req.session.user).id,
+      label: req.body.submitformtext,
+      labelhtml: html,
+    }
+    model.createNewResource(theData)
+      .then(data => {
+        next()
+      })
+      .catch(err => {
+        next(err)
+      })
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // DO SOMETHING /////////////////////////
@@ -410,6 +463,41 @@ module.exports = {
       vector.fullSearch(func.killArray(req.session.user).language, func.prepLookStart(res.locals.search))
         .then((data) => {
           res.locals.searchdata = data;
+          next();
+        })
+        .catch((err) => {
+          console.log('ERRRRRRRORRRRRRRRRR searchfailoverstart')
+          next(err);
+        })
+    }
+  },
+
+  findResources(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else {
+      res.locals.searchstring = req.query.mainsearch;
+      res.locals.search = func.prepSearch(req.query.mainsearch);
+      vector.findResources(func.killArray(req.session.user).language, res.locals.search)
+        .then((data) => {
+          res.locals.resources = data;
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        })
+    }
+  },
+
+  resourcesFailOverLookStart(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else if(res.locals.resources.length !== 0) {
+      next();
+    } else {
+      vector.findResources(func.killArray(req.session.user).language, func.prepLookStart(res.locals.search))
+        .then((data) => {
+          res.locals.resources = data;
           next();
         })
         .catch((err) => {
@@ -478,6 +566,11 @@ module.exports = {
 
   modeNewComment(req, res, next) {
     res.locals.mode = 'newcomment';
+    next();
+  },
+
+  modeNewResource(req, res, next) {
+    res.locals.mode = 'newresource';
     next();
   },
 

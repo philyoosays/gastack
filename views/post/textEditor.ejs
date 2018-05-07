@@ -8,6 +8,8 @@
   <form action="/main/post/<%= postid %>/edit?_method=put" method="post">
 <% } else if(mode === 'editcomment') { %>
   <form action="/main/comment/<%= postid %>/edit?_method=put" method="post">
+<% } else if(mode === 'newresource') { %>
+  <form action="/main/resources/new" method="post">
 <% } %>
   <div class="buttoncentered">
     <% if(mode === 'newpost') { %>
@@ -53,6 +55,9 @@
       <hr />
     <% } else if(mode === 'editcomment') { %>
       <h1 class="header">Edit Answer</h1>
+      <hr />
+    <% } else if(mode === 'newresource') { %>
+      <h1 class="header">New Resource</h1>
       <hr />
     <% } %>
 

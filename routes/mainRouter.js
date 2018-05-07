@@ -5,7 +5,6 @@ const control = require('../controllers/controller');
 
 const app = express.Router();
 
-
 app.route('/comment/:commentid/edit')
   .get(
     authService.loginRequired,
@@ -87,7 +86,8 @@ app.route('/post/new')
   .get(
     authService.loginRequired,
     control.modeNewPost,
-    view.showTextEditor
+    view.showTextEditor,
+    view.show404
     )
   .post(
     authService.loginRequired,
@@ -104,6 +104,8 @@ app.route('/post/:postid')
     control.getPostId,
     control.userTag,
     control.updateSavedSearch,
+    control.checkUserView,
+    control.storeView,
     control.getOnePost,
     control.getAllComments,
     view.showOnePost,
@@ -119,10 +121,37 @@ app.route('/profile/edit')
     view.show404
     )
 
+app.route('/resources/new')
+  .get(
+    authService.loginRequired,
+    control.modeNewResource,
+    view.showTextEditor,
+    view.show404
+    )
+  .post(
+    authService.loginRequired,
+    control.makeNewResource,
+    view.handleNewResource,
+    view.show404
+    )
+
+app.route('/resources/search')
+  .get(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.userType,
+    control.modeAllResources,
+    control.findResources,
+    control.resourcesFailOverLookStart,
+    view.showMain,
+    view.show404
+    )
+
 app.route('/resources')
   .get(
     authService.loginRequired,
     control.dataInitialize,
+    control.userType,
     control.modeAllResources,
     control.getAllResources,
     view.showMain,

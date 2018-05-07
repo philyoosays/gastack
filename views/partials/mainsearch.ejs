@@ -1,30 +1,38 @@
-<form action="/main/search" method="get">
-  <div class="container">
-    <div class="kenny">
-      <% if(mode === 'allresources') { %>
-        <input
-        type="text"
-        id="mainsearch"
-        name="mainsearch"
-        placeholder="Search through the resources..."
-        value="<%= searchstring %>"
-        data="<%= searchid %>"
-        autofocus
-        >
-      <% } else { %>
-        <input
+
+<% if(mode === 'allresources') { %>
+  <form action="/main/resources/search" method="get">
+<% } else { %>
+  <form action="/main/search" method="get">
+<% } %>
+    <div class="container">
+      <div class="kenny">
+        <% if(mode === 'allresources') { %>
+          <input
           type="text"
           id="mainsearch"
           name="mainsearch"
-          placeholder="What are you looking for today?"
+          placeholder="Search through the resources..."
           value="<%= searchstring %>"
           data="<%= searchid %>"
           autofocus
           >
-      <% } %>
+        <% } else { %>
+          <input
+            type="text"
+            id="mainsearch"
+            name="mainsearch"
+            placeholder="What are you looking for today?"
+            value="<%= searchstring %>"
+            data="<%= searchid %>"
+            autofocus
+            >
+        <% } %>
+      </div>
+      <div class="button">
+        <input type="submit" value="SEARCH">
+        <a href="/main"><p class="navlink">Newest</p></a>
+        <a href=""><p class="disabled navlink">Hot</p></a>
+        <p class="navlinkmessage">BETA MESSAGE: Please report bugs or features you want to see to Phil Yoo on Slack: @philyoosays</p>
+      </div>`
     </div>
-    <div class="button">
-      <input type="submit" value="SEARCH">
-    </div>
-  </div>
-</form>
+  </form>

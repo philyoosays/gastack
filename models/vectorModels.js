@@ -25,6 +25,7 @@ module.exports = {
                   AS postvector
                 FROM posts JOIN users
                   ON posts.userid = users.id
+                WHERE isdeleted = false
                 )
               SELECT document.postid, document.postvector FROM document
               UNION ALL
@@ -89,7 +90,36 @@ module.exports = {
       SET resultpost = $2
       WHERE id = $1
       `, [searchid, postid]);
-  }
+  },
+
+  findResources(language, string) {
+    return db.any(`
+      SELECT orderedrank.userid, resources.*, users.username
+        FROM
+          (
+          SELECT ranked_document.userid, MAX(ts_rank) AS ranking FROM
+            (
+            SELECT document.userid, ts_rank(vector, to_tsquery($1, $2))
+              FROM
+              (
+              SELECT
+                  resources.userid,
+                  setweight(to_tsvector(resources.label),'A') ||
+                  setweight(to_tsvector(resources.link),'B') ||
+                  setweight(to_tsvector('simple', users.fname), 'C') ||
+                  setweight(to_tsvector('simple', users.lname), 'C')
+              AS vector FROM resources
+              JOIN users ON resources.userid = users.id
+              ) AS document
+            ) AS ranked_document
+            WHERE ts_rank > 0
+            GROUP BY ranked_document.userid
+            ORDER BY ranking DESC
+        ) AS orderedrank
+      JOIN users ON orderedrank.userid = users.id
+      JOIN resources ON orderedrank.userid = resources.userid;
+      `,[language, string]);
+  },
   // I had initially wrote these but they are not antiquated compered to fullSearch
   // postSearch(language, string) {
   //   return db.any(`

@@ -259,7 +259,8 @@ module.exports = {
 
   findAllResources() {
     return db.any(`
-      SELECT * FROM resources
+      SELECT resources.*, users.username FROM resources
+      JOIN users ON users.id = resources.userid
       ORDER BY date_created DESC
       `);
   },
@@ -285,6 +286,7 @@ module.exports = {
       JOIN users ON posts.userid = users.id
       JOIN programs ON programs.id = users.programid
       JOIN cohort ON cohort.id = users.cohortid
+      WHERE isdeleted = false
       ORDER BY posts.date_created DESC
       LIMIT 15
       `);
@@ -320,7 +322,34 @@ module.exports = {
       WHERE users.username = $1
       ORDER BY posts.date_created DESC
       `, username);
+  },
+
+  createNewResource(data) {
+    return db.none(`
+      INSERT INTO resources
+        (userid, label, labelhtml)
+      VALUES
+        ($/userid/, $/label/, $/labelhtml/)
+      `, data);
+  },
+
+  saveView(data) {
+    return db.none(`
+      INSERT INTO views
+        (postid, userid)
+      VALUES
+        ($/postid/, $/userid/)
+      `, data);
+  },
+
+  findUserView(data) {
+    return db.any(`
+      SELECT * FROM views
+      WHERE postid = $/postid/
+        AND userid = $/userid/
+      `, data);
   }
+
 }
 
 

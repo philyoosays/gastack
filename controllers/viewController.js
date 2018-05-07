@@ -25,7 +25,8 @@ module.exports = {
       searchstring: res.locals.searchstring,
       searchid: res.locals.searchid,
       mode: res.locals.mode,
-      resources: res.locals.resources
+      resources: res.locals.resources,
+      usertype: res.locals.usertype
     })
   },
 
@@ -87,6 +88,10 @@ module.exports = {
 
   handleProfileButton(req, res, next) {
     res.redirect('/profile/' + res.locals.username)
+  },
+
+  handleNewResource(req, res, next) {
+    res.redirect('/main/resources');
   }
 
 }

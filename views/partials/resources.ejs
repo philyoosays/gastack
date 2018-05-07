@@ -1,4 +1,16 @@
 
+<% if(usertype === 'admin') { %>
+  <div class="kenny">
+    <div class="clearfix commentheader">
+      <div id="newcommentbutton">
+        <form action="/main/resources/new" method="get">
+          <input type="submit" id="newcomment" value="New Resource">
+        </form>
+      </div>
+    </div>
+  </div>
+<% } %>
+
 <div id="searchresults">
   <% if(resources.length === 0) { %>
 <!--     <div id="searchresultnumber">
@@ -9,10 +21,9 @@
     <hr />
     <% resources.forEach(d => { %>
       <div class="kenny">
-        <h2 class="posttitle"><%= d.post_title %></h2>
-        <p><%= d.post %>...</p>
+        <article><%- d.labelhtml %></article>
         <div>
-          <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %></span>
+          <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>" class="userlink"><%= d.username %></a></span>
         </div>
       </div>
       <hr />

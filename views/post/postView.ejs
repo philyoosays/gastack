@@ -1,21 +1,7 @@
 <% include ../partials/boilerplate %>
 <% include ../partials/navtabbed %>
 
-<form action="/main/search" method="get">
-  <div class="container">
-    <div class="kenny">
-      <input
-        type="text"
-        id="mainsearch"
-        name="mainsearch"
-        placeholder="What are you looking for today?"
-        >
-    </div>
-    <div class="button">
-      <input type="submit" value="SEARCH">
-    </div>
-  </div>
-</form>
+<% include ../partials/mainsearch %>
 
 <div class="kenny">
   <div class="posttitlebox">
@@ -42,7 +28,7 @@
   </div>
   <div class="tags">
       <% if(post.tags !== '') { %>
-        <% post.tags.split(' ').forEach(tag => { %>
+        <% post.tags.trim().split(' ').forEach(tag => { %>
           <form action="/main/search/tag/<%= tag %>" method="get">
             <input type="submit" id="searchtag" value="<%= tag %>">
           </form>

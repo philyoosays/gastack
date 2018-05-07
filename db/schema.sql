@@ -119,7 +119,8 @@ postid INTEGER REFERENCES posts(id)
 CREATE TABLE resources (
 id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
-label VARCHAR(255) NOT NULL,
+label TEXT NOT NULL,
+labelhtml TEXT,
 link VARCHAR(255) NOT NULL,
 date_created TIMESTAMP DEFAULT NOW()
 );
@@ -136,6 +137,13 @@ language TEXT NOT NULL,
 search TEXT NOT NULL,
 resultpost INTEGER,
 searchdate TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE views (
+id SERIAL PRIMARY KEY,
+postid INTEGER REFERENCES posts(id),
+userid INTEGER REFERENCES users(id),
+date_created TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE "session" (
