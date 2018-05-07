@@ -25,6 +25,7 @@ app.route('/edit')
 app.route('/:username')
   .get(
     authService.loginRequired,
+    control.dataInitialize,
     control.userType,
     control.userTag,
     control.getUsername,

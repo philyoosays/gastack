@@ -1,37 +1,7 @@
 <% include ../partials/boilerplate %>
 <% include ../partials/navtabbed %>
 
-
-<form action="/main/search" method="get">
-  <div class="container">
-    <div class="kenny">
-      <% if(mode === 'allresources') { %>
-        <input
-        type="text"
-        id="mainsearch"
-        name="mainsearch"
-        placeholder="Search through the resources..."
-        value="<%= searchstring %>"
-        data="<%= searchid %>"
-        autofocus
-        >
-      <% } else { %>
-        <input
-          type="text"
-          id="mainsearch"
-          name="mainsearch"
-          placeholder="What are you looking for today?"
-          value="<%= searchstring %>"
-          data="<%= searchid %>"
-          autofocus
-          >
-      <% } %>
-    </div>
-    <div class="button">
-      <input type="submit" value="SEARCH">
-    </div>
-  </div>
-</form>
+<% include ../partials/mainsearch %>
 
 <% if(mode === 'allresources') { %>
   <% include ../partials/resources %>
