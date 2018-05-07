@@ -6,8 +6,8 @@ module.exports = {
    async login(req, res, next) {
     try {
       const { username, password } = req.body;
-      const user = await model.findOneUser(username);
-      const isValidPass = await bcrypt.compare(password, user[0].password_digest);
+      const user = await model.findOneUserPass(username);
+      const isValidPass = await bcrypt.compare(password, func.killArray(user).password_digest);
       if (!isValidPass) {
         throw { message: 'bad password'}
       }

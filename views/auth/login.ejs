@@ -1,15 +1,20 @@
 <% include ../partials/boilerplate %>
 
-<section class="logincontainer">
+<section class="logincontainer reg">
   <form method="POST" action="/login">
-    <div class="loginfields">
-      <input class="logininput" type="input" placeholder="username" name="username">
-      <br />
-      <input class="logininput" type="password" placeholder="Password" name="password">
-      <div class="field">
-        <input type='submit' value='Log in!' class="button" />
-      </div>
-    </div>
+    <table id="registration-table">
+      <tr>
+        <input class="logininput" type="input" placeholder="username" name="username">
+      </tr>
+      <tr>
+        <input class="logininput" type="password" placeholder="Password" name="password">
+      </tr>
+      <tr>
+        <div class="field">
+          <input type='submit' value='Log in!' class="button" />
+        </div>
+      </tr>
+    </table>
   </form>
 </section>
 

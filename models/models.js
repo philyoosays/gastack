@@ -27,6 +27,18 @@ module.exports = {
 
   findOneUser(data) {
     return db.any(`
+      SELECT
+        id, fname, lname, email, username,
+        programid, cohortid, language,
+        blurb, location, website, github,
+        account_type
+      FROM users
+      WHERE username = $1
+      `, data);
+  },
+
+  findOneUserPass(data) {
+    return db.any(`
       SELECT *
       FROM users
       WHERE username = $1
@@ -260,6 +272,54 @@ module.exports = {
       WHERE programs.id = $1
       AND cohort.id = $2
       `, [programid, cohortid]);
+  },
+
+  findAllNewPosts() {
+    return db.many(`
+      SELECT
+        posts.*,
+        users.username,
+        programs.programshort,
+        cohort.cohort
+      FROM posts
+      JOIN users ON posts.userid = users.id
+      JOIN programs ON programs.id = users.programid
+      JOIN cohort ON cohort.id = users.cohortid
+      ORDER BY posts.date_created DESC
+      LIMIT 15
+      `);
+  },
+
+  editProfile(data) {
+    return db.one(`
+      UPDATE users
+      SET
+        fname = $/fname/,
+        lname = $/lname/,
+        email = $/email/,
+        blurb = $/blurb/,
+        location = $/location/,
+        website = $/website/,
+        github = $/github/
+      WHERE id = $/userid/
+      RETURNING username
+      `, data);
+  },
+
+  findAllUserPosts(username) {
+    return db.any(`
+      SELECT
+        posts.*,
+        users.username,
+        programs.programshort,
+        cohort.cohort
+      FROM posts
+      JOIN users ON posts.userid = users.id
+      JOIN programs ON programs.id = users.programid
+      JOIN cohort ON cohort.id = users.cohortid
+      WHERE users.username = $1
+      ORDER BY posts.date_created DESC
+      `, username);
   }
 }
 

@@ -2,7 +2,8 @@
 <% include ../partials/navtabbed %>
 
 <div class="logincontainer" id="regcontainer">
-      <table id="registration-table">
+  <form action="/profile/edit" method="post">
+    <table id="registration-table">
       <tr>
         <td>
           <p>First Name</p>
@@ -32,7 +33,7 @@
           <p id="blurb">Blurb</p>
         </td>
         <td class="req-textarea">
-          <textarea name="blurb" maxlength="200" placeholder="200 characters max"></textarea>
+          <textarea name="blurb" maxlength="200" placeholder="200 characters max"><%= userdetails.blurb %></textarea>
         </td>
       </tr>
       <tr>
@@ -48,7 +49,7 @@
           <p>Website</p>
         </td>
         <td class="reg-inputs">
-          <input type="text" name="location" placeholder="website" value="<%= userdetails.website %>" />
+          <input type="text" name="website" placeholder="website" value="<%= userdetails.website %>" />
         </td>
       </tr>
       <tr>
@@ -60,6 +61,13 @@
         </td>
       </tr>
     </table>
+    <div class="centerthis buttoncentered-button">
+      <input type="submit" value="Edit Profile" />
+      <button onClick="runCancel()">Cancel</button>
+    </div>
+  </form>
 </div>
+
+<script src="../../../scripts/scriptPost.js"></script>
 
 <% include ../partials/foot %>

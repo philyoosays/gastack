@@ -29,6 +29,26 @@
         required>
       <br/>
     <% } else if(mode === 'newcomment') { %>
+      <div class="kenny">
+        <div class="posttitlebox">
+          <h2><%= post.post_title %></h2>
+        </div>
+        <div class="showposthtml"><%- post.posthtml %></div>
+        <div>
+          <span class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/users/<%= post.userid %>"><%= post.username %></a></span>
+          <span class="userprogram"> - <%= post.programshort %> - <%= post.cohort %></span>
+        </div>
+        <div class="tags">
+            <% if(post.tags !== '') { %>
+              <% post.tags.split(' ').forEach(tag => { %>
+                <form action="/main/search/tag/<%= tag %>" method="get">
+                  <input type="submit" id="searchtag" value="<%= tag %>">
+                </form>
+              <% }) %>
+            <% } %>
+        </div>
+      </div>
+      <hr />
       <h1 class="header">New Answer</h1>
       <hr />
     <% } else if(mode === 'editcomment') { %>

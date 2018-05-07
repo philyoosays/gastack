@@ -29,6 +29,7 @@ app.route('/comment/:postid/new')
     authService.loginRequired,
     control.modeNewComment,
     control.getPostId,
+    control.getOnePost,
     view.showTextEditor,
     view.show404
     )
@@ -158,6 +159,8 @@ app.route('/')
   .get(
     authService.loginRequired,
     control.dataInitialize,
+    control.modeMain,
+    control.getAllNewPosts,
     view.showMain,
     view.show404
     )

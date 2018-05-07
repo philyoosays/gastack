@@ -1,0 +1,69 @@
+<% include ../partials/boilerplate %>
+<% include ../partials/navtabbed %>
+
+<div class="room-on-top"></div>
+
+<div id="searchresults" class="room-on-top">
+  <h2><%= userdetails.fname %> <%= userdetails.lname %></h2>
+  <div class="textblock">
+    <p><%= userdetails.email %></p>
+    <p><%= userdetails.program %> - <%= userdetails.cohort %></p>
+    <h4><%= userdetails.location %></h4>
+    <a href="<%= userdetails.website %>"><p><%= userdetails.website %></p></a>
+    <a href="<%= userdetails.github %>"><p><%= userdetails.github %></p></a>
+    <blockquote><p><%= userdetails.blurb %></p></blockquote>
+  </div>
+  <div class="reg editdelete">
+    <% if(userdetails.id === authorid) { %>
+      <form action="/profile/edit" method="get">
+        <input type="submit" id="editpost" value="Edit">
+      </form>
+    <% } %>
+  </div>
+</div>
+<hr />
+<section>
+  <h2><%= userdetails.username %>'s posts</h2>
+  <br />
+  <br />
+  <div class="kenny">
+    <% posts.forEach(d => { %>
+      <div class="posttitlebox">
+        <a href="/main/post/<%= d.id %>">
+          <h2 class="posttitle"><%= d.post_title %></h2>
+          <div class="showposthtml"><%- d.posthtml %></div>
+        </a>
+        <br/>
+        <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/users/<%= d.userid %>"><%= d.username %></a></span>
+        <span class="userprogram"> - <%= d.programshort %> - <%= d.cohort %></span>
+        <div class="tags">
+          <% if(d.tags !== '') { %>
+            <% d.tags.split(' ').forEach(tag => { %>
+              <form action="/main/search/tag/<%= tag %>" method="get">
+                <input type="submit" id="searchtag" value="<%= tag %>">
+              </form>
+            <% }) %>
+          <% } %>
+        </div>
+        <div class="reg editdelete">
+          <% if(d.userid === authorid) { %>
+            <form action="/main/post/<%= d.id %>/edit" method="get">
+              <input type="submit" id="editpost" value="Edit">
+            </form>
+          <% } %>
+          <% if(usertype === 'admin') { %>
+            <form action="/main/post/<%= d.id %>/delete?_method=put" method="post">
+              <div id="databucket"></div>
+              <input type="submit" id="deletepost" value="Delete" onmouseover="grabData()">
+            </form>
+          <% } %>
+        </div>
+      </div>
+      <hr />
+    <% }) %>
+  </div>
+</section>
+
+<script src="../../../scripts/voteScript.js"></script>
+
+<% include ../partials/foot %>

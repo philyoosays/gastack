@@ -35,6 +35,8 @@
 
 <% if(mode === 'allresources') { %>
   <% include ../partials/resources %>
+<% } else if(mode === 'main') { %>
+  <% include ../partials/newposts %>
 <% } else { %>
   <% include ../partials/searchresults %>
 <% } %>

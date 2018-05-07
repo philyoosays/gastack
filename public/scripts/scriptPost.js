@@ -27,7 +27,7 @@ const toolbarOptions = {
   container:[
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote', 'code-block'],
-    ['link', 'image'],
+    ['link'],
     [{ 'header': 1 }, { 'header': 2 }],               // custom button values
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
     [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
   })
 });
 let quill = new Quill(container, options);
-  document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
+  // document.querySelectorAll('[data-toggle="tooltip"]')
 
 
 

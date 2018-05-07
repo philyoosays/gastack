@@ -86,7 +86,29 @@ module.exports = {
         next();
       })
       .catch(err => {
-        net(err);
+        next(err);
+      })
+  },
+
+  getAllNewPosts(req, res, next) {
+    model.findAllNewPosts()
+      .then(data => {
+        res.locals.searchdata = data;
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  getAllUserPosts(req, res, next) {
+    model.findAllUserPosts(res.locals.username)
+      .then(data => {
+        res.locals.posts = data;
+        next();
+      })
+      .catch(err => {
+        next(err);
       })
   },
 
@@ -97,7 +119,6 @@ module.exports = {
   /////////////////////////////////////////
 
   getOneUser(req, res, next) {
-    console.log(res.locals.body)
     model.findOneUser(req.body.username)
       .then( (data) => {
         res.locals.user = data;
@@ -164,25 +185,20 @@ module.exports = {
   },
 
   getUserDetails(req, res, next) {
-    let user = func.killArray(req.session.user);
-    res.locals.userdetails = {
-      fname:      user.fname,
-      lname:      user.lname,
-      email:      user.email,
-      programid:  user.programid,
-      blurb:      user.blurb,
-      location:   user.location,
-      website:    user.website,
-      github:     user.github,
-      cohortid:   user.cohortid
-    }
-    next();
+    let user = res.locals.username;
+    model.findOneUser(user)
+      .then(data => {
+        res.locals.userdetails = func.killArray(data);
+        next()
+      })
+      .catch(err => {
+        next(err);
+      })
   },
 
   getUserProgramCohort(req, res, next) {
     model.findUserProgramCohort(res.locals.userdetails.programid, res.locals.userdetails.cohortid)
       .then(data => {
-        console.log(data)
         res.locals.userdetails.program = data.program;
         res.locals.userdetails.cohort = data.cohort;
         next();
@@ -302,6 +318,20 @@ module.exports = {
     }
   },
 
+  updateProfile(req, res, next) {
+    let theData = req.body;
+    theData.userid = func.killArray(req.session.user).id
+    console.log('this is thedata ', theData)
+    model.editProfile(theData)
+      .then(data => {
+        res.locals.username = data.username;
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // MAKE SOMETHING ///////////////////////
@@ -401,7 +431,6 @@ module.exports = {
   },
 
   dataInitialize(req, res, next) {
-    console.log(req.session.user)
     res.locals.searchid = {};
     res.locals.post = {};
     res.locals.mode = '';
@@ -418,6 +447,16 @@ module.exports = {
 
   getCommentId(req, res, next) {
     res.locals.postid = req.params.commentid;
+    next();
+  },
+
+  getUsername(req, res, next) {
+    res.locals.username = req.params.username;
+    next();
+  },
+
+  getOwnUsername(req, res, next) {
+    res.locals.username = func.killArray(req.session.user).username
     next();
   },
 
@@ -454,6 +493,11 @@ module.exports = {
 
   modeAllResources(req, res, next) {
     res.locals.mode = 'allresources';
+    next();
+  },
+
+  modeMain(req, res, next) {
+    res.locals.mode = 'main';
     next();
   },
 

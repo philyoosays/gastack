@@ -20,22 +20,24 @@
 <div class="kenny">
   <div class="posttitlebox">
     <h2><%= post.post_title %></h2>
-    <% if(post.userid === authorid) { %>
-      <form action="/main/post/<%= post.id %>/edit" method="get">
-        <input type="submit" id="editpost" value="Edit">
-      </form>
-    <% } %>
-    <% if(usertype === 'admin') { %>
-      <form action="/main/post/<%= post.id %>/delete?_method=put" method="post">
-        <div id="databucket">
-        </div>
-        <input type="submit" id="deletepost" value="Delete" onmouseover="grabData()">
-      </form>
-    <% } %>
+    <div class="reg editdelete">
+      <% if(post.userid === authorid) { %>
+        <form action="/main/post/<%= post.id %>/edit" method="get">
+          <input type="submit" id="editpost" value="Edit">
+        </form>
+      <% } %>
+      <% if(usertype === 'admin') { %>
+        <form action="/main/post/<%= post.id %>/delete?_method=put" method="post">
+          <div id="databucket">
+          </div>
+          <input type="submit" id="deletepost" value="Delete" onmouseover="grabData()">
+        </form>
+      <% } %>
+    </div>
   </div>
   <div class="showposthtml"><%- post.posthtml %></div>
   <div>
-    <span class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/users/<%= post.userid %>"><%= post.username %></a></span>
+    <span class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/profile/<%= post.username %>"><%= post.username %></a></span>
     <span class="userprogram"> - <%= post.programshort %> - <%= post.cohort %></span>
   </div>
   <div class="tags">

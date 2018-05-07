@@ -10,20 +10,12 @@ module.exports = {
   },
 
   showLoginForm(req, res, next) {
-    console.log('this is showreg', res.locals.programs)
     res.render('auth/login.ejs');
   },
 
   showRegisterForm(req, res ,next) {
-    console.log('this is showreg', res.locals.programs)
     res.render('auth/register.ejs', {
       programs: res.locals.programs
-    })
-  },
-
-  showProfile(req, res, next) {
-    res.render('profile/profileEdit.ejs', {
-      user: res.locals.user
     })
   },
 
@@ -60,6 +52,15 @@ module.exports = {
     })
   },
 
+  showUserProfile(req, res, next) {
+    res.render('main/showprofile.ejs', {
+      userdetails: res.locals.userdetails,
+      posts: res.locals.posts,
+      usertype: res.locals.usertype,
+      authorid: res.locals.authorid
+    })
+  },
+
   handleVoteSend(req, res, next) {
     res.json(res.locals.votesum)
   },
@@ -76,8 +77,16 @@ module.exports = {
     res.json(res.locals.alltags)
   },
 
+  handleProfileUpdate(req, res, next) {
+    res.redirect('/profile/' + res.locals.username)
+  },
+
   sendBackToMain(req, res, next) {
     res.redirect('/main')
+  },
+
+  handleProfileButton(req, res, next) {
+    res.redirect('/profile/' + res.locals.username)
   }
 
 }

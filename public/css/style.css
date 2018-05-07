@@ -105,6 +105,11 @@ body {
   -webkit-transition: all .3s ease-out;
 }
 
+.editdelete {
+  position: relative;
+  left: 0px;
+}
+
 #editor {
   height: 200px;
 }
@@ -222,14 +227,10 @@ label {
   border-bottom: 2px solid darkgrey;
 }
 
-.loginfields {
-  position: relative;
-  width: 300px;
-  left: 17%;
-
-  /*margin: 0 auto;*/
-  /*border: 2px solid red;*/
-}
+/*.loginfields {
+  margin: 0 auto;
+  border: 2px solid red;
+}*/
 
 .logininput {
   height: 25px;
@@ -345,7 +346,7 @@ label {
 }
 
 p {
-  font-weight: 100;
+  font-weight: 300;
 }
 
 .posttags {
@@ -373,6 +374,11 @@ p {
   color: #f8f8f2;
 }
 
+.reg {
+  display: flex;
+  justify-content: center;
+}
+
 .req-textarea > textarea {
   width: 210px;
   top: 15px;
@@ -386,6 +392,10 @@ p {
 
 #regcontainer {
   padding: 70px 0;
+}
+
+.room-on-top {
+  margin: 80px;
 }
 
 #searchresults {
@@ -423,13 +433,22 @@ section {
   justify-content: flex-start;
 }
 
+section > h2:nth-of-type(1) {
+  /*border: 2px solid red;*/
+  height: 35px;
+  display: block;
+  position: relative;
+  left: 150px;
+}
+
 .showpostdate {
   margin-top: 0;
-  font-weight: 100;
+  font-weight: 300;
 }
 
 .tags {
   display: flex;
+  font-weight: 300;
 }
 
 table {
@@ -488,6 +507,14 @@ td > select > option {
   -webkit-appearance: none;
 }
 
+textarea {
+  font-size: 13px;
+}
+
+.textblock {
+  line-height: 5px;
+}
+
 tr, td {
   /*border: 1px solid blue;*/
 }
@@ -528,7 +555,7 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
 .userprogram {
   display: inline-block;
   font-size: 12px;
-  font-weight: 100;
+  font-weight: 300;
   font-style: italic;
 }
 
@@ -557,18 +584,13 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
 
 @media(max-width: 550px) {
   #navbartabbed {
-    top: -290px;
     border: 2px solid black;
     height: 320px;
     display: block;
     padding: 7px 14px;
     font-size: 11px;
     background: black;
-  }
-
-  #navbartabbed:hover {
-    display: block;
-    top: 1000px;
+    top: 800px;
   }
 
   .loginfields {
