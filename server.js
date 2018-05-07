@@ -30,8 +30,8 @@ app.use(methodOverride('_method'));
 
 app.use(session({
     store: new pgSession({
-      // conString : process.env.DATABASE_URL
-      conString : 'postgresql://' + config.host + ':' + config.port + '/' + config.database
+      conString : process.env.DATABASE_URL
+      // conString : 'postgresql://' + config.host + ':' + config.port + '/' + config.database
     }),
     secret: app.get('superSecret'),
     resave: false,
