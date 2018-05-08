@@ -271,11 +271,6 @@ module.exports = {
   },
 
   updatePost(req, res, next) {
-    if(!req.body.isdeleted) {
-      res.locals.isdeleted = false;
-    } else {
-      res.locals.isdeleted = true;
-    }
     let theData = {
       id: parseInt(res.locals.postid),
       title: req.body.title,
@@ -367,6 +362,16 @@ module.exports = {
           next(err);
         })
     }
+  },
+
+  deletePost(req, res ,next) {
+    model.deleteFromPosts(parseInt(req.params.postid))
+      .then(data => {
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
   },
 
   /////////////////////////////////////////

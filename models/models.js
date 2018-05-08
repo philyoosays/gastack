@@ -348,6 +348,15 @@ module.exports = {
       WHERE postid = $/postid/
         AND userid = $/userid/
       `, data);
+  },
+
+  deleteFromPosts(postid) {
+    return db.none(`
+      UPDATE posts
+        SET
+          isdeleted = true
+      WHERE id = $1
+      `, postid);
   }
 
 }

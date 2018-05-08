@@ -52,7 +52,7 @@ app.route('/post/:postid/delete')
   .put(
     authService.loginRequired,
     control.getPostId,
-    control.updatePost,
+    control.deletePost,
     view.sendBackToMain,
     view.show404
     )
