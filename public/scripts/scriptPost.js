@@ -2,7 +2,8 @@
 window.onload = function() {
   const editor = document.querySelector('.ql-editor');
   const postData = document.getElementById('submitformhtml');
-  editor.innerHTML = postData.value;
+  console.log('this is post data', postData.value.replace('&#65279;', '<br>'))
+  editor.innerHTML = postData.value.replace('&#65279;', '<br>');
   getTags();
   document.body.onkeypress = (e) => {
     if(e.keyCode === 13) {
@@ -13,7 +14,7 @@ window.onload = function() {
     switch(e.keyCode) {
       case 13:
       case 32:
-        finishTag();
+          finishTag();
         break;
       default:
         break;
@@ -89,6 +90,7 @@ function storeFormData() {
   let textJar = document.getElementById('submitformtext');
 
   dataText = dataText.replace(/(?:\r\n|\r|\n)/g, ' ');
+  dataHTML = dataHTML.replace(/(?:\r\n|\r|\n)/g, '<br>');
 
   htmlJar.setAttribute('value', dataHTML);
   textJar.setAttribute('value', dataText);
@@ -96,7 +98,8 @@ function storeFormData() {
   let tagSpans = document.querySelectorAll('.posttags');
   let tagStorage = '';
   tagSpans.forEach(d => {
-    tagStorage += d.textContent + ' ';
+    let text = d.textContent.trim();
+    tagStorage += text + ' ';
   })
   document.getElementById('inserttags').value = tagStorage.trim();
 }
@@ -123,7 +126,7 @@ function getTags() {
 }
 
 function matchTags() {
-  const tagInputField = document.getElementById('inserttags');
+  let tagInputField = document.getElementById('inserttags');
   let theOptionList = document.getElementById('thetags');
   let tagLength = tagInputField.value.length;
   let theDataList = document.querySelectorAll('datalist > option')
@@ -131,32 +134,41 @@ function matchTags() {
   theDataList.forEach(d => {
     localStore.push(d.value)
   })
-  // compare the value and populate the array
-  globalStore.tags.forEach( (tag, i) => {
-    let incomingTag = tag.tags.toLowerCase().slice(0,tagLength)
-    if(incomingTag === tagInputField.value.toLowerCase()) {
-      if(localStore.indexOf(tag.tags) === -1) {
-        let element = document.createElement('option')
-        element.setAttribute('value', tag.tags)
-        element.innerText = tag.tags;
-        theOptionList.appendChild(element)
+  if(tagInputField.value === ' ') {
+    tagInputField.value = '';
+    return null;
+  } else {
+    console.log('HEEEELLLLOOOOOOO')
+    // compare the value and populate the array
+    globalStore.tags.forEach( (tag, i) => {
+      let incomingTag = tag.tags.toLowerCase().slice(0,tagLength)
+      if(incomingTag === tagInputField.value.toLowerCase()) {
+        if(localStore.indexOf(tag.tags) === -1) {
+          let element = document.createElement('option')
+          element.setAttribute('value', tag.tags)
+          element.innerText = tag.tags;
+          theOptionList.appendChild(element)
+        }
       }
-    }
-    if(tag.tags.toLowerCase() === tagInputField.value.toLowerCase()) {
-      finishTag();
-    }
-  })
+      if(tag.tags.toLowerCase() === tagInputField.value.toLowerCase()) {
+        finishTag();
+      }
+    })
+  }
 }
 
 function finishTag() {
   let inputField = document.getElementById('inserttags');
-  let tagContainer = document.getElementById('tagcontainer');
-  let tag = inputField.value;
-  inputField.value = ''
-  let newElement = document.createElement('span');
-  newElement.setAttribute('class', 'posttags');
-  newElement.innerText = tag;
-  tagContainer.appendChild(newElement);
+  if(inputField.value !== ' ' && inputField.value !== '') {
+    let tagContainer = document.getElementById('tagcontainer');
+    let tag = inputField.value;
+    inputField.value = ''
+    let newElement = document.createElement('span');
+    newElement.setAttribute('class', 'posttags');
+    newElement.setAttribute('onclick', 'removeTag(this)')
+    newElement.innerText = tag;
+    tagContainer.appendChild(newElement);
+  }
 }
 
 function removeTag(e) {

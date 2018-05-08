@@ -275,7 +275,7 @@ module.exports = {
       id: parseInt(res.locals.postid),
       title: req.body.title,
       post: req.body.submitformtext,
-      posthtml: req.body.submitformhtml,
+      posthtml: func.trimHTML(req.body.submitformhtml),
       tags: req.body.tags,
       isdeleted: res.locals.isdeleted
     }
@@ -310,6 +310,7 @@ module.exports = {
       commentid: parseInt(req.body.commentID),
       postid: parseInt(req.body.postID),
       vote: parseInt(req.body.vote),
+      userid: func.killArray(req.session.user).id,
     }
     if(res.locals.theOneVote.length === 0) {
       model.addNewVote(theData)

@@ -384,9 +384,12 @@ p.disabled.navlink:hover {
 
 .navlinkmessage {
   font-size: 12px;
-  color: silver;
+  color: darkgrey;
   margin: 0;
   margin-top: 10px;
+  position: absolute;
+  top: 3px;
+  right: 10px;
 }
 
 #newcommentbutton {
@@ -812,6 +815,10 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
 
 .navitemstabbed > button:nth-of-type(3) {
   background: grey;
+}
+
+.navitemstabbed > button:nth-of-type(3):hover {
+  border: 1px solid white;
 }
 
 .navitemsfixed > button:nth-of-type(2),

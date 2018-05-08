@@ -83,9 +83,9 @@
       <div class="commentbox">
         <div class="showposthtml"><%- d.commenthtml %></div>
         <br/>
-        <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/users/<%= d.userid %>"><%= d.username %></a></span>
+        <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>"><%= d.username %></a></span>
         <span class="userprogram"> - <%= d.programshort %> - <%= d.cohort %></span>
-        <% if(post.userid === authorid) { %>
+        <% if(d.userid === authorid) { %>
           <form action="/main/comment/<%= d.id %>/edit" method="get">
             <input type="submit" id="editpost" value="Edit">
           </form>
