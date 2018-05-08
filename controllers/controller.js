@@ -274,7 +274,7 @@ module.exports = {
     if(!req.body.isdeleted) {
       res.locals.isdeleted = false;
     } else {
-      res.locals.isdeleted = req.body.isdeleted;
+      res.locals.isdeleted = true;
     }
     let theData = {
       id: parseInt(res.locals.postid),
