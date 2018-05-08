@@ -9,8 +9,7 @@ a {
 }
 
 a:hover {
-  color: maroon;
-  border-bottom: 1px solid maroon;
+  color: red;
 }
 
 blockquote {
