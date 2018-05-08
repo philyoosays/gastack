@@ -105,7 +105,6 @@ module.exports = {
               SELECT
                   resources.userid,
                   setweight(to_tsvector(resources.label),'A') ||
-                  setweight(to_tsvector(resources.link),'B') ||
                   setweight(to_tsvector('simple', users.fname), 'C') ||
                   setweight(to_tsvector('simple', users.lname), 'C')
               AS vector FROM resources
@@ -117,8 +116,8 @@ module.exports = {
             ORDER BY ranking DESC
         ) AS orderedrank
       JOIN users ON orderedrank.userid = users.id
-      JOIN resources ON orderedrank.userid = resources.userid;
-      `,[language, string]);
+      JOIN resources ON orderedrank.userid = resources.userid
+      `, [language, string]);
   },
   // I had initially wrote these but they are not antiquated compered to fullSearch
   // postSearch(language, string) {

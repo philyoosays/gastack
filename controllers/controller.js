@@ -481,6 +481,7 @@ module.exports = {
       vector.findResources(func.killArray(req.session.user).language, res.locals.search)
         .then((data) => {
           res.locals.resources = data;
+          console.log('thisis', data)
           next();
         })
         .catch((err) => {
