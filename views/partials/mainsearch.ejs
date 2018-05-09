@@ -1,4 +1,3 @@
-
 <% if(mode === 'allresources') { %>
   <form action="/main/resources/search" method="get">
 <% } else { %>
@@ -35,3 +34,8 @@
       </div>
     </div>
   </form>
+<article class="buttoncontainer clearfix">
+  <form action="/main/post/new">
+    <input class="newpostbutton" id="upperright" type="submit" value="Ask A Question">
+  </form>
+</article>

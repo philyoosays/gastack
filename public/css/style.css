@@ -50,13 +50,13 @@ body {
   justify-content: center;
 }
 
-/*.clearfix:after {
+.clearfix:after {
   visibility: hidden;
   display: block;
   content: "";
   clear: both;
   height: 0;
-}*/
+}
 
 #cohortid {
   width: 100%;
@@ -276,6 +276,10 @@ label {
 
 #mainsearch::placeholder {
   color: #d0d0d0;
+}
+
+#mobilebutton {
+  display: none;
 }
 
 .navitems {
@@ -638,6 +642,20 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
   -webkit-transition: all .3s ease-out;
 }
 
+.buttoncontainer {
+  position: relative;
+  z-index: 20;
+}
+
+#upperright {
+  position: absolute;
+  right: 150px;
+  top: -35px;
+  padding: 6px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
 .userprogram {
   display: inline-block;
   font-size: 12px;
@@ -673,6 +691,7 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
     border: 2px solid black;
     height: 320px;
     display: block;
+    position: fixed;
     padding: 7px 14px;
     font-size: 11px;
     background: black;
@@ -683,17 +702,37 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
     margin: 0 auto;
     left: 17%;
   }
+
+  #upperright {
+    display: none;
+  }
+
+  .navitemstabbed > button.navbutton {
+    display: inline-block;
+    padding: 7px 15px;
+    font-size: 12px;
+    top: 50px;
+    right: 20px;
+  }
+
+  #navtab {
+    display: none;
+  }
+
+  #navbartabbed:hover {
+    top: 0px;
+  }
+
+  form > input[type="submit"].newpostbutton {
+    display: none;
+  }
+
+  #mobilebutton {
+    display: inline-block;
+  }
 }
 
 @media(max-width: 500px) {
-  .navitemstabbed > button {
-    margin: 0 5px;
-    background: red;
-    border-radius: 4px;
-    /*vertical-align: super;*/
-    /*position: absolute;*/
-  }
-
   select {
     font-size: 12px;
   }
