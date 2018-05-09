@@ -61,7 +61,7 @@ id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 post_title TEXT NOT NULL,
 post TEXT UNIQUE NOT NULL,
-posthtml VARCHAR NOT NULL,
+posthtml TEXT NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 date_edited TIMESTAMP DEFAULT NOW(),
 post_score INTEGER DEFAULT 0,
@@ -69,12 +69,6 @@ errorcode BOOLEAN DEFAULT false,
 tags TEXT,
 last_active DATE DEFAULT NOW(),
 isdeleted BOOLEAN DEFAULT false
-);
-
-CREATE TABLE postviews (
-id SERIAL PRIMARY KEY,
-postid INTEGER REFERENCES posts(id),
-userid INTEGER REFERENCES users(id)
 );
 
 -- DO I NEED THE SEPARATE TAGS
@@ -94,7 +88,7 @@ id SERIAL PRIMARY KEY,
 userid INTEGER REFERENCES users(id),
 postid INTEGER REFERENCES posts(id),
 comment TEXT NOT NULL,
-commenthtml VARCHAR NOT NULL,
+commenthtml TEXT NOT NULL,
 date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 date_edited TIMESTAMP DEFAULT NOW(),
 comment_score INTEGER DEFAULT 0,
@@ -216,7 +210,25 @@ VALUES
 ('function'),
 ('reference'),
 ('ejs'),
-('git');
+('git'),
+('html'),
+('fetch');
+
+-- -- What are people looking at?
+-- SELECT users.fname, users.lname, users.username, cohort.cohort, posts.post_title FROM users JOIN cohort ON users.cohortid = cohort.id JOIN views ON views.userid = users.id JOIN posts ON posts.id = views.postid ORDER BY views.date_created DESC;
+
+-- -- Who voted on what?
+-- SELECT users.fname, users.lname, cohort.cohort, posts.post_title, commentvotes.vote FROM commentvotes JOIN users ON users.id = commentvotes.userid JOIN cohort ON cohort.id = users.cohortid JOIN posts ON  posts.id = commentvotes.postid;
+
+-- -- Search History
+-- SELECT searchhistory.id, users.fname, users.username, searchhistory.search, posts.post_title
+-- FROM searchhistory
+-- JOIN users ON users.id = searchhistory.userid
+-- JOIN posts ON searchhistory.resultpost = posts.id
+-- ORDER BY searchdate DESC;
+
+-- -- Sign ups
+-- SELECT users.fname, users.lname, users.username, users.email, cohort.cohort FROM users JOIN cohort ON users.cohortid = cohort.id ORDER BY date_created DESC;
 
 
 
