@@ -54,6 +54,8 @@ module.exports = {
     temp = temp.split('<br><br>').join('<br>');
     temp = temp.split('<br><br>').join('<br>');
     temp = temp.split('}').join('<br>}');
+    temp = temp.split('&lt;<br>').join('&lt;')
+    temp = temp.split('/').join('/&gt;')
     temp = temp.replace(') {', ') { <br>');
     if(temp.trim().slice(-4) === '<br>') {
       temp = temp.trim().slice(0,-4)
