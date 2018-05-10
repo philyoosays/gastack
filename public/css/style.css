@@ -133,6 +133,10 @@ body {
   margin-top: 20px;
 }
 
+#footspace {
+  height: 120px;
+}
+
 .formlabels, .inputfields {
   flex: 1;
   padding: 5px;
