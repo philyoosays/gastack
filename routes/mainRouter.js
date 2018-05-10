@@ -5,6 +5,24 @@ const control = require('../controllers/controller');
 
 const app = express.Router();
 
+app.route('/resources/:resourceid/edit')
+  .get(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.modeEditResource,
+    control.getResourceId,
+    control.getOneResource,
+    view.showTextEditor,
+    view.show404
+    )
+  .put(
+    authService.loginRequired,
+    control.getResourceId,
+    control.updateResource,
+    view.handleNewResource,
+    view.show404
+    )
+
 app.route('/comment/:commentid/edit')
   .get(
     authService.loginRequired,

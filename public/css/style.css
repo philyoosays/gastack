@@ -146,7 +146,7 @@ h2 {
   margin-bottom: 0;
 }
 
-h2, h3 {
+h2, h3, h6 {
   font-family: 'Playfair Display', serif;
 }
 
@@ -426,6 +426,11 @@ p.disabled.navlink:hover {
 
 p {
   font-weight: 300;
+  transition: all .6s ease-out;
+  -o-transition: all .6s ease-out;
+  -ms-transition: all .6s ease-out;
+  -moz-transition: all .6s ease-out;
+  -webkit-transition: all .6s ease-out;
 }
 
 .posttags {
@@ -661,6 +666,12 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
   font-size: 12px;
   font-weight: 300;
   font-style: italic;
+}
+
+#verifying {
+  color: grey;
+  margin: 0;
+  padding: 0;
 }
 
 .votebuttons {

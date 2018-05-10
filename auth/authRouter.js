@@ -12,6 +12,13 @@ app.route('/register/cohorts')
     view.show404
     )
 
+app.route('/register/user')
+  .post(
+    control.checkUsername,
+    view.handleUserCheckSend,
+    view.show404
+    )
+
 app.route('/register')
   .get(
     control.getAllPrograms,

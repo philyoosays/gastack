@@ -92,6 +92,10 @@ module.exports = {
 
   handleNewResource(req, res, next) {
     res.redirect('/main/resources');
+  },
+
+  handleUserCheckSend(req, res, next) {
+    res.json(res.locals.usercheck);
   }
 
 }

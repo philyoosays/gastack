@@ -24,7 +24,7 @@
           <p>Username</p>
         </td>
         <td class="reg-inputs">
-          <input type="text" id="username" name="username" placeholder="username" required />
+          <input type="text" id="username" name="username" placeholder="username" onChange="checkUserName()" required />
         </td>
       </tr>
       <tr>
@@ -32,7 +32,7 @@
           <p>E-Mail</p>
         </td>
         <td class="reg-inputs">
-          <input type="email" id="email" name="email" placeholder="email" required />
+          <input type="email" id="email" name="email" placeholder="email" onChange="checkEmail()" required />
         </td>
       </tr>
       <tr>
@@ -40,14 +40,21 @@
           <p>Password</p>
         </td>
         <td class="reg-inputs">
-          <input type="password" id="password" name="password" placeholder="password" required />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="password"
+            minlength="5"
+            onChange="checkPass()"
+            required />
         </td>
       </tr>
       <tr>
         <td>
         </td>
         <td class="reg-inputs">
-          <input type="password" id="passwordcheck" name="passwordCheck" placeholder="Enter password again" required />
+          <input type="password" id="passwordcheck" name="passwordCheck" placeholder="enter password again" onChange="checkPass()" required />
         </td>
       </tr>
       <tr>
@@ -69,7 +76,7 @@
           <p>Cohort</p>
         </td>
         <td class="reg-inputs">
-          <select id="cohortid" name="cohortid">
+          <select id="cohortid" name="cohortid" required>
             <option disabled selected value></option>
           </select>
           <div class="underline"></div>
@@ -80,36 +87,12 @@
   <div class="centerthis">
     <input type="submit" value="Register" />
   </div>
+  <div class="centerthis">
+    <p id="verifying" style="visibility: hidden">Verifying email...</p>
+  </div>
   </div>
 </form>
 
-<script>
-  function getCohorts() {
-    let theProgram = parseInt(document.querySelector('#programid').value)
-    fetch('/login/register/cohorts', {
-      body: JSON.stringify({ programid: theProgram }),
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'user-agent': 'Mozilla/4.0 MDN Example',
-        'content-type': 'application/json'
-      },
-      method: 'POST',
-      mode: 'cors',
-      redirect: 'follow',
-      referrer: 'no-referrer',
-    })
-    .then(response => response.json())
-    .then((data) => {
-      let theCohortMenu = document.getElementById('cohortid');
-      data.forEach(d => {
-        let menuItem = document.createElement('option');
-        menuItem.setAttribute('value', d.id)
-        menuItem.innerText = d.cohort;
-        theCohortMenu.appendChild(menuItem);
-      })
-    })
-  }
-</script>
+<script src="../../../scripts/registerScript.js"></script>
 
 <% include ../partials/foot %>

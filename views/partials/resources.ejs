@@ -22,6 +22,11 @@
     <% resources.forEach(d => { %>
       <div class="kenny">
         <article><%- d.labelhtml %></article>
+        <% if(usertype === 'admin') { %>
+          <form action="/main/resources/<%= d.id %>/edit" method="get">
+            <input type="submit" id="editpost" value="Edit">
+          </form>
+        <% } %>
         <div>
           <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>" class="userlink"><%= d.username %></a></span>
         </div>

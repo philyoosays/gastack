@@ -169,6 +169,17 @@ module.exports = {
       })
   },
 
+  getOneResource(req, res, next) {
+    model.findOneResource(parseInt(req.params.resourceid))
+      .then(data => {
+        res.locals.post = data;
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
   getVoteSum(req, res, next) {
     let theData = {
       commentid: parseInt(req.body.commentID),
@@ -219,6 +230,22 @@ module.exports = {
         res.locals.userview = data;
         console.log('userviewsfromdb', res.locals.userview)
         next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  checkUsername(req, res, next) {
+    model.findOneUser(req.body.username)
+      .then(data => {
+        if(data.length === 0) {
+          res.locals.usercheck = '';
+          next();
+        } else {
+          res.locals.usercheck = func.killArray(data).username;
+          next();
+        }
       })
       .catch(err => {
         next(err);
@@ -292,7 +319,7 @@ module.exports = {
     let theData = {
       id: parseInt(res.locals.postid),
       comment: req.body.submitformtext,
-      commenthtml: req.body.submitformhtml
+      commenthtml: req.body.submitformhtml,
     }
     model.editOneComment(theData)
       .then((data) => {
@@ -367,6 +394,21 @@ module.exports = {
 
   deletePost(req, res ,next) {
     model.deleteFromPosts(parseInt(req.params.postid))
+      .then(data => {
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  updateResource(req, res, next) {
+    let theData = {
+      id: parseInt(res.locals.postid),
+      label: req.body.submitformtext,
+      labelhtml: req.body.submitformhtml
+    }
+    model.editOneResource(theData)
       .then(data => {
         next();
       })
@@ -545,6 +587,11 @@ module.exports = {
     next();
   },
 
+  getResourceId(req, res, next) {
+    res.locals.postid = req.params.resourceid;
+    next();
+  },
+
   getUsername(req, res, next) {
     res.locals.username = req.params.username;
     next();
@@ -588,6 +635,11 @@ module.exports = {
 
   modeEditComment(req, res, next) {
     res.locals.mode = 'editcomment';
+    next();
+  },
+
+  modeEditResource(req, res, next) {
+    res.locals.mode = 'editresource';
     next();
   },
 

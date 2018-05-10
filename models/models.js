@@ -357,7 +357,24 @@ module.exports = {
           isdeleted = true
       WHERE id = $1
       `, postid);
-  }
+  },
+
+  findOneResource(resourceid) {
+    return db.one(`
+      SELECT * FROM resources
+      WHERE id = $1
+      `, resourceid);
+  },
+
+  editOneResource(data) {
+    return db.none(`
+      UPDATE resources
+        SET
+          label = $/label/,
+          labelhtml = $/labelhtml/
+      WHERE id = $/id/
+      `, data);
+  },
 
 }
 
