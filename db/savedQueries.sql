@@ -32,7 +32,7 @@ SELECT
   posts.post_title
 FROM searchhistory
 JOIN users ON users.id = searchhistory.userid
-JOIN posts ON searchhistory.resultpost = posts.id
+LEFT OUTER JOIN posts ON searchhistory.resultpost = posts.id
 ORDER BY searchdate DESC;
 
 -- Sign ups
