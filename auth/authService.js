@@ -9,7 +9,8 @@ module.exports = {
       const user = await model.findOneUserPass(username);
       const isValidPass = await bcrypt.compare(password, func.killArray(user).password_digest);
       if (!isValidPass) {
-        throw { message: 'bad password'}
+        res.locals.username = username;
+        next(err);
       }
       req.session.user = user;
       next();

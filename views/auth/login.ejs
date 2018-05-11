@@ -1,17 +1,53 @@
 <% include ../partials/boilerplate %>
 
+
 <section class="logincontainer reg">
   <form method="POST" action="/login">
     <table id="registration-table">
       <tr>
-        <input class="logininput" type="input" placeholder="username" name="username">
+        <% if(mode == 'badpass') { %>
+          <input
+            class="logininput"
+            type="input"
+            placeholder="username"
+            name="username"
+            onChange="checkUser()"
+            value="<%= username %>"
+          />
+        <% } else { %>
+          <input
+            class="logininput"
+            type="input"
+            placeholder="username"
+            name="username"
+            onChange="checkUser()"
+          />
+        <% } %>
       </tr>
       <tr>
-        <input class="logininput" type="password" placeholder="Password" name="password">
+        <% if(mode === 'badpass') { %>
+          <input
+            class="logininput"
+            type="password"
+            placeholder="bad password"
+            name="password"
+          />
+        <% } else { %>
+          <input
+            class="logininput"
+            type="password"
+            placeholder="Password"
+            name="password"
+          />
+        <% } %>
       </tr>
       <tr>
         <div class="field">
-          <input type='submit' value='Log in!' class="button" />
+          <input
+            type='submit'
+            value='Log in!'
+            class="button"
+          />
         </div>
       </tr>
     </table>
@@ -22,5 +58,7 @@
     <input type='submit' value='Register' class="regbutton" />
   </div>
 </form>
+
+<script src="../../../scripts/loginScripts.js"></script>
 
 <% include ../partials/foot %>

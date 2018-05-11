@@ -19,6 +19,13 @@ app.route('/register/user')
     view.show404
     )
 
+app.route('/user')
+  .post(
+    control.checkUsername,
+    view.handleUserCheckSend,
+    view.show404
+    )
+
 app.route('/register')
   .get(
     control.getAllPrograms,
@@ -45,13 +52,14 @@ app.route('/logout')
 
 app.route('/')
   .get(
+    control.dataInitialize,
     view.showLoginForm,
     view.show404
     )
   .post(
     authService.login,
     authService.handleLogin,
-    view.show404
+    view.badPassword
     );
 
 

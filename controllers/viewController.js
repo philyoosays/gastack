@@ -9,6 +9,14 @@ module.exports = {
     console.log('this is the status code',req.statusCode)
   },
 
+  badPassword(error, req, res, next) {
+    console.log(res.locals.username)
+    res.render('auth/login.ejs', {
+      mode: 'badpass',
+      username: res.locals.username
+    })
+  },
+
   showLoginForm(req, res, next) {
     res.render('auth/login.ejs');
   },

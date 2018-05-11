@@ -30,15 +30,15 @@ app.use(methodOverride('_method'));
 
 app.use(session({
     store: new pgSession({
-      conString : process.env.DATABASE_URL
-      // conString : 'postgresql://' + config.host + ':' + config.port + '/' + config.database
+      // conString : process.env.DATABASE_URL
+      conString : 'postgresql://' + config.host + ':' + config.port + '/' + config.database
     }),
     secret: app.get('superSecret'),
     resave: false,
     rolling: true,
     saveUninitialized: true,
     cookie: {
-      maxAge: 3600000
+      maxAge: 14400000
     },
   })
 );

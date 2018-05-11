@@ -574,6 +574,7 @@ module.exports = {
     res.locals.resources = [];
     res.locals.searchdata = [{}];
     res.locals.searchstring = '';
+    res.locals.username = '';
     next();
   },
 

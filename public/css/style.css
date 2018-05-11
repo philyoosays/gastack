@@ -7,7 +7,7 @@ a {
   -moz-transition: all .3s ease-out;
   -webkit-transition: all .3s ease-out;
 }
-
+placeholder
 a:hover {
   color: red;
 }
@@ -157,6 +157,14 @@ h2, h3, h6 {
 .header {
   font-family: 'Playfair Display', serif;
   margin-bottom: 0;
+}
+
+input[type="text"] {
+  transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  -ms-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  -webkit-transition: all .3s ease-out;
 }
 
 input[type="submit"], button {
@@ -701,6 +709,12 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
   top: 0;
 }
 
+@media(max-width: 660px) {
+  #upperright {
+    display: none;
+  }
+}
+
 @media(max-width: 550px) {
   #navbartabbed {
     border: 2px solid black;
@@ -716,10 +730,6 @@ tr:nth-of-type(6) > td > p, tr:nth-of-type(7) > td > p {
   .loginfields {
     margin: 0 auto;
     left: 17%;
-  }
-
-  #upperright {
-    display: none;
   }
 
   .navitemstabbed > button.navbutton {
