@@ -195,6 +195,7 @@ module.exports = {
     model.findOneResource(parseInt(req.params.resourceid))
       .then(data => {
         res.locals.post = data;
+        console.log(data)
         next();
       })
       .catch(err => {
