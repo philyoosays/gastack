@@ -468,6 +468,10 @@ p {
   display: inline-block;
 }
 
+pre.ql-syntax > span {
+
+}
+
 .ql-syntax {
   background: #23241f;
   padding: 5px 10px;

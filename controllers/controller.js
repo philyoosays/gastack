@@ -111,10 +111,8 @@ module.exports = {
   },
 
   getAllTheMessages(req, res, next) {
-    console.log('hit')
     model.getAllMessages()
       .then(data => {
-        console.log(data)
         res.locals.messages = data
         next();
       })

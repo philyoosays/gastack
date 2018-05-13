@@ -91,7 +91,6 @@ module.exports = {
   },
 
   handleMessageSend(req, res, next) {
-    console.log(res.locals.messages)
     res.json(res.locals.messages)
   },
 

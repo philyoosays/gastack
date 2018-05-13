@@ -21,21 +21,21 @@ window.onload = function() {
 
   fetchPost();
 
-  document.addEventListener('DOMSubtreeModified', () => {
-    // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    let codeBlock = document.querySelector('pre')
-    let counter = 0;
-    codeBlock.classList.forEach(d => {
-      if(d === 'prettyprint') {
-        counter++;
-      }
-    })
-    if(counter === 0) {
-      // codeBlock.classList.remove('ql-syntax')
-      // codeBlock.classList.add('prettyprint');
-      // codeBlock.classList.add('linenums');
-    }
-  })
+  // document.addEventListener('DOMSubtreeModified', () => {
+  //   // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+  //   let codeBlock = document.querySelector('pre')
+  //   let counter = 0;
+  //   codeBlock.classList.forEach(d => {
+  //     if(d === 'prettyprint') {
+  //       counter++;
+  //     }
+  //   })
+  //   if(counter === 0) {
+  //     // codeBlock.classList.remove('ql-syntax')
+  //     // codeBlock.classList.add('prettyprint');
+  //     // codeBlock.classList.add('linenums');
+  //   }
+  // })
 }
 
 let globalStore = {};
@@ -117,7 +117,7 @@ function fetchPost() {
   })
     .then(response => response.json())
       .then(post => {
-        forceFitBR(post.posthtml);
+        forFitBR2(post.posthtml);
       })
       .catch(err => {
         // location.reload();
@@ -146,20 +146,75 @@ function storeFormData() {
   document.getElementById('inserttags').value = tagStorage.trim();
 }
 
-function forceFitBR(html) {
+// function forceFitBR(html) {
+//   let editor = document.querySelector('.ql-editor');
+//   editor.innerHTML = html.slice(0,63);
+//   console.log(editor.innerHTML)
+//   html = html.slice(63,html.length-6);
+//   html = html.split('<br>');
+//   let preTag = document.querySelector('pre')
+//   html.forEach(data => {
+//     preTag.innerHTML += data.trim() + '\n';
+//     preTag.innerHTML += '<br>';
+//   })
+// }
+
+function forFitBR2(variable) {
   let editor = document.querySelector('.ql-editor');
-  editor.innerHTML = html.slice(0,63);
-  console.log(editor.innerHTML)
-  html = html.slice(63,html.length-6);
-  html = html.split('<br>');
-  let preTag = document.querySelector('pre')
-  console.log(preTag)
-  console.log(html)
-  html.forEach(data => {
-    preTag.innerHTML += data.trim() + '\n';
-    preTag.innerHTML += '<br>';
-  })
+  let tempStore = '';
+  let html = variable.split('pre');
+  editor.innerHTML = ''
+  console.log('beginning with this', variable)
+  console.log('startingarray', html)
+  console.log('editor is starting with ', editor.innerHTML)
+  while(html.length > 0) {
+    console.log('starting round with editor at', editor.innerHTML)
+    console.log('html.length', html.length)
+    console.log('checking', html[0])
+    if(html[0].slice(0,1) === '>') {
+      console.log('firstchar is', html[0].slice(0,1))
+      html[0] = html[0].slice(1)
+      console.log('cutfirst now', html[0])
+    }
+    if(html[0].slice(-1) === '<') {
+      console.log('lastcharis', html[0].slice(-1))
+      console.log('cutting last')
+      html[0] = html[0].slice(0,-1)
+      console.log('cut the last is now', html[0])
+    } else if (html[0].slice(-2) === '</') {
+      console.log('last is', html[0].slice(-2))
+      html[0] = html[0].slice(0,-2)
+      console.log('last cut is now', html[0])
+    }
+    if(html[0] === '') {
+      console.log('its empty')
+      html[0] = ''
+    } else if(html[0].slice(0,6) === ' class') {
+      console.log('this is a codeblcok', html[0])
+      editor.innerHTML += '<pre class="ql-syntax" spellcheck="false">'
+      let codeBlock = document.querySelectorAll('pre')
+      console.log('editor is now ', editor.innerHTML)
+      codeBlock = codeBlock[codeBlock.length -1]
+      let toInsert = html[0].slice(38).split('<br>');
+      console.log('inserting', html[0].slice(38))
+      while(toInsert.length > 0) {
+        codeBlock.innerHTML += toInsert[0];
+        codeBlock.innerHTML += '\n';
+        toInsert.shift();
+      }
+      console.log('editor got new text', editor.innerHTML)
+    } else {
+      console.log('not a codeblock')
+      console.log('adding', html[0])
+      editor.innerHTML += html[0];
+      console.log('editor is now ', editor.innerHTML)
+    }
+    console.log('ending round')
+    html.shift()
+    console.log
+  }
 }
+
 
 
 function runCancel() {

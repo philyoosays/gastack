@@ -1,9 +1,9 @@
-let func;
-window.onload = function () {
-  func = document.createElement('script');
-  imported.src = '../../functions/helperFunctions';
-  document.head.appendChild(func);
-}
+// let func;
+// window.onload = function () {
+//   func = document.createElement('script');
+//   imported.src = '../../functions/helperFunctions';
+//   document.head.appendChild(func);
+// }
 
 function upVote(commentID, postID) {
   const theArrow = document.getElementById('u' + commentID);

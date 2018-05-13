@@ -8,7 +8,7 @@ let messagePortion = '';
 let incrementer = 0;
 let toggle = true;
 let initial;
-
+searchBar.setAttribute('placeholder', '')
 
 
 fetch('/main/messages/', {
