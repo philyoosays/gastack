@@ -7,12 +7,12 @@
   <div class="posttitlebox">
     <h2><%= post.post_title %></h2>
     <div class="reg editdelete">
-      <% if(post.userid === authorid) { %>
+      <% if(post.userid === authorid || usertype === 'admin-phil') { %>
         <form action="/main/post/<%= post.id %>/edit" method="get">
           <input type="submit" id="editpost" value="Edit">
         </form>
       <% } %>
-      <% if(usertype === 'admin') { %>
+      <% if(usertype.slice(0,5) === 'admin') { %>
         <form action="/main/post/<%= post.id %>/delete?_method=put" method="post">
           <div id="databucket">
           </div>
@@ -24,7 +24,7 @@
   <div class="showposthtml"><%- post.posthtml %></div>
   <div>
     <span class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/profile/<%= post.username %>"><%= post.username %></a></span>
-    <span class="userprogram"> - <%= post.programshort %> - <%= post.cohort %></span>
+    <span class="userprogram"> - <%=usertype%> <%= post.programshort %> - <%= post.cohort %></span>
   </div>
   <div class="tags">
       <% if(post.tags !== '') { %>
@@ -85,9 +85,16 @@
         <br/>
         <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>"><%= d.username %></a></span>
         <span class="userprogram"> - <%= d.programshort %> - <%= d.cohort %></span>
-        <% if(d.userid === authorid) { %>
+        <% if(d.userid === authorid || usertype === 'admin-phil') { %>
           <form action="/main/comment/<%= d.id %>/edit" method="get">
             <input type="submit" id="editpost" value="Edit">
+          </form>
+        <% } %>
+        <% if(usertype.slice(0,5) === 'admin') { %>
+          <form action="/main/post/<%= post.id %>/delete?_method=put" method="post">
+            <div id="databucket">
+            </div>
+            <input type="submit" id="deletepost" value="Delete" onmouseover="grabData()">
           </form>
         <% } %>
       </div>

@@ -16,6 +16,30 @@ module.exports = {
     return result;
   },
 
+  fetch(url, method, body) {
+    if(method.toLowerCase() === 'put') {
+      url += '?_method=PUT'
+      method = 'post'
+    } else if(method.toLowerCase() === 'delete') {
+      url += '?_method=DELETE'
+      method = 'post'
+    }
+
+    return fetch(url, {
+      body: JSON.stringify(body),
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'method',
+      mode: 'cors',
+      redirect: 'follow',
+      referrer: 'no-referrer',
+    })
+      .then(response => response.json())
+  },
+
   // trimBR(html) {
   //   let string = html;
   //   if(string.slice(-4) === '<br>') {
@@ -49,13 +73,16 @@ module.exports = {
   trimHTML(html) {
     let temp = html.slice();
     temp = temp.split('<p><br></p>').join('<br>');
-    temp = temp.split('  ').join('<br>');
-    temp = temp.split(';').join(';<br>');
+    temp = temp.replace('  ','\t');
+    // temp = temp.split(';').join(';<br>');
     temp = temp.split('<br><br>').join('<br>');
     temp = temp.split('<br><br>').join('<br>');
     // temp = temp.split('}').join('<br>}');
     temp = temp.split('&lt;<br>').join('&lt;')
-    temp = temp.replace(') {', ') { <br>');
+    temp = temp.split('<br> &nbsp;').join('')
+    temp = temp.split('&nbsp;').join('')
+    // temp = temp.split(') {').join(') { <br>');
+    // temp = temp.replace('){').join('){<br>');
     if(temp.trim().slice(-4) === '<br>') {
       temp = temp.trim().slice(0,-4)
     } else if(temp.trim().slice(0,4) === '<br>') {

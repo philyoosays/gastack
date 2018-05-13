@@ -81,6 +81,11 @@ function checkEmail() {
   fetch(`https://api.trumail.io/v1/json/${theEmail}`)
     .then(response => response.json())
     .then(data => {
+      if(Object.keys(data).indexOf('address') === -1) {
+        emailLabel.removeAttribute('style');
+        submitButton.removeAttribute('disabled');
+        verifyMessage.setAttribute('style', 'visibility: hidden');
+      } else {
       // if(data.deliverable === true) {
         if(data.fullInbox === false) {
           if(data.hostExists === true) {
@@ -95,6 +100,7 @@ function checkEmail() {
           } else { emailMessage('host'); }
         } else { emailMessage('fullInbox'); }
       // } else { emailMessage('deliverable'); }
+      }
     })
     .catch(err => {
       emailLabel.removeAttribute('style');

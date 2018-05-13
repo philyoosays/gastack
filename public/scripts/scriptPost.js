@@ -1,9 +1,7 @@
 
 window.onload = function() {
-  const editor = document.querySelector('.ql-editor');
-  const postData = document.getElementById('submitformhtml');
-  console.log('this is post data', postData.value.replace('&#65279;', '<br>'))
-  editor.innerHTML = postData.value.replace('&#65279;', '<br>');
+  // const postData = document.getElementById('submitformhtml');
+  // editor.innerHTML = postData.value.replace('&#65279;', '<br>');
   getTags();
   document.body.onkeypress = (e) => {
     if(e.keyCode === 13) {
@@ -20,6 +18,23 @@ window.onload = function() {
         break;
     }
   }
+
+  fetchPost();
+
+  document.addEventListener('DOMSubtreeModified', () => {
+    // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    let codeBlock = document.querySelector('pre')
+    let counter = 0;
+    codeBlock.classList.forEach(d => {
+      if(d === 'prettyprint') {
+        counter++;
+      }
+    })
+    if(counter === 0) {
+      codeBlock.classList.add('prettyprint');
+      codeBlock.classList.add('linenums');
+    }
+  })
 }
 
 let globalStore = {};
@@ -51,7 +66,7 @@ var container = document.getElementById('editor');
 var options = {
   debug: 'info',
   modules: {
-    syntax: true,
+    syntax: false,
     toolbar: toolbarOptions,
     "emoji-toolbar": true,
     "emoji-shortname": true,
@@ -67,10 +82,12 @@ var options = {
   theme: 'snow'
 };
 document.addEventListener("DOMContentLoaded", function() {
-  let elements = document.querySelectorAll('pre')
-  for (let element of elements) {
-    hljs.highlightBlock(element);
-  }
+  // let elements = document.querySelectorAll('pre')
+  // for (let element of elements) {
+  //   // hljs.highlightBlock(element);
+  //   element.classList.add('prettyprint');
+  //   element.classList.add('linenums');
+  // }
   document.querySelectorAll('button').forEach(d => {
     d.setAttribute('data-toggle','tooltip');
   })
@@ -82,10 +99,34 @@ let quill = new Quill(container, options);
 
 // document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
 
+function fetchPost() {
+  let htmlID = document.getElementById('submitformhtml')
+  htmlID = htmlID.getAttribute('data');
+  fetch(`/main/post/${htmlID}/edit`, {
+    body: JSON.stringify({ htmlID: htmlID }),
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    referrer: 'no-referrer',
+  })
+    .then(response => response.json())
+      .then(post => {
+        forceFitBR(post.posthtml);
+      })
+      .catch(err => {
+        // location.reload();
+      })
+}
 
 function storeFormData() {
-  let dataHTML = document.querySelector('.ql-editor').innerHTML;
-  let dataText = document.querySelector('.ql-editor').innerText;
+  let editor = document.querySelector('.ql-editor');
+  let dataHTML = editor.innerHTML;
+  let dataText = editor.innerText;
   let htmlJar = document.getElementById('submitformhtml');
   let textJar = document.getElementById('submitformtext');
 
@@ -104,11 +145,21 @@ function storeFormData() {
   document.getElementById('inserttags').value = tagStorage.trim();
 }
 
+function forceFitBR(html) {
+  let editor = document.querySelector('.ql-editor');
+  editor.innerHTML = html.slice(0,63);
+  html = html.slice(63,html.length-6);
+  html = html.split('<br>');
+  let preTag = document.querySelector('pre')
+  html.forEach(data => {
+    preTag.innerHTML += data + '\n';
+    preTag.innerHTML += '<br>';
+  })
+}
 
 
 function runCancel() {
-  if(confirm("Are you sure you want to navigate away from this page?"))
-  {
+  if(confirm("Are you sure you want to navigate away from this page?")) {
     history.go(-1);
   }
   return false;
@@ -138,7 +189,6 @@ function matchTags() {
     tagInputField.value = '';
     return null;
   } else {
-    console.log('HEEEELLLLOOOOOOO')
     // compare the value and populate the array
     globalStore.tags.forEach( (tag, i) => {
       let incomingTag = tag.tags.toLowerCase().slice(0,tagLength)

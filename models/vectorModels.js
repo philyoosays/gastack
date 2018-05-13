@@ -21,10 +21,12 @@ module.exports = {
                   setweight(to_tsvector(posts.post), 'B') ||
                   setweight(to_tsvector('simple', users.fname), 'D') ||
                   setweight(to_tsvector('simple', users.lname), 'D') ||
-                  setweight(to_tsvector(coalesce(posts.tags,'')), 'A')
+                  setweight(to_tsvector(coalesce(posts.tags,'')), 'A') ||
+                  setweight(to_tsvector('simple', cohort.cohort), 'A')
                   AS postvector
                 FROM posts JOIN users
                   ON posts.userid = users.id
+                JOIN cohort ON cohort.id = users.cohortid
                 WHERE isdeleted = false
                 )
               SELECT document.postid, document.postvector FROM document

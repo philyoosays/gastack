@@ -86,6 +86,11 @@ module.exports = {
     res.json(res.locals.alltags)
   },
 
+  handlePostSend(req, res, next) {
+    console.log('this is', res.locals.post)
+    res.json(res.locals.post)
+  },
+
   handleProfileUpdate(req, res, next) {
     res.redirect('/profile/' + res.locals.username)
   },

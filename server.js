@@ -48,6 +48,9 @@ app.use('/main', mainRouter)
 app.use('/login', authRouter)
 // app.use('/api', apiRouter)
 
+app.get('/register', (req, res) => {
+  res.redirect('/login/register')
+})
 app.get('/', (req, res) => {
   res.redirect('/login')
 })

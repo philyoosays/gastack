@@ -1,5 +1,6 @@
 -- What are people looking at?
 SELECT
+  views.date_created,
   users.fname,
   users.lname,
   users.username,
@@ -25,6 +26,7 @@ JOIN posts ON  posts.id = commentvotes.postid;
 
 -- Search History
 SELECT
+  searchhistory.searchdate,
   searchhistory.id,
   users.fname,
   users.username,

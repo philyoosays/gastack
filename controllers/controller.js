@@ -7,8 +7,6 @@ const func = require('../functions/helperFunctions');
 
 const app = express();
 
-// req.session.user
-
 module.exports = {
 
   /////////////////////////////////////////
@@ -132,6 +130,17 @@ module.exports = {
 
   getOnePost(req, res, next) {
     model.getOnePost(parseInt(req.params.postid))
+      .then((data) => {
+        res.locals.post = data;
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      })
+  },
+
+  getOnePostForPost(req, res, next) {
+    model.getOnePost(parseInt(req.body.htmlID))
       .then((data) => {
         res.locals.post = data;
         next();

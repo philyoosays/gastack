@@ -33,7 +33,7 @@ module.exports = {
         blurb, location, website, github,
         account_type
       FROM users
-      WHERE username = $1
+      WHERE username ILIKE $1
       `, data);
   },
 

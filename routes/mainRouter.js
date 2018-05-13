@@ -85,6 +85,12 @@ app.route('/post/:postid/edit')
     view.showTextEditor,
     view.show404
     )
+  .post(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.getOnePostForPost,
+    view.handlePostSend
+    )
   .put(
     authService.loginRequired,
     control.getPostId,
@@ -200,7 +206,6 @@ app.route('/api')
   .get((req, res) => {
     res.send('allgood')
   })
-
 
 app.route('/')
   .get(

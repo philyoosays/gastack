@@ -1,15 +1,19 @@
+let func;
 window.onload = function () {
+  func = document.createElement('script');
+  imported.src = '../../functions/helperFunctions';
+  document.head.appendChild(func);
 }
 
 function upVote(commentID, postID) {
-  console.log(commentID)
   const theArrow = document.getElementById('u' + commentID);
   const theOtherArrow = document.getElementById('d' + commentID);
   const theCount = document.getElementById('score' + commentID);
   if(!theArrow.classList.contains('uparrowselected')) {
     if(theOtherArrow.classList.contains('downarrowselected')) {
       theOtherArrow.classList.remove('downarrowselected');
-      postData('/main/vote', {commentID, postID, vote: 0})
+      console.log('option1')
+      postData('/main/vote', 'post', {commentID, postID, vote: 0})
         .then((data) => {
           theCount.innerText = data.sum;
         })
@@ -18,6 +22,7 @@ function upVote(commentID, postID) {
         })
     } else {
       theArrow.classList.add('uparrowselected');
+      console.log('option2')
       postData('/main/vote', {commentID, postID, vote: 1})
         .then((data) => {
           theCount.innerText = data.sum;
