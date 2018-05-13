@@ -31,6 +31,7 @@ window.onload = function() {
       }
     })
     if(counter === 0) {
+      codeBlock.classList.remove('ql-syntax')
       codeBlock.classList.add('prettyprint');
       codeBlock.classList.add('linenums');
     }
@@ -152,7 +153,7 @@ function forceFitBR(html) {
   html = html.split('<br>');
   let preTag = document.querySelector('pre')
   html.forEach(data => {
-    preTag.innerHTML += data + '\n';
+    preTag.innerHTML += data.trim() + '\n';
     preTag.innerHTML += '<br>';
   })
 }
