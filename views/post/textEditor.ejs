@@ -96,6 +96,7 @@
         name="submitformhtml"
         type="text"
         data="<%= post.id %>"
+        data-type="editpost"
         style="display: none"
       >
     <% } else if(mode === 'editcomment') { %>
@@ -104,6 +105,7 @@
         name="submitformhtml"
         type="text"
         style="display: none"
+        data-type="editcomment"
         data="<%= post.id %>"
       >
     <% } else if(mode === 'editresource') { %>
@@ -112,6 +114,7 @@
         name="submitformhtml"
         type="text"
         style="display: none"
+        data-type="editresource"
         data="<%= post.id %>"
       >
     <% } else { %>

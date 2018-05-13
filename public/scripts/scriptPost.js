@@ -8,18 +8,34 @@ window.onload = function() {
       e.preventDefault()
     }
   }
-  document.getElementById('inserttags').onkeyup = (e) => {
-    switch(e.keyCode) {
-      case 13:
-      case 32:
-          finishTag();
-        break;
-      default:
-        break;
+  let dataField = document.getElementById('submitformhtml');
+  let pageType = dataField.getAttribute('data-type')
+  let htmlID = document.getElementById('submitformhtml')
+  htmlID = htmlID.getAttribute('data');
+  console.log('pageType is ', pageType)
+  console.log('htmlID is', htmlID)
+  if(pageType === 'editpost') {
+    let url = `/main/post/${htmlID}/edit`;
+    fetchPost(url, htmlID, pageType);
+    document.getElementById('inserttags').onkeyup = (e) => {
+      switch(e.keyCode) {
+        case 13:
+        case 32:
+            finishTag();
+          break;
+        default:
+          break;
+      }
     }
+  } else if(pageType === 'editcomment') {
+    console.log('IA AM RUNINNNGNG')
+    let url = `/main/comment/${htmlID}/edit`;
+    fetchPost(url, htmlID, pageType);
+  } else if(pageType === 'editresource') {
+    let url = `/main/resource/${htmlID}/edit`;
+    fetchPost(url, htmlID, pageType)
   }
 
-  fetchPost();
 
   // document.addEventListener('DOMSubtreeModified', () => {
   //   // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -100,10 +116,9 @@ let quill = new Quill(container, options);
 
 document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
 
-function fetchPost() {
-  let htmlID = document.getElementById('submitformhtml')
-  htmlID = htmlID.getAttribute('data');
-  fetch(`/main/post/${htmlID}/edit`, {
+function fetchPost(url, htmlID, pageType) {
+  console.log('fetch is going to', url)
+  fetch(url, {
     body: JSON.stringify({ htmlID: htmlID }),
     cache: 'no-cache',
     credentials: 'same-origin',
@@ -117,7 +132,14 @@ function fetchPost() {
   })
     .then(response => response.json())
       .then(post => {
-        forFitBR2(post.posthtml);
+        if(pageType === 'editpost') {
+          forFitBR2(post.posthtml);
+        } else if(pageType === 'editcomment') {
+          console.log('thisisthedata', post.commenthtml)
+          forFitBR2(post.commenthtml);
+        } else if(pageType === 'editresource') {
+          forFitBR2(post.labelhtml)
+        }
       })
       .catch(err => {
         // location.reload();

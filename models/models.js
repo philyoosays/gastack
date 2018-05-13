@@ -382,6 +382,13 @@ module.exports = {
       `)
   },
 
+  findOneEmail(email) {
+    return db.any(`
+      SELECT email FROM users
+      WHERE email = $1
+      `, email);
+  }
+
 }
 
 

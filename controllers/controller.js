@@ -150,13 +150,35 @@ module.exports = {
       })
   },
 
-  getOnePostForPost(req, res, next) {
+  getOnePostForEdit(req, res, next) {
     model.getOnePost(parseInt(req.body.htmlID))
       .then((data) => {
         res.locals.post = data;
         next();
       })
       .catch((err) => {
+        next(err);
+      })
+  },
+
+  getOneCommentForEdit(req, res, next) {
+    model.getOneComment(parseInt(req.body.htmlID))
+      .then(data => {
+        res.locals.post = data;
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  getOneResourceForEdit(req, res, next) {
+    model.getOneResource(parseInt(req.body.htmlID))
+      .then(data => {
+        res.locals.post = data;
+        next();
+      })
+      .catch(err => {
         next(err);
       })
   },
@@ -264,6 +286,23 @@ module.exports = {
           next();
         } else {
           res.locals.usercheck = func.killArray(data).username;
+          next();
+        }
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  checkEmail(req, res, next) {
+    console.log('thisisrunning')
+    model.findOneEmail(req.body.email)
+      .then(data => {
+        if(data.length === 0) {
+          res.locals.usercheck = '';
+          next();
+        } else {
+          res.locals.usercheck = func.killArray(data).email;
           next();
         }
       })

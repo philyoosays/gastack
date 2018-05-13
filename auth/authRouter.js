@@ -19,6 +19,13 @@ app.route('/register/user')
     view.show404
     )
 
+app.route('/register/email')
+  .post(
+    control.checkEmail,
+    view.handleUserCheckSend,
+    view.show404
+    )
+
 app.route('/user')
   .post(
     control.checkUsername,

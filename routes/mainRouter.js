@@ -15,6 +15,12 @@ app.route('/resources/:resourceid/edit')
     view.showTextEditor,
     view.show404
     )
+  .post(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.getOneCommentForEdit,
+    view.handlePostSend
+    )
   .put(
     authService.loginRequired,
     control.getResourceId,
@@ -32,6 +38,12 @@ app.route('/comment/:commentid/edit')
     control.getOneComment,
     view.showTextEditor,
     view.show404
+    )
+  .post(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.getOneCommentForEdit,
+    view.handlePostSend
     )
   .put(
     authService.loginRequired,
@@ -88,7 +100,7 @@ app.route('/post/:postid/edit')
   .post(
     authService.loginRequired,
     control.dataInitialize,
-    control.getOnePostForPost,
+    control.getOnePostForEdit,
     view.handlePostSend
     )
   .put(

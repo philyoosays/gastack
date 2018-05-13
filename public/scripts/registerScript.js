@@ -78,35 +78,59 @@ function checkEmail() {
   let verifyMessage = document.getElementById('verifying');
   submitButton.setAttribute('disabled', true);
   verifyMessage.removeAttribute('style');
-  fetch(`https://api.trumail.io/v1/json/${theEmail}`)
+  fetch('/login/register/email', {
+    body: JSON.stringify({ email: theEmail}),
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    referrer: 'no-referrer',
+  })
     .then(response => response.json())
-    .then(data => {
-      if(Object.keys(data).indexOf('address') === -1) {
-        emailLabel.removeAttribute('style');
-        submitButton.removeAttribute('disabled');
-        verifyMessage.setAttribute('style', 'visibility: hidden');
-      } else {
-      // if(data.deliverable === true) {
-        if(data.fullInbox === false) {
-          if(data.hostExists === true) {
-            if(data.catchAll === false && theEmail.split('@')[1] !== 'q.com') {
-              if(data.disposable === false) {
-                let emailLabel = document.querySelectorAll('p')[3];
-                emailLabel.removeAttribute('style');
+      .then(data => {
+        let emailField = document.getElementById('email');
+        let emailPTag = document.querySelectorAll('p')[3];
+        if(data !== '') {
+          emailField.value = '';
+          emailField.setAttribute('placeholder', theEmail + ' is taken');
+          emailPTag.setAttribute('style', 'color: red');
+        } else {
+          emailField.removeAttribute('style');
+          emailPTag.removeAttribute('style');
+          fetch(`https://api.trumail.io/v1/json/${theEmail}`)
+            .then(response => response.json())
+            .then(data => {
+              if(Object.keys(data).indexOf('address') === -1) {
+                emailPTag.removeAttribute('style');
                 submitButton.removeAttribute('disabled');
                 verifyMessage.setAttribute('style', 'visibility: hidden');
-              } else { emailMessage('disposable'); }
-            } else { emailMessage('catchAll'); }
-          } else { emailMessage('host'); }
-        } else { emailMessage('fullInbox'); }
-      // } else { emailMessage('deliverable'); }
-      }
-    })
-    .catch(err => {
-      emailLabel.removeAttribute('style');
-      submitButton.removeAttribute('disabled');
-      verifyMessage.setAttribute('style', 'visibility: hidden');
-    })
+              } else {
+              // if(data.deliverable === true) {
+                if(data.fullInbox === false) {
+                  if(data.hostExists === true) {
+                    if(data.catchAll === false && theEmail.split('@')[1] !== 'q.com') {
+                      if(data.disposable === false) {
+                        emailPTag.removeAttribute('style');
+                        submitButton.removeAttribute('disabled');
+                        verifyMessage.setAttribute('style', 'visibility: hidden');
+                      } else { emailMessage('disposable'); }
+                    } else { emailMessage('catchAll'); }
+                  } else { emailMessage('host'); }
+                } else { emailMessage('fullInbox'); }
+              // } else { emailMessage('deliverable'); }
+              }
+            })
+            .catch(err => {
+              emailPTag.removeAttribute('style');
+              submitButton.removeAttribute('disabled');
+              verifyMessage.setAttribute('style', 'visibility: hidden');
+            })
+        }
+      })
 }
 
 function emailMessage(string) {
