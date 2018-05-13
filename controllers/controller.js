@@ -195,7 +195,6 @@ module.exports = {
     model.findOneResource(parseInt(req.params.resourceid))
       .then(data => {
         res.locals.post = data;
-        console.log(data)
         next();
       })
       .catch(err => {
@@ -595,7 +594,7 @@ module.exports = {
     res.locals.post = {};
     res.locals.mode = '';
     res.locals.resources = [];
-    res.locals.searchdata = [{}];
+    res.locals.searchdata = [];
     res.locals.searchstring = '';
     res.locals.username = '';
     res.locals.usertype = 'student'
