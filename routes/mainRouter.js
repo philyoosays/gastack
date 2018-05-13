@@ -191,6 +191,14 @@ app.route('/vote')
     view.handleVoteSend
     )
 
+app.route('/messages')
+  .get(
+    authService.loginRequired,
+    // control.getAllTheMessages,
+    view.handleMessageSend,
+    view.show404
+    )
+
 app.route('/search')
   .get(
     authService.loginRequired,

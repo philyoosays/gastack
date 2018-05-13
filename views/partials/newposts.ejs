@@ -7,7 +7,7 @@
     <div class="kenny">
       <a href="/main/post/<%= d.id %>?s=<%= searchid.id %>">
         <h2 class="posttitle"><%= d.post_title %></h2>
-        <p><%= d.posthtml.slice(0,200) %>...</p>
+        <p><%= d.post.slice(0,200) %>...</p>
         <div>
           <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>" class="userlink"><%= d.username %></a></span>
           <span class="userprogram"> - <%= d.programshort %> - <%= d.cohort %></span>

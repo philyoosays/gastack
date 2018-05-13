@@ -87,8 +87,12 @@ module.exports = {
   },
 
   handlePostSend(req, res, next) {
-    console.log('this is', res.locals.post)
     res.json(res.locals.post)
+  },
+
+  handleMessageSend(req, res, next) {
+    console.log(res.locals.messages)
+    res.json(res.locals.messages)
   },
 
   handleProfileUpdate(req, res, next) {
@@ -104,7 +108,7 @@ module.exports = {
   },
 
   handleNewResource(req, res, next) {
-    res.redirect('/main/resources');
+    res.redirect('/main/resources')
   },
 
   handleUserCheckSend(req, res, next) {

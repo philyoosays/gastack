@@ -280,11 +280,11 @@ label {
   border-left: none;
   border-right: none;
   border-bottom: 3px solid black;
-  transition: all 3s ease-out;
+/*  transition: all 3s ease-out;
   -o-transition: all 3s ease-out;
   -ms-transition: all 3s ease-out;
   -moz-transition: all 3s ease-out;
-  -webkit-transition: all 3s ease-out;
+  -webkit-transition: all 3s ease-out;*/
 }
 
 #mainsearch:focus {

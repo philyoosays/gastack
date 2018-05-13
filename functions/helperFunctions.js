@@ -77,6 +77,7 @@ module.exports = {
     // temp = temp.split(';').join(';<br>');
     temp = temp.split('<br><br>').join('<br>');
     temp = temp.split('<br><br>').join('<br>');
+    temp = temp.split('ql-syntax ').join('');
     // temp = temp.split('}').join('<br>}');
     temp = temp.split('&lt;<br>').join('&lt;')
     temp = temp.split('<br> &nbsp;').join('')

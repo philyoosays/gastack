@@ -31,9 +31,9 @@ window.onload = function() {
       }
     })
     if(counter === 0) {
-      codeBlock.classList.remove('ql-syntax')
-      codeBlock.classList.add('prettyprint');
-      codeBlock.classList.add('linenums');
+      // codeBlock.classList.remove('ql-syntax')
+      // codeBlock.classList.add('prettyprint');
+      // codeBlock.classList.add('linenums');
     }
   })
 }
@@ -67,7 +67,7 @@ var container = document.getElementById('editor');
 var options = {
   debug: 'info',
   modules: {
-    syntax: false,
+    syntax: true,
     toolbar: toolbarOptions,
     "emoji-toolbar": true,
     "emoji-shortname": true,
@@ -83,12 +83,12 @@ var options = {
   theme: 'snow'
 };
 document.addEventListener("DOMContentLoaded", function() {
-  // let elements = document.querySelectorAll('pre')
-  // for (let element of elements) {
-  //   // hljs.highlightBlock(element);
-  //   element.classList.add('prettyprint');
-  //   element.classList.add('linenums');
-  // }
+  let elements = document.querySelectorAll('pre')
+  for (let element of elements) {
+    hljs.highlightBlock(element);
+    // element.classList.add('prettyprint');
+    // element.classList.add('linenums');
+  }
   document.querySelectorAll('button').forEach(d => {
     d.setAttribute('data-toggle','tooltip');
   })
@@ -98,7 +98,7 @@ let quill = new Quill(container, options);
 
 
 
-// document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
+document.querySelectorAll('[data-toggle="tooltip"]').tooltip();
 
 function fetchPost() {
   let htmlID = document.getElementById('submitformhtml')
@@ -149,9 +149,12 @@ function storeFormData() {
 function forceFitBR(html) {
   let editor = document.querySelector('.ql-editor');
   editor.innerHTML = html.slice(0,63);
+  console.log(editor.innerHTML)
   html = html.slice(63,html.length-6);
   html = html.split('<br>');
   let preTag = document.querySelector('pre')
+  console.log(preTag)
+  console.log(html)
   html.forEach(data => {
     preTag.innerHTML += data.trim() + '\n';
     preTag.innerHTML += '<br>';

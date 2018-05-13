@@ -24,7 +24,7 @@
   <div class="showposthtml"><%- post.posthtml %></div>
   <div>
     <span class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/profile/<%= post.username %>"><%= post.username %></a></span>
-    <span class="userprogram"> - <%=usertype%> <%= post.programshort %> - <%= post.cohort %></span>
+    <span class="userprogram"> - <%= post.programshort %> - <%= post.cohort %></span>
   </div>
   <div class="tags">
       <% if(post.tags !== '') { %>
@@ -103,6 +103,8 @@
   <% }) %>
 </div>
 
+<!-- <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&amp;skin=sunburst"></script> -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script src="../../../scripts/voteScript.js"></script>
 
 <% include ../partials/foot %>

@@ -18,6 +18,11 @@ DROP TABLE IF EXISTS commentvotes CASCADE;
 DROP TABLE IF EXISTS searchhistory CASCADE;
 DROP TABLE IF EXISTS postviews CASCADE;
 
+CREATE TABLE messages (
+id SERIAL PRIMARY KEY,
+message TEXT NOT NULL
+);
+
 CREATE TABLE programs (
 id SERIAL PRIMARY KEY,
 program TEXT NOT NULL,
@@ -45,7 +50,7 @@ blurb VARCHAR(255),
 location VARCHAR(255),
 website VARCHAR(255),
 github VARCHAR(255),
-account_type TEXT,
+account_type TEXT DEFAULT '',
 active BOOLEAN DEFAULT true,
 date_created TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -213,6 +218,11 @@ VALUES
 ('git'),
 ('html'),
 ('fetch');
+
+INSERT INTO messages
+(message) VALUES
+('Ask me about React...'),
+('What error message are you getting?')
 
 -- -- What are people looking at?
 -- SELECT users.fname, users.lname, users.username, cohort.cohort, posts.post_title FROM users JOIN cohort ON users.cohortid = cohort.id JOIN views ON views.userid = users.id JOIN posts ON posts.id = views.postid ORDER BY views.date_created DESC;

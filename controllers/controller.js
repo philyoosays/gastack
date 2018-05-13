@@ -110,6 +110,19 @@ module.exports = {
       })
   },
 
+  getAllTheMessages(req, res, next) {
+    console.log('hit')
+    model.getAllMessages()
+      .then(data => {
+        console.log(data)
+        res.locals.messages = data
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // GET ONE //////////////////////////////
@@ -584,6 +597,7 @@ module.exports = {
     res.locals.searchdata = [{}];
     res.locals.searchstring = '';
     res.locals.username = '';
+    res.locals.usertype = 'student'
     next();
   },
 
@@ -669,7 +683,8 @@ module.exports = {
   },
 
   userType(req, res, next) {
-    res.locals.usertype = func.killArray(req.session.user).account_type;
+    console.log(func.killArray(req.session.user))
+    res.locals.usertype = (func.killArray(req.session.user).account_type === null) ? 'student' : func.killArray(req.session.user).account_type;
     next();
   }
 

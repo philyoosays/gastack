@@ -1,10 +1,6 @@
 
 let searchBar = document.querySelector('#mainsearch');
-let messages = [
-  'What are you looking for today?',
-  'Ask me about React...',
-  'What error message are you getting?',
-];
+let messages = ['What are you looking for today?'];
 let prevIndex = 0;
 let randomIndex = 0;
 let theMessage = messages[randomIndex]
@@ -12,6 +8,12 @@ let messagePortion = '';
 let incrementer = 0;
 let toggle = true;
 let initial;
+
+fetch('/main/messages')
+  .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
 
 setTimeout(() => {
   if(incrementer < theMessage.length) {

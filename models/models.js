@@ -376,6 +376,12 @@ module.exports = {
       `, data);
   },
 
+  getAllMessages() {
+    return db.any(`
+      SELECT message FROM messages
+      `)
+  },
+
 }
 
 
