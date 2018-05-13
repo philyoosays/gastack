@@ -104,7 +104,7 @@
         name="submitformhtml"
         type="text"
         style="display: none"
-        data="<%= post.commenthtml %>"
+        data="<%= post.id %>"
       >
     <% } else if(mode === 'editresource') { %>
       <input
@@ -112,7 +112,7 @@
         name="submitformhtml"
         type="text"
         style="display: none"
-        data="<%= post.labelhtml %>"
+        data="<%= post.id %>"
       >
     <% } else { %>
       <input id="submitformhtml" name="submitformhtml" type="text" style="display: none">
