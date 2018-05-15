@@ -186,52 +186,52 @@ function forFitBR2(variable) {
   let tempStore = '';
   let html = variable.split('pre');
   editor.innerHTML = ''
-  console.log('beginning with this', variable)
-  console.log('startingarray', html)
-  console.log('editor is starting with ', editor.innerHTML)
+  // console.log('beginning with this', variable)
+  // console.log('startingarray', html)
+  // console.log('editor is starting with ', editor.innerHTML)
   while(html.length > 0) {
-    console.log('starting round with editor at', editor.innerHTML)
-    console.log('html.length', html.length)
-    console.log('checking', html[0])
+    // console.log('starting round with editor at', editor.innerHTML)
+    // console.log('html.length', html.length)
+    // console.log('checking', html[0])
     if(html[0].slice(0,1) === '>') {
-      console.log('firstchar is', html[0].slice(0,1))
+      // console.log('firstchar is', html[0].slice(0,1))
       html[0] = html[0].slice(1)
-      console.log('cutfirst now', html[0])
+      // console.log('cutfirst now', html[0])
     }
     if(html[0].slice(-1) === '<') {
-      console.log('lastcharis', html[0].slice(-1))
-      console.log('cutting last')
+      // console.log('lastcharis', html[0].slice(-1))
+      // console.log('cutting last')
       html[0] = html[0].slice(0,-1)
-      console.log('cut the last is now', html[0])
+      // console.log('cut the last is now', html[0])
     } else if (html[0].slice(-2) === '</') {
-      console.log('last is', html[0].slice(-2))
+      // console.log('last is', html[0].slice(-2))
       html[0] = html[0].slice(0,-2)
-      console.log('last cut is now', html[0])
+      // console.log('last cut is now', html[0])
     }
     if(html[0] === '') {
-      console.log('its empty')
+      // console.log('its empty')
       html[0] = ''
     } else if(html[0].slice(0,6) === ' class') {
-      console.log('this is a codeblcok', html[0])
+      // console.log('this is a codeblcok', html[0])
       editor.innerHTML += '<pre class="ql-syntax" spellcheck="false">'
       let codeBlock = document.querySelectorAll('pre')
-      console.log('editor is now ', editor.innerHTML)
+      // console.log('editor is now ', editor.innerHTML)
       codeBlock = codeBlock[codeBlock.length -1]
       let toInsert = html[0].slice(38).split('<br>');
-      console.log('inserting', html[0].slice(38))
+      // console.log('inserting', html[0].slice(38))
       while(toInsert.length > 0) {
         codeBlock.innerHTML += toInsert[0];
         codeBlock.innerHTML += '\n';
         toInsert.shift();
       }
-      console.log('editor got new text', editor.innerHTML)
+      // console.log('editor got new text', editor.innerHTML)
     } else {
-      console.log('not a codeblock')
-      console.log('adding', html[0])
+      // console.log('not a codeblock')
+      // console.log('adding', html[0])
       editor.innerHTML += html[0];
-      console.log('editor is now ', editor.innerHTML)
+      // console.log('editor is now ', editor.innerHTML)
     }
-    console.log('ending round')
+    // console.log('ending round')
     html.shift()
     console.log
   }

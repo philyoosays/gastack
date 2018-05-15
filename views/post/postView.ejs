@@ -91,7 +91,7 @@
           </form>
         <% } %>
         <% if(usertype.slice(0,5) === 'admin') { %>
-          <form action="/main/post/<%= post.id %>/delete?_method=put" method="post">
+          <form action="/main/comment/<%= d.id %>/delete?_method=put" method="post">
             <div id="databucket">
             </div>
             <input type="submit" id="deletepost" value="Delete" onmouseover="grabData()">

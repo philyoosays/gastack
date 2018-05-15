@@ -1,5 +1,5 @@
 
-<% if(usertype === 'admin') { %>
+<% if(usertype === 'admin' || usertype === 'admin-phil') { %>
   <div class="kenny">
     <div class="clearfix commentheader">
       <div id="newcommentbutton">
@@ -22,7 +22,7 @@
     <% resources.forEach(d => { %>
       <div class="kenny">
         <article><%- d.labelhtml %></article>
-        <% if(usertype === 'admin') { %>
+        <% if(usertype === 'admin' || usertype === 'admin-phil') { %>
           <form action="/main/resources/<%= d.id %>/edit" method="get">
             <input type="submit" id="editpost" value="Edit">
           </form>
