@@ -451,9 +451,20 @@ module.exports = {
     }
   },
 
-  deletePost(req, res ,next) {
+  deletePost(req, res, next) {
     model.deleteFromPosts(parseInt(req.params.postid))
       .then(data => {
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  deleteComment(req, res, next) {
+    model.deleteFromComments(parseInt(res.locals.postid))
+      .then(data => {
+        console.log(data)
         next();
       })
       .catch(err => {
@@ -469,6 +480,48 @@ module.exports = {
     }
     model.editOneResource(theData)
       .then(data => {
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  saveBackup(req, res, next) {
+    let post_html;
+    let post_text;
+    let comment_html;
+    let comment_text;
+    let entryType;
+    if(res.locals.mode === 'newpost' || res.locals.mode === 'editpost') {
+      post_text = req.body.submitformtext;
+      post_html = func.trimHTML(req.body.submitformhtml);
+      comment_html = null;
+      comment_text = null;
+      entryType = res.locals.mode;
+    } else if(res.locals.mode === 'newcomment' || res.locals.mode === 'editcomment') {
+      post_text = null;
+      post_html = null;
+      comment_html = func.trimHTML(req.body.submitformhtml);;
+      comment_text = req.body.submitformtext;
+      entryType = res.locals.mode;
+    }
+    let theData = {
+      type: entryType,
+      userid: func.killArray(req.session.user).id,
+      postid: res.locals.postid || null,
+      post_title: req.body.title || null,
+      post: post_text,
+      posthtml: post_html,
+      tags: req.body.tags,
+      commentid: res.locals.commentid || null,
+      comment: comment_text,
+      commenthtml: comment_html
+    }
+    console.log('here', theData)
+    model.makeBackUp(theData)
+      .then(data => {
+        console.log('backup was successful')
         next();
       })
       .catch(err => {
@@ -513,6 +566,7 @@ module.exports = {
     res.locals.postid = req.params.postid
     model.makeOneComment(theData)
       .then((data) => {
+        res.locals.commentid = data.id;
         next();
       })
       .catch((err) => {

@@ -29,6 +29,14 @@ app.route('/resources/:resourceid/edit')
     view.show404
     )
 
+app.route('/comment/:commentid/delete')
+  .put(
+    authService.loginRequired,
+    control.getCommentId,
+    control.deleteComment,
+    view.tester
+    )
+
 app.route('/comment/:commentid/edit')
   .get(
     authService.loginRequired,
@@ -47,8 +55,10 @@ app.route('/comment/:commentid/edit')
     )
   .put(
     authService.loginRequired,
+    control.modeEditComment,
     control.getCommentId,
     control.updateComment,
+    control.saveBackup,
     view.handleNewPost,
     view.show404
     )
@@ -64,7 +74,9 @@ app.route('/comment/:postid/new')
     )
   .post(
     authService.loginRequired,
+    control.modeNewComment,
     control.makeNewComment,
+    control.saveBackup,
     view.handleNewPost,
     view.show404
     )
@@ -105,8 +117,10 @@ app.route('/post/:postid/edit')
     )
   .put(
     authService.loginRequired,
+    control.modeEditPost,
     control.getPostId,
     control.updatePost,
+    control.saveBackup,
     view.handleNewPost,
     view.show404
     )
@@ -127,7 +141,9 @@ app.route('/post/new')
     )
   .post(
     authService.loginRequired,
+    control.modeNewPost,
     control.makeNewPost,
+    control.saveBackup,
     view.handleNewPost,
     view.show404
     )

@@ -122,12 +122,33 @@ module.exports = {
   },
 
   makeOneComment(data) {
-    return db.none(`
+    return db.one(`
       INSERT INTO comments
       (userid, postid, comment, commenthtml)
       VALUES (
         $/userid/,
         $/postid/,
+        $/comment/,
+        $/commenthtml/
+      ) RETURNING id
+      `, data);
+  },
+
+  makeBackUp(data) {
+    return db.none(`
+      INSERT INTO backup
+        (type, userid, postid, post_title, post,
+          posthtml, posttags, commentid, comment,
+          commenthtml)
+      VALUES (
+        $/type/,
+        $/userid/,
+        $/postid/,
+        $/post_title/,
+        $/post/,
+        $/posthtml/,
+        $/tags/,
+        $/commentid/,
         $/comment/,
         $/commenthtml/
       )
@@ -155,6 +176,7 @@ module.exports = {
                         ) AS uservotes
       ON comments.id = uservotes.commentid
       WHERE comments.postid = $/postid/
+        AND isdeleted = false
       ORDER BY
         comments.comment_score DESC,
         comments.date_created DESC) AS main
@@ -357,6 +379,15 @@ module.exports = {
           isdeleted = true
       WHERE id = $1
       `, postid);
+  },
+
+  deleteFromComments(commentid) {
+    return db.one(`
+      UPDATE comments
+        SET isdeleted = true
+      WHERE id = $1
+      RETURNING postid
+      `, commentid)
   },
 
   findOneResource(resourceid) {

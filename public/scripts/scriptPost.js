@@ -15,8 +15,6 @@ window.onload = function() {
   console.log('pageType is ', pageType)
   console.log('htmlID is', htmlID)
   if(pageType === 'editpost') {
-    let url = `/main/post/${htmlID}/edit`;
-    fetchPost(url, htmlID, pageType);
     document.getElementById('inserttags').onkeyup = (e) => {
       switch(e.keyCode) {
         case 13:
@@ -27,8 +25,9 @@ window.onload = function() {
           break;
       }
     }
+    let url = `/main/post/${htmlID}/edit`;
+    fetchPost(url, htmlID, pageType);
   } else if(pageType === 'editcomment') {
-    console.log('IA AM RUNINNNGNG')
     let url = `/main/comment/${htmlID}/edit`;
     fetchPost(url, htmlID, pageType);
   } else if(pageType === 'editresource') {

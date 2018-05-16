@@ -100,6 +100,21 @@ comment_score INTEGER DEFAULT 0,
 isdeleted BOOLEAN DEFAULT false
 );
 
+CREATE TABLE backup (
+id SERIAL PRIMARY KEY,
+userid INTEGER,
+type TEXT,
+postid INTEGER,
+post_title TEXT,
+post TEXT,
+posthtml TEXT,
+posttags TEXT,
+commentid INTEGER,
+comment TEXT,
+commenthtml TEXT,
+datecreated TIMESTAMP DEFAULT NOW(),
+);
+
 CREATE TABLE commentvotes (
 id SERIAL PRIMARY KEY,
 commentid INTEGER REFERENCES comments(id),
