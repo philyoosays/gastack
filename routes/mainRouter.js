@@ -34,7 +34,7 @@ app.route('/comment/:commentid/delete')
     authService.loginRequired,
     control.getCommentId,
     control.deleteComment,
-    view.tester
+    view.handleNewPost
     )
 
 app.route('/comment/:commentid/edit')

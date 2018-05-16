@@ -240,7 +240,7 @@ function forFitBR2(variable) {
 
 function runCancel() {
   if(confirm("Are you sure you want to navigate away from this page?")) {
-    history.go(-1);
+    window.location.replace('/main')
   }
   return false;
 }

@@ -465,6 +465,7 @@ module.exports = {
     model.deleteFromComments(parseInt(res.locals.postid))
       .then(data => {
         console.log(data)
+        res.locals.postid = data
         next();
       })
       .catch(err => {
