@@ -238,9 +238,10 @@ function forFitBR2(variable) {
 
 
 
-function runCancel() {
+function runCancel(postid) {
+  document.getElementById('cancel').value = 'true'
   if(confirm("Are you sure you want to navigate away from this page?")) {
-    window.location.replace('/main')
+    history.go(-1)
   }
   return false;
 }

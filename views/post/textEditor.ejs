@@ -99,6 +99,13 @@
         data-type="editpost"
         style="display: none"
       >
+      <input
+        id="cancel"
+        name="cancel"
+        type="text"
+        value="false"
+        style="display: none"
+      >
     <% } else if(mode === 'editcomment') { %>
       <input
         id="submitformhtml"
@@ -107,6 +114,13 @@
         style="display: none"
         data-type="editcomment"
         data="<%= post.id %>"
+      >
+      <input
+        id="cancel"
+        name="cancel"
+        type="text"
+        value="false"
+        style="display: none"
       >
     <% } else if(mode === 'editresource') { %>
       <input
@@ -117,13 +131,20 @@
         data-type="editresource"
         data="<%= post.id %>"
       >
+      <input
+        id="cancel"
+        name="cancel"
+        type="text"
+        value="false"
+        style="display: none"
+      >
     <% } else { %>
       <input id="submitformhtml" name="submitformhtml" type="text" style="display: none">
     <% } %>
     <input id="submitformtext" name="submitformtext" type="text" style="display: none">
     <div class="buttoncentered-button">
       <input type="submit" value="Post" onClick="storeFormData()">
-      <!-- <button onClick="runCancel()">Cancel</button> -->
+      <button onmouseover="storeFormData()" onClick="runCancel(<%= post.id %>)">Cancel</button>
     </div>
   </div>
 </form>
@@ -133,7 +154,6 @@
   integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
   crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&amp;skin=sunburst"></script> -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
 

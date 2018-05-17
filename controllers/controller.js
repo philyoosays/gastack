@@ -464,8 +464,7 @@ module.exports = {
   deleteComment(req, res, next) {
     model.deleteFromComments(parseInt(res.locals.postid))
       .then(data => {
-        console.log(data)
-        res.locals.postid = data
+        res.locals.postid = data.postid
         next();
       })
       .catch(err => {
@@ -489,45 +488,51 @@ module.exports = {
   },
 
   saveBackup(req, res, next) {
-    let post_html;
-    let post_text;
-    let comment_html;
-    let comment_text;
-    let entryType;
-    if(res.locals.mode === 'newpost' || res.locals.mode === 'editpost') {
-      post_text = req.body.submitformtext;
-      post_html = func.trimHTML(req.body.submitformhtml);
-      comment_html = null;
-      comment_text = null;
-      entryType = res.locals.mode;
-    } else if(res.locals.mode === 'newcomment' || res.locals.mode === 'editcomment') {
-      post_text = null;
-      post_html = null;
-      comment_html = func.trimHTML(req.body.submitformhtml);;
-      comment_text = req.body.submitformtext;
-      entryType = res.locals.mode;
+    console.log('req.body', req.body)
+    if(req.body.cancel === 'true') {
+      console.log('skipping backup')
+      next();
+    } else {
+      let post_html;
+      let post_text;
+      let comment_html;
+      let comment_text;
+      let entryType;
+      if(res.locals.mode === 'newpost' || res.locals.mode === 'editpost') {
+        post_text = req.body.submitformtext;
+        post_html = func.trimHTML(req.body.submitformhtml);
+        comment_html = null;
+        comment_text = null;
+        entryType = res.locals.mode;
+      } else if(res.locals.mode === 'newcomment' || res.locals.mode === 'editcomment') {
+        post_text = null;
+        post_html = null;
+        comment_html = func.trimHTML(req.body.submitformhtml);;
+        comment_text = req.body.submitformtext;
+        entryType = res.locals.mode;
+      }
+      let theData = {
+        type: entryType,
+        userid: func.killArray(req.session.user).id,
+        postid: res.locals.postid || null,
+        post_title: req.body.title || null,
+        post: post_text,
+        posthtml: post_html,
+        tags: req.body.tags,
+        commentid: res.locals.commentid || null,
+        comment: comment_text,
+        commenthtml: comment_html
+      }
+      console.log('here', theData)
+      model.makeBackUp(theData)
+        .then(data => {
+          console.log('backup was successful')
+          next();
+        })
+        .catch(err => {
+          next(err);
+        })
     }
-    let theData = {
-      type: entryType,
-      userid: func.killArray(req.session.user).id,
-      postid: res.locals.postid || null,
-      post_title: req.body.title || null,
-      post: post_text,
-      posthtml: post_html,
-      tags: req.body.tags,
-      commentid: res.locals.commentid || null,
-      comment: comment_text,
-      commenthtml: comment_html
-    }
-    console.log('here', theData)
-    model.makeBackUp(theData)
-      .then(data => {
-        console.log('backup was successful')
-        next();
-      })
-      .catch(err => {
-        next(err);
-      })
   },
 
   /////////////////////////////////////////
