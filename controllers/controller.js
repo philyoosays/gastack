@@ -623,6 +623,9 @@ module.exports = {
   updateUserScore(req, res, next) {
     console.log('updatingscore', res.locals.score)
     if(res.locals.score) {
+      if(res.locals.score.score === null) {
+        res.locals.score.score = 0;
+      }
       model.updateScore(parseInt(res.locals.score.score), func.killArray(req.session.user).id)
         .then(data => {
           next();
