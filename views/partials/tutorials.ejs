@@ -34,6 +34,23 @@
       <hr />
     <% }) %>
   <% } %> -->
+  <% if(searchdata.length === 0) { %>
+    <br />
+    <hr />
+    <br />
+    <p>Tutorials on</p>
+    <ul>
+      <li>WYSIWYG (rich-text) editor</li>
+      <li>ternary operators</li>
+      <li>voting buttons</li>
+      <li>dropdown menus</li>
+      <li>code-snippets</li>
+      <li>vector searches</li>
+      <li>fuzzy searches</li>
+      <li>etc.</li>
+    </ul>
+    <p>coming soon!</p>
+  <% } %>
   <% searchdata.forEach(d => { %>
     <div class="kenny">
       <a href="/main/post/<%= d.id %>?s=<%= searchid.id %>">
