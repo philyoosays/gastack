@@ -90,10 +90,10 @@ module.exports = {
   isLoggedIn(req, res, next) {
     let date = new Date()
     if(req.session.cookie._expires > date) {
-      console.log('this is running')
+      console.log('user is logged in')
       res.json({loggedin: true})
     } else {
-      console.log('user is not logged in', req.session.user)
+      console.log('user is not logged in')
       res.end()
     }
   },
