@@ -14,6 +14,7 @@ module.exports = {
       }
       req.session.user = user;
       req.session.save()
+      console.log('func login, req.session.saved', req.session.user)
       next();
     } catch (err) {
       next(err);
@@ -75,6 +76,7 @@ module.exports = {
   },
 
   handleLogin(req, res, next) {
+    console.log('thisis handlelogin', req.session.user)
     if(req.session.user) {
       res.redirect('/main')
     } else {
