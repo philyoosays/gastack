@@ -1,5 +1,11 @@
 window.onload = function() {
   fetch('/login/loggedin')
+    .then(response => response.json())
+      .then(data => {
+        if(data.loggedin === true) {
+          window.location.replace('/main')
+        }
+      })
 }
 
 
