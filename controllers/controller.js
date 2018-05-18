@@ -287,6 +287,7 @@ module.exports = {
     model.countUserScore(func.killArray(req.session.user).id)
       .then(score => {
         res.locals.score = func.killArray(score)
+        console.log('got the score: ', res.locals.score)
         next();
       })
       .catch(err => {
@@ -620,6 +621,7 @@ module.exports = {
   },
 
   updateUserScore(req, res, next) {
+    console.log('updatingscore', res.locals.score)
     if(res.locals.score) {
       model.updateScore(parseInt(res.locals.score.score), func.killArray(req.session.user).id)
         .then(data => {
