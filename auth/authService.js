@@ -13,6 +13,7 @@ module.exports = {
         next(err);
       }
       req.session.user = user;
+      req.session.save()
       next();
     } catch (err) {
       next(err);
@@ -82,6 +83,8 @@ module.exports = {
   },
 
   logout(req, res, next) {
+    date = new Date()
+    req.session.cookie._expires = date
     req.session.destroy((err) => {
       res.redirect('/')
     })
@@ -90,7 +93,7 @@ module.exports = {
   isLoggedIn(req, res, next) {
     let date = new Date()
     if(req.session.cookie._expires > date) {
-      console.log('user is logged in')
+      console.log('user is logged in', req.session.cookie)
       res.json({loggedin: true})
     } else {
       console.log('user is not logged in')

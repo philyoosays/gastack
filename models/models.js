@@ -531,7 +531,9 @@ module.exports = {
       SELECT score FROM users
       WHERE id = $1
       `, userid);
-  }
+  },
+
+
 }
 
 
