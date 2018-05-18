@@ -87,6 +87,15 @@ module.exports = {
     })
   },
 
+  isLoggedIn(req, res, next) {
+    console.log('Im being hit')
+    if(req.session.user) {
+      res.redirect('/main')
+    } else {
+      res.end()
+    }
+  },
+
   loginRequired: [
    (req, res, next) => {
       if(req.session.user) {

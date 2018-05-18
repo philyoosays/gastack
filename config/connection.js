@@ -7,8 +7,8 @@ const pgp = require('pg-promise')({
   query: q => console.log(q.query),
 });
 
-const db = pgp(process.env.DATABASE_URL || config);
-// const db = pgp(config);
+// const db = pgp(process.env.DATABASE_URL || config);
+const db = pgp(config);
 
 
 module.exports = db;

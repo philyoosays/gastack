@@ -51,6 +51,11 @@ app.route('/register')
     view.show404
     )
 
+app.route('/loggedin')
+  .get(
+    authService.isLoggedIn,
+    )
+
 app.route('/logout')
   .get(
     authService.logout,

@@ -1,3 +1,7 @@
+window.onload = function() {
+  fetch('/login/loggedin')
+}
+
 
 function checkUser() {
   let theLoginField = document.querySelector('input[type="input"]');
