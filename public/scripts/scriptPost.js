@@ -14,11 +14,12 @@ window.onload = function() {
   htmlID = htmlID.getAttribute('data');
   console.log('pageType is ', pageType)
   console.log('htmlID is', htmlID)
-  if(pageType === 'editpost') {
+  if(pageType === 'editpost' || pageType === 'newpost') {
     document.getElementById('inserttags').onkeyup = (e) => {
       switch(e.keyCode) {
         case 13:
         case 32:
+            console.log('yooyoyoyoyoyoyo')
             finishTag();
           break;
         default:
@@ -167,6 +168,7 @@ function storeFormData() {
   document.getElementById('inserttags').value = tagStorage.trim();
 }
 
+
 // function forceFitBR(html) {
 //   let editor = document.querySelector('.ql-editor');
 //   editor.innerHTML = html.slice(0,63);
@@ -238,7 +240,7 @@ function forFitBR2(variable) {
 
 
 
-function runCancel(postid) {
+function runCancel() {
   document.getElementById('cancel').value = 'true'
   if(confirm("Are you sure you want to navigate away from this page?")) {
     history.go(-1)

@@ -5,6 +5,7 @@ const control = require('../controllers/controller');
 
 const app = express.Router();
 
+
 app.route('/resources/:resourceid/edit')
   .get(
     authService.loginRequired,
@@ -77,6 +78,8 @@ app.route('/comment/:postid/new')
     control.modeNewComment,
     control.makeNewComment,
     control.saveBackup,
+    control.getUserScoreCount,
+    control.updateUserScore,
     view.handleNewPost,
     view.show404
     )
@@ -144,6 +147,8 @@ app.route('/post/new')
     control.modeNewPost,
     control.makeNewPost,
     control.saveBackup,
+    control.getUserScoreCount,
+    control.updateUserScore,
     view.handleNewPost,
     view.show404
     )
@@ -164,12 +169,42 @@ app.route('/post/:postid')
     view.show404
     )
 
+app.route('/tutorial/:postid')
+  .get(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.modeNewTutorial,
+    control.userType,
+    control.getPostId,
+    control.userTag,
+    control.updateTutorialSearch,
+    control.checkUserViewTutorial,
+    control.storeTutorialView,
+    control.getOneTutorial,
+    view.showOnePost,
+    view.show404
+    )
+
 app.route('/profile/edit')
   .get(
     authService.loginRequired,
     control.getUserDetails,
     control.getUserProgramCohort,
     view.showUserDetailsEdit,
+    view.show404
+    )
+
+app.route('/tutorials/new')
+  .get(
+    authService.loginRequired,
+    control.modeNewTutorial,
+    view.showTextEditor,
+    view.show404
+    )
+  .post(
+    authService.loginRequired,
+    control.makeNewTutorial,
+    view.handleNewTutorial,
     view.show404
     )
 
@@ -195,6 +230,20 @@ app.route('/resources/search')
     control.modeAllResources,
     control.findResources,
     control.resourcesFailOverLookStart,
+    control.getUserScoreCount,
+    view.showMain,
+    view.show404
+    )
+
+app.route('/tutorials/search')
+  .get(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.userType,
+    control.modeAllTutorials,
+    control.findTutorials,
+    control.tutorialsFailOverLookStart,
+    control.saveTutorialSearch,
     view.showMain,
     view.show404
     )
@@ -206,6 +255,19 @@ app.route('/resources')
     control.userType,
     control.modeAllResources,
     control.getAllResources,
+    control.getUserScoreCount,
+    view.showMain,
+    view.show404
+    )
+
+app.route('/tutorials')
+  .get(
+    authService.loginRequired,
+    control.dataInitialize,
+    control.readUserScore,
+    control.userType,
+    control.modeAllTutorials,
+    control.getAllTutorials,
     view.showMain,
     view.show404
     )
@@ -216,6 +278,8 @@ app.route('/vote')
     control.getOneVote,
     control.saveEditVote,
     control.getVoteSum,
+    control.getUserScoreCount,
+    control.updateUserScore,
     view.handleVoteSend
     )
 
@@ -231,9 +295,11 @@ app.route('/search')
   .get(
     authService.loginRequired,
     control.dataInitialize,
+    control.readUserScore,
     control.mainSearch,
     control.searchFailOverLookStart,
     control.saveSearch,
+    control.getUserScoreCount,
     view.showMain,
     view.show404
     )
@@ -247,8 +313,10 @@ app.route('/')
   .get(
     authService.loginRequired,
     control.dataInitialize,
+    control.readUserScore,
     control.modeMain,
     control.getAllNewPosts,
+    control.getUserScoreCount,
     view.showMain,
     view.show404
     )

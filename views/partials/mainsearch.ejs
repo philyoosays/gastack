@@ -1,11 +1,23 @@
 <% if(mode === 'allresources') { %>
   <form action="/main/resources/search" method="get">
+<% } else if(mode === 'alltutorials') { %>
+  <form action="/main/tutorials/search" method="get">
 <% } else { %>
   <form action="/main/search" method="get">
 <% } %>
     <div class="container">
       <div class="kenny">
-        <% if(mode === 'allresources') { %>
+        <% if(mode === 'alltutorials') { %>
+          <input
+          type="text"
+          id="mainsearch"
+          name="mainsearch"
+          placeholder="Search through the tutorials..."
+          value="<%= searchstring %>"
+          data="<%= searchid %>"
+          autofocus
+          >
+        <% } else if(mode === 'allresources') { %>
           <input
           type="text"
           id="mainsearch"
@@ -55,7 +67,22 @@
             </div>
           </div>
         </div>
-          <p class="disabled navlink">Tutorials</p>
+          <% if(score.score < 25) { %>
+            <div class="dropdown">
+              <p class="navlink">Tutorials</p>
+              <div class="dropdown-content">
+                <p class="dropdown-message">You need a score of 25 or higher to view this section.
+                Check your user profile page in the navbar to see what your score is.</p>
+                <ul>
+                  <li><p class="dropdown-message">Posting Questions: 10pts</p></li>
+                  <li><p class="dropdown-message">Posting Answers: 10pts</p></li>
+                  <li><p class="dropdown-message">Voting On Answers: 2pts</p></li>
+                </ul>
+              </div>
+            </div>
+          <% } else { %>
+            <a href="/main/tutorials"><p class="navlink">Tutorials</p></a>
+          <% } %>
       </div>
     </div>
   </form>

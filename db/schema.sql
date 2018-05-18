@@ -3,6 +3,8 @@
 
 -- \c gastackoverflow
 
+DROP TABLE IF EXISTS tutorials CASCADE;
+DROP TABLE IF EXISTS backup CASCADE;
 DROP TABLE IF EXISTS resources CASCADE;
 DROP TABLE IF EXISTS favorites CASCADE;
 DROP TABLE IF EXISTS comments CASCADE;
@@ -52,6 +54,7 @@ website VARCHAR(255),
 github VARCHAR(255),
 account_type TEXT DEFAULT '',
 active BOOLEAN DEFAULT true,
+score INTEGER,
 date_created TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
@@ -112,7 +115,25 @@ posttags TEXT,
 commentid INTEGER,
 comment TEXT,
 commenthtml TEXT,
-datecreated TIMESTAMP DEFAULT NOW(),
+date_created TIMESTAMP DEFAULT NOW(),
+);
+
+CREATE TABLE tutorials (
+id SERIAL PRIMARY KEY,
+userid INTEGER REFERENCES users(id),
+title TEXT NOT NULL,
+post TEXT,
+posthtml TEXT,
+videohtml TEXT,
+tags TEXT,
+date_created TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE tutorialviews (
+id SERIAL PRIMARY KEY,
+tutorialid INTEGER REFERENCES tutorials(id),
+userid INTEGER REFERENCES users(id),
+date_created TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE commentvotes (
@@ -153,9 +174,25 @@ resultpost INTEGER,
 searchdate TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE tutorialsearch (
+id SERIAL PRIMARY KEY,
+userid INTEGER REFERENCES users(id),
+language TEXT NOT NULL,
+search TEXT NOT NULL,
+resulttutorial INTEGER,
+searchdate TIMESTAMP DEFAULT NOW()
+);
+
 CREATE TABLE views (
 id SERIAL PRIMARY KEY,
 postid INTEGER REFERENCES posts(id),
+userid INTEGER REFERENCES users(id),
+date_created TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE tutorialviews (
+id SERIAL PRIMARY KEY,
+tutorialid INTEGER REFERENCES posts(id),
 userid INTEGER REFERENCES users(id),
 date_created TIMESTAMP DEFAULT NOW()
 );

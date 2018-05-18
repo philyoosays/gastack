@@ -31,7 +31,7 @@ module.exports = {
         id, fname, lname, email, username,
         programid, cohortid, language,
         blurb, location, website, github,
-        account_type
+        account_type, score
       FROM users
       WHERE username ILIKE $1
       `, data);
@@ -48,6 +48,13 @@ module.exports = {
   findAllPrograms() {
     return db.many(`
       SELECT * FROM programs
+      `);
+  },
+
+  findAllTutorials() {
+    return db.any(`
+      SELECT * FROM tutorials
+      ORDER BY date_created DESC
       `);
   },
 
@@ -77,6 +84,24 @@ module.exports = {
       `, data);
   },
 
+  saveTutorialSearch(data) {
+    return db.one(`
+      INSERT INTO tutorialsearch
+      (userid, language, search, resulttutorial)
+      VALUES
+      ($/userid/, $/language/, $/search/, $/resulttutorial/)
+      RETURNING id
+      `, data)
+  },
+
+  updateTutorialSearch(data) {
+    return db.none(`
+      UPDATE tutorialsearch
+      SET resulttutorial = $/postid/
+      WHERE id = $/searchid/
+      `, data);
+  },
+
   getOnePost(id) {
     return db.one(`
       SELECT
@@ -89,6 +114,21 @@ module.exports = {
       JOIN programs ON users.programid = programs.id
       JOIN cohort ON users.cohortid = cohort.id
       WHERE posts.id = $1
+      `, id);
+  },
+
+  getOneTutorial(id) {
+    return db.one(`
+      SELECT
+        tutorials.*,
+        users.username,
+        programs.programshort,
+        cohort.cohort
+      FROM tutorials JOIN users
+        ON tutorials.userid = users.id
+      JOIN programs ON users.programid = programs.id
+      JOIN cohort ON users.cohortid = cohort.id
+      WHERE tutorials.id = $1
       `, id);
   },
 
@@ -130,6 +170,21 @@ module.exports = {
         $/postid/,
         $/comment/,
         $/commenthtml/
+      ) RETURNING id
+      `, data);
+  },
+
+  makeOneTutorial(data) {
+    return db.one(`
+      INSERT INTO tutorials
+      (userid, title, post, posthtml, videohtml, tags)
+      VALUES (
+        $/userid/,
+        $/title/,
+        $/post/,
+        $/posthtml/,
+        $/videohtml/,
+        $/tags/
       ) RETURNING id
       `, data);
   },
@@ -364,10 +419,27 @@ module.exports = {
       `, data);
   },
 
+  saveTutorialView(data) {
+    return db.none(`
+      INSERT INTO tutorialviews
+        (tutorialid, userid)
+      VALUES
+        ($/postid/, $/userid/)
+      `, data);
+  },
+
   findUserView(data) {
     return db.any(`
       SELECT * FROM views
       WHERE postid = $/postid/
+        AND userid = $/userid/
+      `, data);
+  },
+
+  findUserViewTutorial(data) {
+    return db.any(`
+      SELECT * FROM tutorialviews
+      WHERE tutorialid = $/postid/
         AND userid = $/userid/
       `, data);
   },
@@ -418,8 +490,48 @@ module.exports = {
       SELECT email FROM users
       WHERE email = $1
       `, email);
-  }
+  },
 
+  countUserScore(userid) {
+    return db.any(`
+      SELECT SUM(postscore + cscore + vscore) AS score
+      FROM (
+        SELECT COUNT(posts.id)*10 AS postscore, commentscore, votescore,
+          (CASE WHEN commentscore IS NULL THEN 0 ELSE commentscore END) AS cscore,
+          (CASE WHEN votescore IS NULL THEN 0 ELSE votescore END) AS vscore
+        FROM posts
+          LEFT OUTER JOIN (
+            SELECT COUNT(id) * 10 AS commentscore, votecount.votescore, comments.userid
+            FROM comments
+            JOIN (
+              SELECT COUNT(id) * 2 AS votescore, commentvotes.userid
+              FROM commentvotes
+              WHERE userid = $1
+              AND vote != 0
+              GROUP BY userid) AS votecount
+          ON comments.userid = votecount.userid
+          WHERE comments.userid = $1 AND isdeleted = FALSE
+          GROUP BY votecount.votescore, comments.userid) AS commentcount
+        ON posts.userid = commentcount.userid
+        WHERE posts.userid = $1 AND posts.isdeleted = FALSE
+        GROUP BY commentcount.commentscore, commentcount.votescore ) AS allcount
+      `, userid);
+  },
+
+  updateScore(score, userid) {
+    return db.none(`
+      UPDATE users
+        SET score = $1
+      WHERE id = $2
+      `, [score, userid]);
+  },
+
+  getUserScore(userid) {
+    return db.one(`
+      SELECT score FROM users
+      WHERE id = $1
+      `, userid);
+  }
 }
 
 

@@ -65,6 +65,8 @@ app.route('/')
     )
   .post(
     authService.login,
+    control.getUserScoreCount,
+    control.updateUserScore,
     authService.handleLogin,
     view.badPassword
     );

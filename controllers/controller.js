@@ -88,6 +88,17 @@ module.exports = {
       })
   },
 
+  getAllTutorials(req, res, next) {
+    model.findAllTutorials()
+      .then(data => {
+        res.locals.tutorials = data;
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
   getAllNewPosts(req, res, next) {
     model.findAllNewPosts()
       .then(data => {
@@ -141,6 +152,17 @@ module.exports = {
 
   getOnePost(req, res, next) {
     model.getOnePost(parseInt(req.params.postid))
+      .then((data) => {
+        res.locals.post = data;
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      })
+  },
+
+  getOneTutorial(req, res, next) {
+    model.getOneTutorial(parseInt(req.params.postid))
       .then((data) => {
         res.locals.post = data;
         next();
@@ -261,16 +283,10 @@ module.exports = {
       })
   },
 
-  checkUserView(req, res, next) {
-    let theData = {
-      userid: func.killArray(req.session.user).id,
-      postid: req.params.postid
-    }
-    console.log('checkuserview input', theData)
-    model.findUserView(theData)
-      .then(data => {
-        res.locals.userview = data;
-        console.log('userviewsfromdb', res.locals.userview)
+  getUserScoreCount(req, res, next) {
+    model.countUserScore(func.killArray(req.session.user).id)
+      .then(score => {
+        res.locals.score = func.killArray(score)
         next();
       })
       .catch(err => {
@@ -278,37 +294,46 @@ module.exports = {
       })
   },
 
-  checkUsername(req, res, next) {
-    model.findOneUser(req.body.username)
-      .then(data => {
-        if(data.length === 0) {
-          res.locals.usercheck = '';
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // FIND SOMETHING ///////////////////////
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+
+  findResources(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else {
+      res.locals.searchstring = req.query.mainsearch;
+      res.locals.search = func.prepSearch(req.query.mainsearch);
+      vector.findResources(func.killArray(req.session.user).language, res.locals.search)
+        .then((data) => {
+          res.locals.resources = data;
+          console.log('thisis', data)
           next();
-        } else {
-          res.locals.usercheck = func.killArray(data).username;
-          next();
-        }
-      })
-      .catch(err => {
-        next(err);
-      })
+        })
+        .catch((err) => {
+          next(err);
+        })
+    }
   },
 
-  checkEmail(req, res, next) {
-    console.log('thisisrunning')
-    model.findOneEmail(req.body.email)
-      .then(data => {
-        if(data.length === 0) {
-          res.locals.usercheck = '';
+  findTutorials(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else {
+      res.locals.searchstring = req.query.mainsearch;
+      res.locals.search = func.prepSearch(req.query.mainsearch);
+      vector.findTutorials(func.killArray(req.session.user).language, res.locals.search)
+        .then((data) => {
+          res.locals.tutorials = data;
+          console.log('thisis', data)
           next();
-        } else {
-          res.locals.usercheck = func.killArray(data).email;
-          next();
-        }
-      })
-      .catch(err => {
-        next(err);
-      })
+        })
+        .catch((err) => {
+          next(err);
+        })
+    }
   },
 
   /////////////////////////////////////////
@@ -339,6 +364,45 @@ module.exports = {
   },
 
   updateSavedSearch(req, res, next) {
+    if(!req.query.s) {
+      next();
+    } else {
+      let theData = {
+        searchid: parseInt(req.query.s),
+        postid: parseInt(req.params.postid)
+      }
+      model.updateSearch(theData)
+        .then((data) => {
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        })
+    }
+  },
+
+  saveTutorialSearch(req, res, next) {
+    if(req.query.mainsearch === ''){
+      next();
+    } else {
+      var searchParams = {
+        userid: func.killArray(req.session.user).id,
+        language: func.killArray(req.session.user).language,
+        search: req.query.mainsearch,
+        resulttutorial: 0
+      }
+      model.saveTutorialSearch(searchParams)
+        .then((data) => {
+          res.locals.searchid = data;
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        })
+    }
+  },
+
+  updateTutorialSearch(req, res, next) {
     if(!req.query.s) {
       next();
     } else {
@@ -451,6 +515,26 @@ module.exports = {
     }
   },
 
+  storeTutorialView(req, res, next) {
+    if(res.locals.userview.length !== 0) {
+      console.log('views exists')
+      next();
+    } else {
+      console.log('no view')
+      let theData = {
+        postid: parseInt(req.params.postid),
+        userid: func.killArray(req.session.user).id,
+      }
+      model.saveTutorialView(theData)
+        .then(data => {
+          next();
+        })
+        .catch(err => {
+          next(err);
+        })
+    }
+  },
+
   deletePost(req, res, next) {
     model.deleteFromPosts(parseInt(req.params.postid))
       .then(data => {
@@ -535,6 +619,20 @@ module.exports = {
     }
   },
 
+  updateUserScore(req, res, next) {
+    if(res.locals.score) {
+      model.updateScore(parseInt(res.locals.score.score), func.killArray(req.session.user).id)
+        .then(data => {
+          next();
+        })
+        .catch(err => {
+          next(err);
+        })
+    } else {
+      next()
+    }
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // MAKE SOMETHING ///////////////////////
@@ -596,6 +694,26 @@ module.exports = {
       })
   },
 
+  makeNewTutorial(req, res, next) {
+    let html = func.trimHTML(req.body.submitformhtml);
+    let theData = {
+      userid: func.killArray(req.session.user).id,
+      title: req.body.title,
+      post: req.body.submitformtext,
+      posthtml: html,
+      videohtml: req.body.videohtml,
+      tags: req.body.tags,
+    }
+    model.makeOneTutorial(theData)
+      .then((data) => {
+        res.locals.postid = data.id;
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      })
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // DO SOMETHING /////////////////////////
@@ -639,24 +757,6 @@ module.exports = {
     }
   },
 
-  findResources(req, res, next) {
-    if(req.query.mainsearch === '') {
-      next()
-    } else {
-      res.locals.searchstring = req.query.mainsearch;
-      res.locals.search = func.prepSearch(req.query.mainsearch);
-      vector.findResources(func.killArray(req.session.user).language, res.locals.search)
-        .then((data) => {
-          res.locals.resources = data;
-          console.log('thisis', data)
-          next();
-        })
-        .catch((err) => {
-          next(err);
-        })
-    }
-  },
-
   resourcesFailOverLookStart(req, res, next) {
     if(req.query.mainsearch === '') {
       next()
@@ -675,6 +775,91 @@ module.exports = {
     }
   },
 
+  tutorialsFailOverLookStart(req, res, next) {
+    if(req.query.mainsearch === '') {
+      next()
+    } else if(res.locals.tutorials.length !== 0) {
+      next();
+    } else {
+      vector.findTutorials(func.killArray(req.session.user).language, func.prepLookStart(res.locals.search))
+        .then((data) => {
+          res.locals.tutorials = data;
+          next();
+        })
+        .catch((err) => {
+          console.log('ERRRRRRRORRRRRRRRRR searchfailoverstart')
+          next(err);
+        })
+    }
+  },
+
+  checkUserView(req, res, next) {
+    let theData = {
+      userid: func.killArray(req.session.user).id,
+      postid: req.params.postid
+    }
+    console.log('checkuserview input', theData)
+    model.findUserView(theData)
+      .then(data => {
+        res.locals.userview = data;
+        console.log('userviewsfromdb', res.locals.userview)
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  checkUserViewTutorial(req, res, next) {
+    let theData = {
+      userid: func.killArray(req.session.user).id,
+      postid: req.params.postid
+    }
+    console.log('checkuserview input', theData)
+    model.findUserViewTutorial(theData)
+      .then(data => {
+        res.locals.userview = data;
+        console.log('userviewsfromdb', res.locals.userview)
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  checkUsername(req, res, next) {
+    model.findOneUser(req.body.username)
+      .then(data => {
+        if(data.length === 0) {
+          res.locals.usercheck = '';
+          next();
+        } else {
+          res.locals.usercheck = func.killArray(data).username;
+          next();
+        }
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
+  checkEmail(req, res, next) {
+    console.log('thisisrunning')
+    model.findOneEmail(req.body.email)
+      .then(data => {
+        if(data.length === 0) {
+          res.locals.usercheck = '';
+          next();
+        } else {
+          res.locals.usercheck = func.killArray(data).email;
+          next();
+        }
+      })
+      .catch(err => {
+        next(err);
+      })
+  },
+
   /////////////////////////////////////////
   /////////////////////////////////////////
   // UTILITY //////////////////////////////
@@ -691,10 +876,13 @@ module.exports = {
     res.locals.post = {};
     res.locals.mode = '';
     res.locals.resources = [];
+    res.locals.tutorials = [];
     res.locals.searchdata = [];
     res.locals.searchstring = '';
     res.locals.username = '';
-    res.locals.usertype = 'student'
+    res.locals.usertype = 'student';
+    res.locals.comments = [];
+    res.locals.score = 0;
     next();
   },
 
@@ -726,6 +914,32 @@ module.exports = {
   printData(req, res, next) {
     func.matchVotesToComments(res.locals.comments, res.locals.votes)
     next();
+  },
+
+  needTheScore(req, res, next) {
+    loginRequired: [
+      (req, res, next) => {
+        if(req.session.user) {
+          next();
+        } else {
+          res.redirect('/login')
+        }
+      },
+      (err, req, res, next) => {
+        res.redirect('/unauthorized')
+      }
+    ]
+  },
+
+  readUserScore(req, res, next) {
+    model.getUserScore(func.killArray(req.session.user).id)
+      .then(data => {
+        res.locals.score = func.killArray(data).score;
+        next();
+      })
+      .catch(err => {
+        next(err);
+      })
   },
 
   /////////////////////////////////////////
@@ -766,6 +980,16 @@ module.exports = {
 
   modeAllResources(req, res, next) {
     res.locals.mode = 'allresources';
+    next();
+  },
+
+  modeAllTutorials(req, res, next) {
+    res.locals.mode = 'alltutorials';
+    next();
+  },
+
+  modeNewTutorial(req, res, next) {
+    res.locals.mode = 'newtutorial';
     next();
   },
 

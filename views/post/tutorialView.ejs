@@ -5,9 +5,6 @@
 
 <div class="kenny">
   <div class="posttitlebox">
-  <% if(mode === 'newtutorial') { %>
-    <h2><%= post.title %></h2>
-  <% } %>
     <h2><%= post.post_title %></h2>
     <div class="reg editdelete">
       <% if(post.userid === authorid || usertype === 'admin-phil') { %>
@@ -24,11 +21,6 @@
       <% } %>
     </div>
   </div>
-  <% if(mode === 'newtutorial') { %>
-    <div class="centerthis">
-      <%- post.videohtml %>
-    </div>
-  <% } %>
   <div class="showposthtml"><%- post.posthtml %></div>
   <div>
     <span class="showpostdate">Posted <%= post.date_created.toString().slice(0,15) %> by <a href="/profile/<%= post.username %>"><%= post.username %></a></span>
@@ -47,17 +39,15 @@
 <hr />
 <div class="kenny">
   <div class="clearfix commentheader">
-    <% if(mode === 'newtutorial') { %>
-    <% } else { %>
-      <h3>Answers</h3>
-      <div id="newcommentbutton">
-        <form action="/main/comment/<%= post.id %>/new" method="get">
-          <input type="submit" id="newcomment" value="New Answer">
-        </form>
-      </div>
+    <h3>Answers</h3>
+    <div id="newcommentbutton">
+      <form action="/main/comment/<%= post.id %>/new" method="get">
+        <input type="submit" id="newcomment" value="New Answer">
+      </form>
+    </div>
   </div>
   <hr />
-  <% comments.forEach(d => { %>
+<!--   <% comments.forEach(d => { %>
     <section>
       <div class="votebuttons">
         <% if(d.vote === 1) { %>
@@ -110,8 +100,7 @@
       </div>
     </section>
   <hr class="commentdivider"/>
-  <% }) %>
-    <% } %>
+  <% }) %> -->
 </div>
 
 <!-- <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&amp;skin=sunburst"></script> -->

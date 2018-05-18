@@ -1,4 +1,6 @@
 
+
+
 let searchBar = document.querySelector('#mainsearch');
 if(searchBar.getAttribute('placeholder') !== 'Search through the resources...'){
   let messages = [];
@@ -24,7 +26,6 @@ if(searchBar.getAttribute('placeholder') !== 'Search through the resources...'){
     })
     .then(response => response.json())
       .then(data => {
-        console.log(data)
         data.forEach(d => {
           messages.push(d.message);
         })
@@ -60,3 +61,8 @@ if(searchBar.getAttribute('placeholder') !== 'Search through the resources...'){
         }, 15000);
       })
 }
+
+
+
+
+

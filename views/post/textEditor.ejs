@@ -4,6 +4,8 @@
   <form action="/main/post/new" method="post">
 <% } else if(mode === 'newcomment') { %>
   <form action="/main/comment/<%= postid %>/new" method="post">
+<% } else if(mode === 'newtutorial') { %>
+  <form action="/main/tutorials/new" method="post">
 <% } else if (mode === 'editpost') { %>
   <form action="/main/post/<%= postid %>/edit?_method=put" method="post">
 <% } else if(mode === 'editcomment') { %>
@@ -12,6 +14,8 @@
   <form action="/main/resources/new" method="post">
 <% } else if(mode === 'editresource') { %>
   <form action="/main/resources/<%= postid %>/edit?_method=put" method="post">
+<% } else if(mode === 'edittutorial') { %>
+  <form action="/main/tutorial/<%= postid %>/edit?_method=put" method="post">
 <% } %>
   <div class="buttoncentered">
     <% if(mode === 'newpost') { %>
@@ -19,7 +23,16 @@
       <hr />
       <label for="new-post-title">Title</label>
       <input type="text" id="new-post-title" name="title" placeholder="Pick a good title for your post..." required>
-      <br/>
+      <br />
+    <% } else if(mode === 'newtutorial') { %>
+      <h1 class="header">New Tutorial</h1>
+      <hr />
+      <label for="new-post-title">Title</label>
+      <input type="text" id="new-post-title" name="title" placeholder="Pick a good title for your tutorial..." required>
+      <br />
+      <br />
+      <input type="text" class="new-tut-video" name="videohtml" placeholder="Put YouTube iFrame here..." required>
+      <br />
     <% } else if(mode === 'editpost') { %>
       <h1 class="header">Edit Question</h1>
       <hr />
@@ -70,7 +83,7 @@
 
     <div id="editor">
     </div>
-    <% if(mode === 'newpost' || mode === 'editpost') { %>
+    <% if(mode === 'newpost' || mode === 'editpost' || mode === 'newtutorial') { %>
       <input
           type="text"
           id="inserttags"
@@ -139,12 +152,18 @@
         style="display: none"
       >
     <% } else { %>
-      <input id="submitformhtml" name="submitformhtml" type="text" style="display: none">
+      <input
+        id="submitformhtml"
+        name="submitformhtml"
+        type="text"
+        data-type="newpost"
+        style="display: none"
+      >
     <% } %>
     <input id="submitformtext" name="submitformtext" type="text" style="display: none">
     <div class="buttoncentered-button">
       <input type="submit" value="Post" onClick="storeFormData()">
-      <button onmouseover="storeFormData()" onClick="runCancel(<%= post.id %>)">Cancel</button>
+      <button onmouseover="storeFormData()" onClick="runCancel()">Cancel</button>
     </div>
   </div>
 </form>

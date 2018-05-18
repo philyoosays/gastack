@@ -34,12 +34,23 @@ module.exports = {
       searchid: res.locals.searchid,
       mode: res.locals.mode,
       resources: res.locals.resources,
-      usertype: res.locals.usertype
+      usertype: res.locals.usertype,
+      tutorials: res.locals.tutorials,
+      score: res.locals.score
     })
   },
 
   showOnePost(req, res, next) {
     res.render('post/postView.ejs', {
+      post: res.locals.post,
+      comments: res.locals.comments,
+      authorid: res.locals.authorid,
+      usertype: res.locals.usertype,
+    })
+  },
+
+  showOneTutorial(req, res, next) {
+    res.render('post/tutorialView.ejs', {
       post: res.locals.post,
       comments: res.locals.comments,
       authorid: res.locals.authorid,
@@ -78,6 +89,10 @@ module.exports = {
     res.redirect('/main/post/' + res.locals.postid)
   },
 
+  handleNewTutorial(req, res, next) {
+    res.redirect('/main/tutorial/' + res.locals.postid)
+  },
+
   handleCohortSend(req, res, next) {
     res.json(res.locals.allcohorts)
   },
@@ -100,6 +115,10 @@ module.exports = {
 
   sendBackToMain(req, res, next) {
     res.redirect('/main')
+  },
+
+  sendUserScore(req, res, next) {
+    res.json(res.locals.score)
   },
 
   handleProfileButton(req, res, next) {

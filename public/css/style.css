@@ -145,6 +145,11 @@ button {
   width: 90%;
 }
 
+.dropdown-message {
+  font-size: 14px;
+  padding: 0 20px;
+}
+
 .dropdown-row > a {
   display: inline-block;
 }
@@ -482,6 +487,22 @@ p.disabled.navlink:hover {
 }
 
 #new-post-title:focus {
+  outline-width: 0;
+}
+
+.new-tut-video {
+  height: 25px;
+  width: 99%;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 3px solid black;
+  margin: 0 0 5px 0;
+}
+
+.new-tut-video:focus {
   outline-width: 0;
 }
 

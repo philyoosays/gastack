@@ -1,0 +1,59 @@
+
+<% if(usertype === 'admin' || usertype === 'admin-phil' || usertype === 'poster') { %>
+  <div class="kenny">
+    <div class="clearfix commentheader">
+      <div id="newcommentbutton">
+        <form action="/main/tutorials/new" method="get">
+          <input type="submit" id="newcomment" value="New Tutorial">
+        </form>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<div id="searchresults">
+<!--   <% if(resources.length === 0) { %>
+    <div id="searchresultnumber">
+      <h3>0 results</h3>
+    </div>
+  <% } else if(Object.keys(resources[0]).length === 0) { %>
+  <% } else { %>
+    <hr />
+    <% resources.forEach(d => { %>
+      <div class="kenny">
+        <article><%- d.labelhtml %></article>
+        <% if(usertype === 'admin' || usertype === 'admin-phil') { %>
+          <form action="/main/resources/<%= d.id %>/edit" method="get">
+            <input type="submit" id="editpost" value="Edit">
+          </form>
+        <% } %>
+        <div>
+          <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>" class="userlink"><%= d.username %></a></span>
+        </div>
+      </div>
+      <hr />
+    <% }) %>
+  <% } %> -->
+  <% searchdata.forEach(d => { %>
+    <div class="kenny">
+      <a href="/main/post/<%= d.id %>?s=<%= searchid.id %>">
+        <h2 class="posttitle"><%= d.title %></h2>
+        <p><%= d.post.slice(0,200) %>...</p>
+        <div>
+          <span class="showpostdate">Posted <%= d.date_created.toString().slice(0,15) %> by <a href="/profile/<%= d.username %>" class="userlink"><%= d.username %></a></span>
+          <span class="userprogram"> - <%= d.programshort %> - <%= d.cohort %></span>
+        </div>
+      </a>
+      <% if(d.tags !== '') { %>
+        <div class="tags">
+          <% d.tags.trim().split(' ').forEach(tag => { %>
+            <form action="/main/search/tag/<%= tag %>" method="get">
+              <input type="submit" id="searchtag" value="<%= tag %>">
+            </form>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+    <hr />
+  <% }) %>
+</div>

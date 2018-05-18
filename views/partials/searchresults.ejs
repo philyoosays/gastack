@@ -6,6 +6,9 @@
     <hr />
     <h3>Didn't find what you were looking for?</h3>
     <h3>Request it by asking a question.</h3>
+    <form action="/main/post/new">
+      <input class="newpostbutton" type="submit" value="Get Your Question Answered">
+    </form>
   <% } else if(searchdata.length === 1) { %>
       <div id="searchresultnumber">
         <h3><%= searchdata.length %> result</h3>

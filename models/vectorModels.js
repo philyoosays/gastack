@@ -121,6 +121,37 @@ module.exports = {
       JOIN resources ON orderedrank.userid = resources.userid
       `, [language, string]);
   },
+
+  findTutorials(language, string) {
+    return db.any(`
+      SELECT orderedrank.userid, tutorials.*, users.username
+        FROM
+          (
+          SELECT ranked_document.userid, MAX(ts_rank) AS ranking FROM
+            (
+            SELECT document.userid, ts_rank(vector, to_tsquery($1, $2))
+              FROM
+              (
+              SELECT
+                  tutorials.userid,
+                  setweight(to_tsvector(tutorials.title),'A') ||
+                  setweight(to_tsvector(tutorials.post), 'B') ||
+                  setweight(to_tsvector('simple', users.fname), 'C') ||
+                  setweight(to_tsvector('simple', users.lname), 'C') ||
+                  setweight(to_tsvector(coalesce(tutorials.tags,'')), 'A') ||
+              AS vector FROM tutorials
+              JOIN users ON tutorials.userid = users.id
+              ) AS document
+            ) AS ranked_document
+            WHERE ts_rank > 0
+            GROUP BY ranked_document.userid
+            ORDER BY ranking DESC
+        ) AS orderedrank
+      JOIN users ON orderedrank.userid = users.id
+      JOIN tutorials ON orderedrank.userid = tutorials.userid
+      `, [language, string]);
+  },
+
   // I had initially wrote these but they are not antiquated compered to fullSearch
   // postSearch(language, string) {
   //   return db.any(`
