@@ -269,7 +269,13 @@ VALUES
 ('ejs'),
 ('git'),
 ('html'),
-('fetch');
+('fetch'),
+('tokens'),
+('cookies'),
+('flexbox'),
+('rails'),
+('error'),
+('arrays');
 
 INSERT INTO messages
 (message) VALUES

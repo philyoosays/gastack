@@ -93,7 +93,6 @@ function grabData() {
     tags = tags.trim();
   }
   let array = [{title}, {submitformtext}, {submitformhtml}, {tags}, {isdeleted: true}];
-  console.log(array)
   array.forEach(d => {
     let element = document.createElement('input');
     element.setAttribute('type', 'hidden');

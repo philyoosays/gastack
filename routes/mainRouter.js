@@ -19,7 +19,7 @@ app.route('/resources/:resourceid/edit')
   .post(
     authService.loginRequired,
     control.dataInitialize,
-    control.getOneCommentForEdit,
+    control.getOneResourceForEdit,
     view.handlePostSend
     )
   .put(

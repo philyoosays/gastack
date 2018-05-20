@@ -32,7 +32,7 @@ window.onload = function() {
     let url = `/main/comment/${htmlID}/edit`;
     fetchPost(url, htmlID, pageType);
   } else if(pageType === 'editresource') {
-    let url = `/main/resource/${htmlID}/edit`;
+    let url = `/main/resources/${htmlID}/edit`;
     fetchPost(url, htmlID, pageType)
   }
 
@@ -132,6 +132,7 @@ function fetchPost(url, htmlID, pageType) {
   })
     .then(response => response.json())
       .then(post => {
+        console.log('thisispost', post)
         if(pageType === 'editpost') {
           forFitBR2(post.posthtml);
         } else if(pageType === 'editcomment') {

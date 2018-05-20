@@ -1,4 +1,18 @@
+let searchBox = document.getElementById('mainsearch');
+let searchString = searchBox.value;
 
+
+window.onload = () => {
+  if(searchString.includes('javascript DOM JQuery CSS function html')) {
+    searchBox.value = 'Unit01';
+  } else if(searchString.includes('middleware node express authorization authentication psql ejs fetch')) {
+    searchBox.value = 'Unit02';
+  } else if(searchString.includes('react authorization authentication psql git fetch tokens')) {
+    searchBox.value = 'Unit03';
+  } else if(searchString.includes('ruby rails psql')) {
+    searchBox.value = 'Unit04';
+  }
+}
 
 
 let searchBar = document.querySelector('#mainsearch');
@@ -61,6 +75,23 @@ if(searchBar.getAttribute('placeholder') !== 'Search through the resources...'){
         }, 15000);
       })
 }
+
+// come back to me later maybe redo with regex
+function searchKeywords() {
+  if(searchString.toLowerCase().includes('unit')) {
+    if(searchString.toLowerCase().includes('1')) {
+      searchBox.value = 'Javascript DOM JQuery CSS function html flexbox arrays';
+    } if(searchString.toLowerCase().includes('2')) {
+      searchBox.value = 'middleware node express authorization authentication psql ejs fetch api cookies';
+    } if(searchString.toLowerCase().includes('3')) {
+      searchBox.value = 'react authorization authentication psql git fetch tokens'
+    } if(searchString.toLowerCase().includes('4')) {
+      searchBox.value = 'ruby rails psql'
+    }
+  }
+}
+
+
 
 
 

@@ -124,7 +124,7 @@ button {
 }
 
 .dropdown-content {
-  display: none;
+  display: block;
   position: absolute;
   background-color: white;
   min-width: 325px;
@@ -180,6 +180,19 @@ button {
 
 .field {
   margin-top: 20px;
+}
+
+div.flexbox {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+div.flexbox > .flex-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 #footspace {

@@ -40,7 +40,7 @@
         <% } %>
       </div>
       <div class="button">
-        <input type="submit" value="SEARCH">
+        <input type="submit" onClick="searchKeywords()" value="SEARCH">
         <div class="dropdown">
           <p class="navlink">Categories</p>
           <div class="dropdown-content">
@@ -50,20 +50,39 @@
             </div>
             <hr />
             <div class="dropdown-row">
-              <a href="#"><p class="disabled navlink">Unit 01</p></a>
-              <a href="#"><p class="disabled navlink">Unit 02</p></a>
-              <a href="#"><p class="disabled navlink">Unit 03</p></a>
-              <a href="#"><p class="disabled navlink">Unit 04</p></a>
+              <a href="/main/search?mainsearch=javascript+DOM+JQuery+CSS+function+html+flexbox+arrays"><p class="navlink">Unit 01</p></a>
+              <a href="/main/search?mainsearch=middleware+node+express+authorization+authentication+psql+ejs+fetch+api+cookies"><p class="navlink">Unit 02</p></a>
+              <a href="/main/search?mainsearch=react+authorization+authentication+psql+git+fetch+tokens"><p class="navlink">Unit 03</p></a>
+              <a href="/main/search?mainsearch=ruby+rails+psql"><p class="navlink">Unit 04</p></a>
             </div>
             <hr />
             <div class="dropdown-row">
-              <a href="#"><p class="disabled navlink">Javascript</p></a>
-              <a href="#"><p class="disabled navlink">JQuery</p></a>
-              <a href="#"><p class="disabled navlink">API</p></a>
-              <a href="#"><p class="disabled navlink">Node</p></a>
-              <a href="#"><p class="disabled navlink">SQL</p></a>
-              <a href="#"><p class="disabled navlink">React</p></a>
-              <a href="#"><p class="disabled navlink">Ruby</p></a>
+              <div class="flexbox">
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=javascript"><p class="navlink">Javascript</p></a>
+                </div>
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=jquery"><p class="navlink">JQuery</p></a>
+                </div>
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=API"><p class="navlink">API</p></a>
+                </div>
+              </div>
+              <div class="flexbox">
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=node"><p class="navlink">Node</p></a>
+                </div>
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=sql"><p class="navlink">SQL</p></a>
+                </div>
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=react"><p class="navlink">React</p></a>
+                </div>
+              </div>
+              <div class="flexbox">
+                <div class="flex-content">
+                <a href="/main/search?mainsearch=ruby+rails"><p class="navlink">Ruby/Rails</p></a>
+              </div>
             </div>
           </div>
         </div>

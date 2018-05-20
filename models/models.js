@@ -1,5 +1,7 @@
 const db = require('../config/connection');
 
+// findalluserposts
+
 module.exports = {
   addUser(data) {
     return db.one(`
@@ -397,6 +399,7 @@ module.exports = {
       JOIN programs ON programs.id = users.programid
       JOIN cohort ON cohort.id = users.cohortid
       WHERE users.username = $1
+      AND isdeleted = false
       ORDER BY posts.date_created DESC
       `, username);
   },
@@ -533,6 +536,12 @@ module.exports = {
       `, userid);
   },
 
+  getOneResource(resourceid) {
+    return db.one(`
+      SELECT * FROM resources
+      WHERE id = $1
+      `, resourceid);
+  }
 
 }
 
