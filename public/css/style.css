@@ -123,6 +123,13 @@ button {
   display: inline-block;
 }
 
+.tutorial-box {
+  display: none;
+}
+
+.category-box {
+}
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -159,7 +166,11 @@ button {
   margin-top: 10px;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content{
+  display: block;
+}
+
+.tutorials:hover .tutorial-box {
   display: block;
 }
 
