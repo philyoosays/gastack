@@ -12,7 +12,6 @@ function upVote(commentID, postID) {
   if(!theArrow.classList.contains('uparrowselected')) {
     if(theOtherArrow.classList.contains('downarrowselected')) {
       theOtherArrow.classList.remove('downarrowselected');
-      console.log('option1')
       postData('/main/vote', 'post', {commentID, postID, vote: 0})
         .then((data) => {
           theCount.innerText = data.sum;
@@ -22,7 +21,6 @@ function upVote(commentID, postID) {
         })
     } else {
       theArrow.classList.add('uparrowselected');
-      console.log('option2')
       postData('/main/vote', {commentID, postID, vote: 1})
         .then((data) => {
           theCount.innerText = data.sum;

@@ -293,7 +293,7 @@ app.route('/messages')
 
 app.route('/search')
   .get(
-    authService.loginRequired,
+    // authService.loginRequired,
     control.dataInitialize,
     control.readUserScore,
     control.mainSearch,
@@ -311,7 +311,7 @@ app.route('/api')
 
 app.route('/')
   .get(
-    authService.loginRequired,
+    // authService.loginRequired,
     control.dataInitialize,
     control.readUserScore,
     control.modeMain,
