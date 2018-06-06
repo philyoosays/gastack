@@ -52,7 +52,7 @@ app.get('/register', (req, res) => {
   res.redirect('/login/register')
 })
 app.get('/', (req, res) => {
-  res.redirect('/main')
+  res.redirect('/login')
 })
 
 app.listen(PORT, () => {
