@@ -101,7 +101,7 @@ function checkEmail() {
         } else {
           emailField.removeAttribute('style');
           emailPTag.removeAttribute('style');
-          fetch(`https://api.trumail.io/v1/json/${theEmail}`)
+          fetch(`https://api.trumail.io/v2/lookups/json?email=${theEmail}&token=${process.env.MAILAPI}`)
             .then(response => response.json())
             .then(data => {
               if(Object.keys(data).indexOf('address') === -1) {
