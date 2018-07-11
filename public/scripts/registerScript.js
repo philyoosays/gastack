@@ -101,34 +101,34 @@ function checkEmail() {
         } else {
           emailField.removeAttribute('style');
           emailPTag.removeAttribute('style');
-          fetch(`https://api.trumail.io/v2/lookups/json?email=${theEmail}&token=${process.env.MAILAPI}`)
-            .then(response => response.json())
-            .then(data => {
-              if(Object.keys(data).indexOf('address') === -1) {
-                emailPTag.removeAttribute('style');
-                submitButton.removeAttribute('disabled');
-                verifyMessage.setAttribute('style', 'visibility: hidden');
-              } else {
-              // if(data.deliverable === true) {
-                if(data.fullInbox === false) {
-                  if(data.hostExists === true) {
-                    if(data.catchAll === false && theEmail.split('@')[1] !== 'q.com') {
-                      if(data.disposable === false) {
-                        emailPTag.removeAttribute('style');
-                        submitButton.removeAttribute('disabled');
-                        verifyMessage.setAttribute('style', 'visibility: hidden');
-                      } else { emailMessage('disposable'); }
-                    } else { emailMessage('catchAll'); }
-                  } else { emailMessage('host'); }
-                } else { emailMessage('fullInbox'); }
-              // } else { emailMessage('deliverable'); }
-              }
-            })
-            .catch(err => {
-              emailPTag.removeAttribute('style');
-              submitButton.removeAttribute('disabled');
-              verifyMessage.setAttribute('style', 'visibility: hidden');
-            })
+          // fetch(`https://api.trumail.io/v2/lookups/json?email=${theEmail}&token=${process.env.MAILAPI}`)
+          //   .then(response => response.json())
+          //   .then(data => {
+          //     if(Object.keys(data).indexOf('address') === -1) {
+          //       emailPTag.removeAttribute('style');
+          //       submitButton.removeAttribute('disabled');
+          //       verifyMessage.setAttribute('style', 'visibility: hidden');
+          //     } else {
+          //     // if(data.deliverable === true) {
+          //       if(data.fullInbox === false) {
+          //         if(data.hostExists === true) {
+          //           if(data.catchAll === false && theEmail.split('@')[1] !== 'q.com') {
+          //             if(data.disposable === false) {
+          //               emailPTag.removeAttribute('style');
+          //               submitButton.removeAttribute('disabled');
+          //               verifyMessage.setAttribute('style', 'visibility: hidden');
+          //             } else { emailMessage('disposable'); }
+          //           } else { emailMessage('catchAll'); }
+          //         } else { emailMessage('host'); }
+          //       } else { emailMessage('fullInbox'); }
+          //     // } else { emailMessage('deliverable'); }
+          //     }
+          //   })
+          //   .catch(err => {
+          //     emailPTag.removeAttribute('style');
+          //     submitButton.removeAttribute('disabled');
+          //     verifyMessage.setAttribute('style', 'visibility: hidden');
+          //   })
         }
       })
 }
