@@ -114,9 +114,9 @@ function checkEmail() {
           //         if(data.hostExists === true) {
           //           if(data.catchAll === false && theEmail.split('@')[1] !== 'q.com') {
           //             if(data.disposable === false) {
-          //               emailPTag.removeAttribute('style');
-          //               submitButton.removeAttribute('disabled');
-          //               verifyMessage.setAttribute('style', 'visibility: hidden');
+                        emailPTag.removeAttribute('style');
+                        submitButton.removeAttribute('disabled');
+                        verifyMessage.setAttribute('style', 'visibility: hidden');
           //             } else { emailMessage('disposable'); }
           //           } else { emailMessage('catchAll'); }
           //         } else { emailMessage('host'); }
