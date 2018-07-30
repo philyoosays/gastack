@@ -6,6 +6,9 @@ window.onload = function() {
   //         window.location.replace('/main')
   //       }
   //     })
+  if(location.protocol != 'https:') {
+    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+  }
 }
 
 

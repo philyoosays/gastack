@@ -29,6 +29,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "debug": "nodemon --inspect server.js",
+    "getdb": "heroku pg:psql postgresql-horizontal-65462 --app gastack",
     "heroku-postbuild": "npm install --product",
     "clean": "rm -rf dist && rm -rf node_modules"
   },
